@@ -15,11 +15,9 @@ var map = L.map('map').setView([10.903219337541, 76.43448118177776], 13); // Set
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
-if(event.button==0){
-    var latlng = map.mouseEventToLatLng();
-    L.marker(latlng.lat,latlng.lng).addTo(map)
-    .bindPopup('You won')
-    .openPopup();
-                   }
+map.on('click', function(event) {
+        var marker = L.marker(event.latlng).addTo(map);
+        marker.bindPopup("Marker at " + event.latlng.toString()).openPopup();
+    });
 </script>
 </html>

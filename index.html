@@ -16,8 +16,11 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 map.on('click', function(event) {
-        var marker = L.marker(event.latlng).addTo(map);
-        marker.bindPopup("Marker at " + event.latlng.toString()).openPopup();
-    });
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(event.latlng).addTo(map);
+            marker.bindPopup("Marker at " + event.latlng.toString()).openPopup();
+        });
 </script>
 </html>

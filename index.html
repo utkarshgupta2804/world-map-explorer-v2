@@ -1,29 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<link rel="stylesheet" href="/styles.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="script.js"></script>
-<title>OSM</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <title>WorldMapExplorer - Explore the World with Us</title>
 </head>
 <body>
-<div id="map" style="height: 97vh;"></div>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="map-logo.png" alt="Map Logo" class="map-logo">
+                <p id="map-explorer-text"><b>WorldMapExplorer</b></p>
+            </div>
+            <div class="header-icons">
+                <i class="fa fa-cog" title="Settings" id="settings-btn"></i>
+                <i class="fa fa-bookmark" title="Bookmark" id="bookmark-btn"></i>
+                <i class="fa fa-question-circle" title="Help" id="help-btn"></i>
+                <button id="login-btn">Log In</button>
+            </div>
+        </div>
+    </header>
 
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="Search Places">
+    </div>
+
+    <div id="controls-box">
+        <i class="fa fa-plus" title="Zoom In"></i>
+        <i class="fa fa-minus" title="Zoom Out"></i>
+        <i class="fa fa-layer-group" title="Layers"></i>
+        <i class="fa fa-location-arrow" title="Navigation"></i>
+    </div>
+
+    <div id="map"></div>
 </body>
-<script>
-var map = L.map('map').setView([10.903219337541, 76.43448118177776], 13); // Set initial center and zoom level
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-var marker;
-map.on('click', function(event) {
-            if (marker) {
-                map.removeLayer(marker);
-            }
-            marker = L.marker(event.latlng).addTo(map);
-           
-        });
-</script>
 </html>

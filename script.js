@@ -387,11 +387,112 @@ map.on('click',function(e){
     
 })
 
-/*document.addEventListener('keydown', function(event) {
-        if(event.key=='a'||'w'||'s'){
-            var AdPointer = new L.AdPointer(marker.getLatLng()); // distance in meters, angle in degrees
-            AdPointer.addTo(map)
-            marker.remove()
-        }
+/*
+
+
+
+
+
+
+
+
+
+
+
 
 })*/
+var searchInput = document.getElementById('search-input');
+var searchResults = document.getElementById('search-results');
+var mapContainer = document.getElementById('map');
+// Function to handle search and update results
+function performSearch(query) {
+    // Clear previous results
+    searchResults.innerHTML = '';
+    // Perform Nominatim search
+    fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`)
+        .then(response => response.json())
+        .then(data => {
+            // Display search results
+            data.forEach(result => {
+                var li = document.createElement('li');
+                li.textContent = result.display_name;
+                li.addEventListener('click', function () {
+                    // Update map view on selecting a result
+                    //map.setView([result.lat, result.lon], 13);
+                    geoJSON(result.osm_type,result.osm_id)
+                    addmarker([result.lat,result.lon])
+                    searchResults.innerHTML = '';
+                    console.log(result)
+                });
+                searchResults.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error fetching search results:', error));
+}
+// Event listener for search input
+searchInput.addEventListener('input', function () {
+    var query = searchInput.value.trim();
+    if (query.length > 2) {
+        performSearch(query);
+    } else {
+        searchResults.innerHTML = '';
+    }
+});
+// Event listener for map click
+mapContainer.addEventListener('click', function () {
+    // Clear search results when the map is clicked
+    searchResults.innerHTML = '';
+});
+// Event listener for zoom in
+document.getElementById('controls-box').querySelector('.fa-plus').addEventListener('click', function () {
+    map.zoomIn();
+});
+// Event listener for zoom out
+document.getElementById('controls-box').querySelector('.fa-minus').addEventListener('click', function () {
+    map.zoomOut();
+});
+//Event listener for navigation 
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
+
+    function successCallback(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        map.panTo([lat,lon])
+        map.setZoom(10)
+        //console.log(`Current location: ${lat}, ${lon}`);
+    }
+
+    function errorCallback(error) {
+        console.error(`Error getting location: ${error.message}`);
+    }
+}
+document.getElementById('controls-box').querySelector('.fa-location-arrow').addEventListener('click', function () {
+
+    getLocation();
+});
+// Event listener for layers button
+var layersDropdown = document.getElementById('layers-dropdown');
+var layersBtn = document.getElementById('layers-btn');
+var geographicalLayerBtn = document.getElementById('geographical-layer');
+var politicalLayerBtn = document.getElementById('political-layer');
+// Toggle visibility of layers dropdown
+layersBtn.addEventListener('click', function () {
+    layersDropdown.style.display = (layersDropdown.style.display === 'block') ? 'none' : 'block';
+});
+// Event listener for geographical layer
+geographicalLayerBtn.addEventListener('click', function () {
+    // Add your logic to switch to the geographical layer
+    console.log('Switching to Geographical Layer');
+    layersDropdown.style.display = 'none'; // Hide dropdown
+});
+// Event listener for political layer
+politicalLayerBtn.addEventListener('click', function () {
+    // Add your logic to switch to the political layer
+    console.log('Switching to Political Layer');
+    layersDropdown.style.display = 'none'; // Hide dropdown
+});

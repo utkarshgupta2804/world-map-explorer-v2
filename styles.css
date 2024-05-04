@@ -123,3 +123,45 @@ header {
   z-index: 1000; /* Ensure it's on top of the map */
   display: none;
 }
+.search-container {
+    position: fixed;
+    top: 50px;
+    left: 10px;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    border-radius: 8px;
+}
+#search-input {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+} 
+#search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+#layers-dropdown {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.695);
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+#layers-dropdown button {
+    color: white;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+}

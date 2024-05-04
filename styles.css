@@ -112,3 +112,14 @@ header {
 #map {
     height: 100vh;
 }
+#infoBox {
+  position: absolute; /* Position it in the corner */
+  bottom: 30px;
+  left: 15px;
+  color: white;
+  background-color: #6F0E0E;
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 1000; /* Ensure it's on top of the map */
+  display: none;
+}

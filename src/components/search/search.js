@@ -4,11 +4,11 @@ var mapContainer = document.getElementById('map');
 // Function to handle search and update results
 function performSearch(query) {
     // Clear previous results
-    searchResults.innerHTML = '';
     // Perform Nominatim search
-    fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`)
+    fetch(`https://nominatim.openstreetmap.org/search.php?q=${query}&format=jsonv2`)
         .then(response => response.json())
         .then(data => {
+            searchResults.innerHTML = '';
             // Display search results
             data.forEach(result => {
                 var li = document.createElement('li');

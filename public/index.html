@@ -1,57 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <head>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mapbox/leaflet-pip@1.1.0/leaflet-pip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
     <script src="../src/components/adpointer/adpointer.js" defer></script>
     <script src="assets/script.js" defer></script>
     <script src="../src/osmtogeojson.js"></script>
     <script src="../src/components/navigation/navigation.js" defer></script>
     <script src="../src/components/search/search.js" defer></script>
+    <script src="../src/components/distance/distance.js" defer></script>
+    <script src="../src/components/distance/Polyline.encoded.js" defer></script>
+    <script src="../src/components/border.js" defer></script>
     <title>WorldMapExplorer</title>
-</head>
-<header>
+  </head>
+  <header>
     <div class="header-content">
-        <div class="logo">
-            <img src="map-logo.png" alt="Map Logo" class="map-logo">
-            <p id="map-explorer-text"><b>WorldMapExplorer</b></p>
-        </div>
-        <div class="header-icons">
-            <i class="fa fa-cog" title="Settings" id="settings-btn"></i>
-            <i class="fa fa-bookmark" title="Bookmark" id="bookmark-btn"></i>
-            <i class="fa fa-question-circle" title="Help" id="help-btn"></i>
-            <button id="login-btn">Log In</button>
-        </div>
+      <div class="logo">
+        <img src="map-logo.png" alt="Map Logo" class="map-logo" />
+        <p id="map-explorer-text"><b>WorldMapExplorer</b></p>
+      </div>
+      <div class="header-icons">
+        <i class="fa fa-cog" title="Settings" id="settings-btn"></i>
+        <i class="fa fa-bookmark" title="Bookmark" id="bookmark-btn"></i>
+        <i class="fa fa-question-circle" title="Help" id="help-btn"></i>
+        <button id="login-btn">Log In</button>
+      </div>
     </div>
-</header>
-<div class="search-container">
-    <input type="text" id="search-input" placeholder="Search Places">
-    <ul id="search-results"></ul>
-</div>
-<div id="controls-box">
-    <i class="fa fa-plus" title="Zoom In"></i>
-    <i class="fa fa-minus" title="Zoom Out"></i>
-    <i class="fa fa-layer-group" title="Layers" id="layers-btn"></i>
-    <div id="layers-dropdown" class="dropdown-content">
+  </header>
+  <body>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search Places" />
+    </div>
+    <div id="controls-box">
+      <i class="fa fa-plus" title="Zoom In"></i>
+      <i class="fa fa-minus" title="Zoom Out"></i>
+      <i class="fa fa-layer-group" title="Layers" id="layers-btn"></i>
+      <div id="layers-dropdown" class="dropdown-content">
         <button id="geographical-layer">Geographical</button>
         <button id="political-layer">Political</button>
-    </div>
-    <i class="fa fa-location-arrow" title="Navigation"></i>
-</div>
-
-    <div id="infoBox" >
-        Distance: <span id="distanceDisplay"></span><br>
-        Angle: <span id="angleDisplay"></span><br><br>
-        coordinates: <pre></pre><span id="coordinates">
-            <span id="lat"></span><br>
-            <span id="lng"></span>
-
-        </span>
+      </div>
+      <i class="fa fa-location-arrow" title="Navigation"></i>
     </div>
 
+    <div id="infoBox">
+      Distance: <span id="distanceDisplay"></span><br />
+      Angle: <span id="angleDisplay"></span><br /><br />
+      coordinates:
+      <pre></pre>
+      <span id="coordinates">
+        <span id="lat"></span><br />
+        <span id="lng"></span>
+      </span>
+    </div>
+    <i class="fas fa-directions" id="trigger-icon"></i>
+
+    <!-- Box that appears on icon click -->
+    <div class="box" id="box">
+      <i class="fas fa-times-circle" id="closeBtn"></i>
+      <h1>Find Distance</h1>
+
+      <div class="box-input">
+        <span><i class="fas fa-circle"></i></span>
+        <input type="text" id="beginning" placeholder="Enter Starting point" />
+      </div>
+
+      <div class="box-input">
+        <span><i class="fas fa-map-marker-alt"></i></span>
+        <input type="text" id="destination" placeholder="Enter Destination" />
+      </div>
+      <i class="fas fa-map-marked-alt" title="Choose from map" id="fromMap"></i>
+      <i class="fas fa-arrow-circle-right" id="find" title="Find Distance"></i>
+      <div id="distanceResult">
+        Distance : <span id="dist"></span><br />
+        Time : <span id="time"></span>
+      </div>
+    </div>
     <div id="map"></div>
-</body>
-
+  </body>
 </html>

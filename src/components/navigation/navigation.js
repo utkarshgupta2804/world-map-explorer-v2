@@ -1,4 +1,6 @@
 var marker;
+var pane=map.createPane('customPane')
+map.getPane('customPane').style.zIndex = 1000; //for control z index of marker
 function addmarker(coord){
     if(AdPointer){
         AdPointer.remove()
@@ -6,15 +8,19 @@ function addmarker(coord){
 
     }
     if(marker){
-        marker.setLatLng(coord)
+        let old = marker.getLatLng()
+        marker.setLatLng(coord).addTo(map)
+        borderCheck(map.project(old).distanceTo(map.project(marker.getLatLng())))
     }
     else if(!marker){
     marker = L.circleMarker(coord,{
         radius: 4,
         color: "black",
-        fillOpacity: 1
+        fillOpacity: 1,
+        pane: 'customPane'
         
     }).addTo(map)
+    addpoly()
     }
 }
 function addAdPointer(coord) {
@@ -25,6 +31,8 @@ function addAdPointer(coord) {
     if (!AdPointer) {
       AdPointer = new L.AdPointer(coord); // distance in meters, angle in degrees
       AdPointer.addTo(map);
+      poly.remove()
+
     }
   }
 
@@ -34,27 +42,28 @@ function addAdPointer(coord) {
         addmarker(AdPointer.primaryMarker.getLatLng())
     }
     var center = marker.getLatLng();
-    var lat = center.lat;
-    var lng = center.lng;
-
+    var point = map.latLngToLayerPoint(center)
+    var lat = point.x;
+    var lng = point.y;
+    let movement = 10//0.000005*(fixdist(map.getZoom()))
     switch(direction) {
         case 'up':
-            lat += 0.000005*(fixdist(map.getZoom()));  // Change this value to adjust movement sensitivity
+            lng -= movement;  // Change this value to adjust movement sensitivity
             break;
         case 'down':
-            lat -= 0.000005*(fixdist(map.getZoom()));;  // Change this value to adjust movement sensitivity
+            lng += movement;;  // Change this value to adjust movement sensitivity
             break;
         case 'left':
-            lng -= 0.000005*(fixdist(map.getZoom()));;  // Change this value to adjust movement sensitivity
+            lat -= movement;;  // Change this value to adjust movement sensitivity
             break;
         case 'right':
-            lng += 0.000005*(fixdist(map.getZoom()));;  // Change this value to adjust movement sensitivity
+            lat += movement;;  // Change this value to adjust movement sensitivity
             break;
     }
 
     // Set the new center of the map
     //fmarker.setLatLng(new L.LatLng(lat, lng));
-    const mar= {lat: lat, lng: lng}
+    const mar= map.layerPointToLatLng(L.point(lat,lng));
     return mar;
 }
 
@@ -69,7 +78,22 @@ document.addEventListener('keydown', function(event) {
             addAdPointer(marker.getLatLng())
         }
     }
-
+    if(event.code == 'KeyF'){
+        if(marker){
+          if(event.shiftKey){
+            console.log(marker.getLatLng())
+          }else{
+            fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.name)
+          });
+          }
+    
+        }else{
+            alert("click somewhere first!")
+        }
+    }
     switch(event.key) {
         
         case 'ArrowUp':
@@ -97,6 +121,7 @@ function fixdist(num) {
 map.on('click',function(e){
     addmarker(e.latlng)
     marker.setLatLng(e.latlng)
+    console.log('aaaa')
     
 })
 

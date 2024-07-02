@@ -87,7 +87,9 @@ document.addEventListener('keydown', function(event) {
         default: break;
     }
     if(marker)map.panTo(marker.getLatLng());
-    
+    if (event.keyCode === 13) {
+        (map.on).click();
+    }
 
 });
 function fixdist(num) {

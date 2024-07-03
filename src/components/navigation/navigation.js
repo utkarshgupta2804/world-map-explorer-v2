@@ -1,6 +1,4 @@
 var marker;
-marker.getElement().setAttribute('tabindex', '0'); // Make marker focusable
-marker.getElement().setAttribute('role', 'button'); // Set ARIA role for accessibility
 var pane=map.createPane('customPane')
 map.getPane('customPane').style.zIndex = 1000; //for control z index of marker
 function addmarker(coord){

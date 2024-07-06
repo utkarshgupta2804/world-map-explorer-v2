@@ -4,8 +4,10 @@
 var map = L.map('map').setView([10.903219337541, 76.43448118177776], 13);
 //Adding map
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Leaflet | © OpenStreetMap contributors'
+    attribution: 'Leaflet | © OpenStreetMap contributors',
+    noWrap: true
 }).addTo(map);
+L.control.scale().addTo(map);
 
 // Event listener for zoom in
 document.getElementById('controls-box').querySelector('.fa-plus').addEventListener('click', function () {

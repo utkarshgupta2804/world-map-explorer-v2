@@ -106,7 +106,9 @@ function threshold(x) {
 map.on('zoomend',function(e){
     if(poly){
         poly.remove()
-        addpoly()
+        if(marker){
+            addpoly()
+        }
         //console.log(getZooom())
     }
 })

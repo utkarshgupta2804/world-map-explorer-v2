@@ -114,14 +114,16 @@ header {
 }
 #infoBox {
   position: absolute; /* Position it in the corner */
-  bottom: 30px;
+  bottom: 50px;
   left: 15px;
   color: white;
   background-color: #6F0E0E;
   border: 1px solid black;
-  padding: 5px;
+  padding: 10px;
+  border-radius: 5px;
   z-index: 1000; /* Ensure it's on top of the map */
   display: none;
+  line-height: 22px;
 }
 .search-container {
     position: fixed;
@@ -142,6 +144,7 @@ header {
 } 
 #search-results {
     list-style: none;
+    display: flexbox;
     position: absolute;
     padding: 0;
     margin-top: 0px;
@@ -189,7 +192,7 @@ header {
     margin-top: 120px;
     margin-left: 10px; /* Adjust as needed */
     z-index: 1003;
-    background-color: rgb(217, 208, 208);
+    background-color: hsl(0, 18%, 93%);
     border-radius: 8px;
     padding: 20px;
   border: 1px solid black;
@@ -244,9 +247,12 @@ header {
     border-radius: 3px;
     padding: 2px;
     font-size: 15px;
-    display: inline-block;
+    display: flex;
     
   }
   li:hover{
     background-color: rgb(223, 242, 236);
+  }
+  #details{
+    display: none;
   }

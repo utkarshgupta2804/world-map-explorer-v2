@@ -20,6 +20,8 @@ function addmarker(coord){
         pane: 'customPane'
         
     }).addTo(map)
+    marker.getElement().setAttribute('tabindex','0')
+    marker.getElement().setAttribute('title','marker')
     addpoly()
     }
 }
@@ -31,7 +33,9 @@ function addAdPointer(coord) {
     if (!AdPointer) {
       AdPointer = new L.AdPointer(coord); // distance in meters, angle in degrees
       AdPointer.addTo(map);
-      poly.remove()
+     if(poly){
+        poly.remove()
+     }
 
     }
   }
@@ -79,20 +83,17 @@ document.addEventListener('keydown', function(event) {
         }
     }
     if(event.code == 'KeyF'){
-        if(marker){
-          if(event.shiftKey){
-            console.log(marker.getLatLng())
-          }else{
-            fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data.name)
-          });
-          }
-    
-        }else{
-            alert("click somewhere first!")
-        }
+        findplacename(marker,event).then(nm=>{
+            console.log(nm)
+        })
+    }
+    if(event.code=='KeyZ'){
+       try {
+        let scale = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8)*10
+        console.log(scale<1000?parseInt(scale)+' meters':parseInt(scale/1000)+' Kilo meters')
+       } catch (error) {
+        alert('add marker first')
+       }
     }
     switch(event.key) {
         
@@ -111,9 +112,9 @@ document.addEventListener('keydown', function(event) {
         default: break;
     }
     if(marker)map.panTo(marker.getLatLng());
-    if (event.keyCode === 13) {
-        (map.on).click();
-    }
+    //if (event.keyCode === 13) {
+    //    map.click();
+    //}
 
 });
 function fixdist(num) {
@@ -126,6 +127,26 @@ map.on('click',function(e){
     console.log('aaaa')
     
 })
+async function findplacename(point,event){
+    if(point){
+        let name
+        if(event?event.shiftKey:event){
+          return marker.getLatLng()
+        }else{
+         await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
+      .then(response => response.json())
+      .then(data => {
+        name = data.name
+        if(data.error=="Unable to geocode"){
+            name ='Sea'
+        }
+        })
+        }
+        return name
+      }else{
+          alert("click somewhere first!")
+      }
+}
 
 
 

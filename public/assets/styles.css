@@ -72,10 +72,11 @@ header {
     padding: 3px;
     text-align: left;
     position: fixed;
-    width: 100%;
+    width: 200px;
     z-index: 1001; /* Place it above the map */
     margin-top: 35px; /* Adjust as needed */
     border-radius: 20px;
+    
 }
 
 #search-input {
@@ -126,11 +127,11 @@ header {
   line-height: 22px;
 }
 .search-container {
-    position: fixed;
+    position: relative;
     top: 50px;
     left: 10px;
     z-index: 1002;
-    display: inline-block;
+    display: flex;
     flex-direction: column;
     max-width: 300px;
     border-radius: 8px;
@@ -139,13 +140,14 @@ header {
     padding: 8px;
     margin-bottom: 5px;
     border-radius: 8px;
-    max-width: 200px;
     
 } 
 #search-results {
     list-style: none;
-    display: flexbox;
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 300px;
     padding: 0;
     margin-top: 0px;
     z-index: 1005;
@@ -173,17 +175,23 @@ header {
     background: none;
     cursor: pointer;
 }
+#left-container{
+    display: flex;
+    position: fixed;
+    z-index: 1078;
+}
 #trigger-icon{
     font-size: 20px;
+    float: right;
     padding: 5px;
-    z-index: 1004;
-    position: fixed;
+    z-index: 1005;
     margin-top: 50px; /* Adjust as needed */
-    margin-left: 200px;
+    margin-left: 15px;
     cursor: pointer;
     background-color: white;
     border: 2px solid black;
     border-radius: 8px;
+    height: 20px;
     
 }
 #box{
@@ -198,7 +206,7 @@ header {
   border: 1px solid black;
 
 }
-#closeBtn {
+#closeBtn,#closeBtnD {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -209,6 +217,9 @@ header {
     display: flexbox;
     align-items: center;
     margin-bottom: 20px;
+  }
+  .box-input #search-results {
+    position: absolute;
   }
 
   .box-input input {
@@ -246,13 +257,32 @@ header {
     background-color: #efeaea;
     border-radius: 3px;
     padding: 2px;
-    font-size: 15px;
+    font-size: 13px;
     display: flex;
     
   }
   li:hover{
     background-color: rgb(223, 242, 236);
   }
-  #details{
+  #searchdetails{
+    font-size: 15px;
     display: none;
+    position: relative;
+    color: #323232;
+    margin-top: 2px;
+    margin-left: 0px;
+    padding: 10px;
+    max-width: 200px;
+    border: 2px solid black;
+    border-radius: 8px;
+    z-index: 1000;
+    background-color: #ffffffd7;
+  }
+  #searchdetails li{
+    margin-left: -30px;
+    background-color: #FFFFFF;
+    cursor: text;
+  }
+  body{
+    font-family: 'Kumbh Sans';
   }

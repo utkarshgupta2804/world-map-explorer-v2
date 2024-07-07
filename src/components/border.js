@@ -55,7 +55,9 @@ function addpoly(){
             .then(response => response.json())
             .then(data => {
               pname=data.features[0].properties.name
-              poly=L.geoJson(data)
+              poly=L.geoJson(data,{
+                fillOpacity: 0
+              })
               poly.addTo(map)
               poly.bringToBack()
               resolve(pname)

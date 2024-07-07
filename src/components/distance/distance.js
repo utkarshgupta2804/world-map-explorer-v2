@@ -1,5 +1,12 @@
 document.getElementById("trigger-icon").addEventListener("click", function () {
   document.getElementById("box").style.display = "block";
+  if( document.getElementById("closeBtnD")){
+  document.getElementById("closeBtnD").click()
+  }
+  if(AdPointer){
+    AdPointer.remove()
+    AdPointer=null
+  }
   let des, beg;
   let lgrp;
   document.getElementById("beginning").addEventListener("input", function () {

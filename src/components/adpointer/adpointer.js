@@ -240,7 +240,7 @@ L.AdPointer = L.Layer.extend({
           // Update the display:
           document.getElementById('distanceDisplay').textContent = distanceInKm.toFixed(2) + ' KM';
           document.getElementById('flatdistance').textContent = fdist.toFixed(2) + ' KM';
-          document.getElementById('angleDisplay').textContent = Math.round(this.angle) + ' degrees';
+          document.getElementById('angleDisplay').textContent = 360-Math.round(this.angle) + ' degrees';
           document.getElementById('lat').textContent =' Latitude : '+ this.secondaryMarker.getLatLng().lat.toFixed(5)
           document.getElementById('lng').textContent =' Longitude : '+ this.secondaryMarker.getLatLng().lng.toFixed(5)
           

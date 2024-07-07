@@ -2,11 +2,13 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="assets/styles.css" />
+    <link href='https://fonts.googleapis.com/css?family=Kumbh Sans' rel='stylesheet'>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
       integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -42,12 +44,17 @@
     </div>
   </header>
   <body>
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search Places" />
-    </div>
-   
-    <div id="searchdetails" class="searchdetails" style="display: none;"></div>
+    <div id="left-container">
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search Places" />
+      <div id="searchdetails" class="searchdetails" style="display: none">
+      <i class="fas fa-times-circle" id="closeBtnD"></i>
+      <span id="det"></span>
+      </div>
 
+      </div>
+      <i class="fas fa-directions" id="trigger-icon"></i>
+    </div>
 
     <div id="controls-box">
       <i class="fa fa-plus" title="Zoom In"></i>
@@ -72,7 +79,6 @@
         <span id="lng"></span>
       </span>
     </div>
-    <i class="fas fa-directions" id="trigger-icon"></i>
 
     <!-- Box that appears on icon click -->
     <div class="box" id="box">

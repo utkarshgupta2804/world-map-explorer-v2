@@ -232,6 +232,10 @@ async function fetchCountryDetails(displayName, osm_type, osm_id) {
     language: "",
     population: "",
     borders: "",
+    easternmostPoint: "",
+    westernmostPoint: "",
+    northernmostPoint: "",
+    southernmostPoint: "",
   };
   const getClaimValue = (claim) => {
     if (claim && claim.mainsnak && claim.mainsnak.datavalue) {
@@ -240,15 +244,28 @@ async function fetchCountryDetails(displayName, osm_type, osm_id) {
     return null;
   };
 
-  // Fetching capital
+  //Fetching capital
   if (claims.P36) {
-    const capitalClaim = getClaimValue(claims.P36[0]);
+    const capitalClaims = claims.P36;
+    let latestCapitalClaim = capitalClaims[0]; 
+  
+    capitalClaims.forEach((claim) => {
+      if (claim.rank === 'preferred') {
+        latestCapitalClaim = claim;
+      }
+    });
+  
+    const capitalClaim = getClaimValue(latestCapitalClaim);
+    
     if (capitalClaim && capitalClaim.id) {
       const capitalDetails = await fetch(
         `https://www.wikidata.org/wiki/Special:EntityData/${capitalClaim.id}.json`
       ).then((res) => res.json());
-      details.capital =
-        capitalDetails.entities[capitalClaim.id].labels.en.value;
+  
+      const entityId = Object.keys(capitalDetails.entities)[0];
+      const capitalName = capitalDetails.entities[entityId].labels.en.value;
+  
+      details.capital = capitalName;
     }
   }
 
@@ -304,12 +321,51 @@ async function fetchCountryDetails(displayName, osm_type, osm_id) {
     ).then((borders) => borders.filter(Boolean).join(", "));
   }
 
+  // Fetching coordinates
+if (claims.P1332) {
+  const coordinateClaim = claims.P1332[0].mainsnak.datavalue.value;
+  if (coordinateClaim) {
+    const longitude = coordinateClaim.longitude.toFixed(3);
+    const latitude = coordinateClaim.latitude.toFixed(3);
+    details.northernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  }
+}
+if (claims.P1333) {
+  const coordinateClaim = claims.P1333[0].mainsnak.datavalue.value;
+  if (coordinateClaim) {
+    const longitude = coordinateClaim.longitude.toFixed(3);
+    const latitude = coordinateClaim.latitude.toFixed(3);
+    details.southernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  }
+}
+if (claims.P1334) {
+  const coordinateClaim = claims.P1334[0].mainsnak.datavalue.value;
+  if (coordinateClaim) {
+    const longitude = coordinateClaim.longitude.toFixed(3);
+    const latitude = coordinateClaim.latitude.toFixed(3);
+    details.easternmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  }
+}
+if (claims.P1335) {
+  const coordinateClaim = claims.P1335[0].mainsnak.datavalue.value;
+  if (coordinateClaim) {
+    const longitude = coordinateClaim.longitude.toFixed(3);
+    const latitude = coordinateClaim.latitude.toFixed(3);
+    details.westernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  }
+}
+
   return `
   <h2>${displayName}</h2>
   <h3>Main Details</h3>
   <ul><li>Capital: ${details.capital}</li>
   <li>Continent: ${details.continent}</li>
   <li>Coordinates: ${roundedLat}, ${roundedLon}</li></ul>
+  <h5>Bounding Coordinates</h5>
+  <ul><li>North-most: ${details.northernmostPoint} <li>
+  <li>South-most: ${details.southernmostPoint} </li>
+  <li>East-most: ${details.easternmostPoint} </li>
+  <li>West-most: ${details.westernmostPoint} </li></ul>
   <h3>Additional Details</h3>
   <ul><li>Language(s): ${details.language}</li>
   <li>Population: ${details.population}</li>

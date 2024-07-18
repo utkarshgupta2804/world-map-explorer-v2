@@ -273,6 +273,8 @@ header {
     margin-left: 0px;
     padding: 10px;
     max-width: 200px;
+    max-height: 600px;
+    overflow-y: scroll;
     border: 2px solid black;
     border-radius: 8px;
     z-index: 1000;

@@ -15,6 +15,14 @@ function borderCheck(within50){
                 }
                 if((within50<=60)&&(nm!=oname)){
                     console.log(`${oname} crossed. ${nm} entered`);
+                    var message = new SpeechSynthesisUtterance(`${oname} crossed. ${nm} entered`);
+                    speechSynthesis.speak(message);
+                    if(wentfar>=7){
+                        console.log("May be went too far")
+                        var war = new SpeechSynthesisUtterance("May be went too far");
+                        speechSynthesis.speak(war);
+                        wentfar=0
+                    }
                     if(wentfar>=7){
                         console.log("May be went too far")
                         wentfar=0

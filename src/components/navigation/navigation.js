@@ -78,39 +78,54 @@ document.addEventListener('keydown', function(event) {
     }
    
     if(event.key == 'a' || event.key == 'w' || event.key == 's'){
-        if(marker){
+        event.preventDefault();
+        if(marker){ 
             addAdPointer(marker.getLatLng())
         }
     }
     if(event.code == 'KeyF'){
+        event.preventDefault();
         findplacename(marker,event).then(nm=>{
             console.log(nm)
+            var message = new SpeechSynthesisUtterance();
+            message.text = nm;
+            speechSynthesis.speak(message);
         })
     }
     if(event.code=='KeyZ'){
+        event.preventDefault();
        try {
         let scale = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8)*10
-        console.log(scale<1000?parseInt(scale)+' meters':parseInt(scale/1000)+' Kilo meters')
+        let zoom = scale<1000?parseInt(scale)+' meters':parseInt(scale/1000)+' Kilo meters'
+        console.log(zoom)
+        var  zoomLevel = new SpeechSynthesisUtterance()
+        zoomLevel.text = zoom;
+        speechSynthesis.speak(zoomLevel)
        } catch (error) {
         alert('add marker first')
        }
     }
-    switch(event.key) {
-        
-        case 'ArrowUp':
-            addmarker(moveMap('up'))
-            break;
-        case 'ArrowDown':
-            addmarker(moveMap('down'))
-            break;
-        case 'ArrowLeft':
-            addmarker( moveMap('left'))
-            break;
-        case 'ArrowRight':
-            addmarker( moveMap('right'))
-            break;
-        default: break;
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' ) {
+        event.preventDefault(); // Prevent the default behavior
+         event.stopImmediatePropagation(); // Stop the event from propagating further
+        switch (event.key) {
+            case 'ArrowUp':
+                addmarker(moveMap('up'));
+                break;
+            case 'ArrowDown':
+                addmarker(moveMap('down'));
+                break;
+            case 'ArrowLeft':
+                addmarker(moveMap('left'));
+                break;
+            case 'ArrowRight':
+                addmarker(moveMap('right'));
+                break;
+            default:
+                break;
+        }
     }
+    
     if(marker)map.panTo(marker.getLatLng());
     //if (event.keyCode === 13) {
     //    map.click();

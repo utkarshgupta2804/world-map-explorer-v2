@@ -10,7 +10,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
   let des, beg;
   let lgrp;
   document.getElementById("beginning").addEventListener("input", function () {
-    performSearch(this)
+    performSearch(this,"")
       .then((result) => {
         beg = {
           lat: parseFloat(result.lat),
@@ -28,7 +28,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
     // Event listener for map click
   });
   document.getElementById("destination").addEventListener("input", function () {
-    performSearch(this)
+    performSearch(this,"")
       .then((result) => {
         des = {
           lat: parseFloat(result.lat),

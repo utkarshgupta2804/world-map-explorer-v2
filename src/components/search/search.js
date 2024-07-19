@@ -1,7 +1,9 @@
 //var searchInput = document.getElementById('search-input');
 var mapContainer = document.getElementById("map");
+var placeids=[]
+let i=0
 // Function to handle search and update results
-function performSearch(inputField) {
+function performSearch(inputField,placeid) {
   return new Promise((resolve, reject) => {
     var query = inputField.value.trim();
     if (query.length <= 2) {
@@ -21,6 +23,10 @@ function performSearch(inputField) {
           }
         }
       });
+      if(placeid==""){
+        placeids=[]
+        i=0
+      }
       let controllera;
       if (controllera) {
         controllera.abort();
@@ -28,7 +34,7 @@ function performSearch(inputField) {
       controllera = new AbortController();
       const signal = controllera.signal;
       fetch(
-        `https://nominatim.openstreetmap.org/search.php?q=${query}&format=jsonv2`,
+        `https://nominatim.openstreetmap.org/search.php?q=${query}&format=jsonv2&exclude_place_ids=${placeid}`,
         { signal }
       )
         .then((response) => response.json())
@@ -40,8 +46,9 @@ function performSearch(inputField) {
             inputField.parentNode.insertBefore(ul, inputField.nextSibling);
           }
           var searchResults = document.getElementById("search-results");
+         
           searchResults.innerHTML = "";
-
+          console.log(data.length)
           data.forEach((result) => {
             var li = document.createElement("li");
             li.innerHTML =
@@ -49,14 +56,33 @@ function performSearch(inputField) {
               result.type +
               "&nbsp</span>" +
               result.display_name;
+              placeids[i]=result.place_id
+              i++
             li.addEventListener("click", function () {
               // Update map view on selecting a result
               // map.setView([result.lat, result.lon], 13);
 
               resolve(result); // Resolve the promise with the clicked result
             });
-            searchResults.appendChild(li);
+          searchResults.appendChild(li);
+            
           });
+          if(data.length==0){
+            var li = document.createElement("li");
+            li.innerHTML ="No result found"
+          searchResults.appendChild(li);
+
+          }else{
+            var li = document.createElement("li");
+            li.innerHTML ="More results"
+            li.addEventListener("click", function () {
+              performSearch(inputField,placeids.toString())
+              searchResults.scrollTop = 0; 
+              
+            });
+          searchResults.appendChild(li);
+
+          }
         })
         .catch((error) => reject(error)); // Reject the promise on errors
     }
@@ -68,7 +94,7 @@ document
   .getElementById("search-input")
   .addEventListener("input", function (event) {
     document.getElementById("closeBtn").click();
-    performSearch(this)
+    performSearch(this,"")
       .then((result) => {
         geoJSON(result.osm_type, result.osm_id);
         document.getElementById("search-results").remove();
@@ -361,15 +387,16 @@ if (claims.P1335) {
   <ul><li>Capital: ${details.capital}</li>
   <li>Continent: ${details.continent}</li>
   <li>Coordinates: ${roundedLat}, ${roundedLon}</li></ul>
-  <h5>Bounding Coordinates</h5>
-  <ul><li>North-most: ${details.northernmostPoint} <li>
-  <li>South-most: ${details.southernmostPoint} </li>
-  <li>East-most: ${details.easternmostPoint} </li>
-  <li>West-most: ${details.westernmostPoint} </li></ul>
+ 
   <h3>Additional Details</h3>
   <ul><li>Language(s): ${details.language}</li>
   <li>Population: ${details.population}</li>
   <li>Borders: ${details.borders}</li></ul>
+   <h5>Bounding Coordinates</h5>
+  <ul><li>North-most: ${details.northernmostPoint} <li>
+  <li>South-most: ${details.southernmostPoint} </li>
+  <li>East-most: ${details.easternmostPoint} </li>
+  <li>West-most: ${details.westernmostPoint} </li></ul>
 `;
   
 }
@@ -735,6 +762,10 @@ function clearSearchDetails() {
 }
 document.getElementById("closeBtnD").addEventListener('click',function(){
   document.getElementById("searchdetails").style.display = "none";
+  if (geoLayer != null) {
+    geoLayer.remove();
+    delete centre;
+  }
   //document.getElementById("searchdetails").innerHTML = "";
 
 })

@@ -49,9 +49,7 @@ let errorCount=0
 function addpoly(){
     
     return new Promise((resolve,reject)=>{
-            if(geoLayer){
-                geoLayer.remove()
-            }
+            
             if(controller){
                 controller.abort()
             }

@@ -85,7 +85,14 @@ document.addEventListener('keydown', function(event) {
     }
     if(event.code == 'KeyF'){
         event.preventDefault();
-        findplacename(marker,event).then(nm=>{
+        let pointer
+        if(marker){
+            pointer=marker
+        }
+        if(AdPointer){
+            pointer=AdPointer.primaryMarker
+        }
+        findplacename(pointer,event).then(nm=>{
             console.log(nm)
             var message = new SpeechSynthesisUtterance();
             message.text = nm;

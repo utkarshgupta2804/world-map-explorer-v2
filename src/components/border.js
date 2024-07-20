@@ -10,21 +10,23 @@ function borderCheck(within50){
             oname=pname
             
             addpoly().then((nm) => {
-                if(nm!="sea(mostly)"){
+                if(nm.name!="sea(mostly)"){
                     borderCheck(0)
                 }
                 if((within50<=60)&&(nm!=oname)){
-                    console.log(`${oname} crossed. ${nm} entered`);
-                    var message = new SpeechSynthesisUtterance(`${oname} crossed. ${nm} entered`);
-                    speechSynthesis.speak(message);
+                    if(crossedhigherlevel(oname,pname)){
+                        console.log(`${oname.display_name} crossed. ${nm.display_name} entered`);
+                        var message = new SpeechSynthesisUtterance(`${oname.display_name} crossed. ${nm.display_name} entered`);
+                        speechSynthesis.speak(message);
+                    }else{
+                        console.log(`${oname.name} crossed. ${nm.name} entered`);
+                        var message = new SpeechSynthesisUtterance(`${oname.name} crossed. ${nm.name} entered`);
+                        speechSynthesis.speak(message);
+                    }
                     if(wentfar>=7){
                         console.log("May be went too far")
                         var war = new SpeechSynthesisUtterance("May be went too far");
                         speechSynthesis.speak(war);
-                        wentfar=0
-                    }
-                    if(wentfar>=7){
-                        console.log("May be went too far")
                         wentfar=0
                     }
                 }
@@ -60,7 +62,8 @@ function addpoly(){
             fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${threshold(map.getZoom())}`,{signal})
             .then(response => response.json())
             .then(data => {
-              pname=data.features[0].properties.name
+                //console.log(data)
+              pname=data.features[0].properties
               poly=L.geoJson(data,{
                 fillOpacity: 0
               })
@@ -82,14 +85,15 @@ function addpoly(){
     
                     //alert("Your going too fast")
                 }else if(error instanceof TypeError){
-                    pname="sea(mostly)"
+                    pname={name:"sea(mostly)",display_name:"sea(mostly)"}
                     //flag=true
                     //resolve(pname)
                 }else{
                     console.error(error)
                 }
+                pname={name:"sea(mostly)",display_name:"sea(mostly)"}
                 //pname="Sea(mostly)"
-                pname="sea(mostly)"
+                //pname="sea(mostly)"
                 
               flag=true  
               resolve(pname)
@@ -120,3 +124,24 @@ map.on('zoomend',function(e){
         //console.log(getZooom())
     }
 })
+function crossedhigherlevel(cro,ent){
+    if(ent.place_rank>=10){
+        if (
+            (ent.address?.state !== cro.address?.state) ||
+            (ent.address?.province !== cro.address?.province) ||
+            (ent.address?.country !== cro.address?.country)
+          ){
+            return true
+          }else{
+            return false
+          } 
+    }else if(ent.place_rank>=8){
+        if (
+            (ent.address?.country !== cro.address?.country)
+          ){
+            return true
+          }else{
+            return false
+          } 
+    }
+}

@@ -120,15 +120,19 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
         //console.log('Steps:', route.steps);
         //console.log('Distance (meters):', route.distance);
         //console.log('Time (seconds):', route.time);
+        var dist = new SpeechSynthesisUtterance();
         document.getElementById("dist").innerHTML = route.distance + " KM";
         if (route.time < 60) {
           document.getElementById("time").innerHTML = route.time + " Minutes";
+          dist.text = 'Distance: ' + route.distance + " KM" + 'Time: ' + route.time + " Minutes";
         } else {
           let hrs = parseInt(route.time / 60);
           let min = route.time % 60;
           document.getElementById("time").innerHTML =
             hrs + " Hours " + min + " Minutes";
+          dist.text = 'Distance: ' + route.distance + " KM" + 'Time: ' + hrs + " Hours " + min + " Minutes";
         }
+        speechSynthesis.speak(dist);
         document.getElementById("distanceResult").style.display = "block";
       } else {
         alert("something went wrong");

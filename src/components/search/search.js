@@ -96,16 +96,7 @@ document
     document.getElementById("closeBtn").click();
     performSearch(this,"")
       .then((result) => {
-        geoJSON(result.osm_type, result.osm_id);
-        document.getElementById("search-results").remove();
-        let det =document.getElementById("det")
-        det.parentElement.style.display="block"
-        det.innerHTML='<h2 style="padding:50px;">Loading...</h2>'
-        details = fetchDetails(result).then(data=>{
-        det.innerHTML=data
-
-
-        }) // Call fetchDetails with the clicked result
+       placeappear(result) // Call fetchDetails with the clicked result
         //console.log(result)
         // You can now access the clicked result data here
       })
@@ -769,3 +760,17 @@ document.getElementById("closeBtnD").addEventListener('click',function(){
   //document.getElementById("searchdetails").innerHTML = "";
 
 })
+function placeappear(result){
+  geoJSON(result.osm_type, result.osm_id);
+  if(document.getElementById("search-results")){
+    document.getElementById("search-results").remove();
+  }
+  let det =document.getElementById("det")
+  det.parentElement.style.display="block"
+  det.innerHTML='<h2 style="padding:50px;">Loading...</h2>'
+  details = fetchDetails(result).then(data=>{
+  det.innerHTML=data
+
+
+  })
+}

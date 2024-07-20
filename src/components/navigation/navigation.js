@@ -83,7 +83,7 @@ document.addEventListener('keydown', function(event) {
             addAdPointer(marker.getLatLng())
         }
     }
-    if(event.code == 'KeyF'){
+    if(event.code == 'KeyF'||event.code == 'Enter'){
         event.preventDefault();
         let pointer
         if(marker){
@@ -153,11 +153,15 @@ async function findplacename(point,event){
     if(point){
         let name
         if(event?event.shiftKey:event){
-          return marker.getLatLng()
+          return marker.getLatLng().lat.toFixed(5)+' North, '+marker.getLatLng().lng.toFixed(5)+' West'
         }else{
          await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
       .then(response => response.json())
       .then(data => {
+        if(event.code=="Enter"){
+            //console.log(data)
+            placeappear(data)
+        }
         name = data.name
         if(data.error=="Unable to geocode"){
             name ='Sea'

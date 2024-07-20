@@ -112,6 +112,9 @@ document.addEventListener('keydown', function(event) {
         alert('add marker first')
        }
     }
+    if(event.code=='KeyL'){
+        document.getElementById("locateme").click()
+    }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' ) {
         event.preventDefault(); // Prevent the default behavior
          event.stopImmediatePropagation(); // Stop the event from propagating further
@@ -158,7 +161,7 @@ async function findplacename(point,event){
          await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
       .then(response => response.json())
       .then(data => {
-        if(event.code=="Enter"){
+        if(event?.code=="Enter"){
             //console.log(data)
             placeappear(data)
         }

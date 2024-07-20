@@ -187,7 +187,7 @@ async function fetchDetails(result) {
     return fetchCountryDetails(display_name, osm_type, osm_id);
   } else if (adminLevel == 4|| adminLevel==3) {
     return fetchStateDetails(display_name, osm_type, osm_id);
-  } else if (adminLevel == 5||adminLevel==6) {
+  } else if (adminLevel == 5) {
     return fetchDistrictDetails(display_name, osm_type, osm_id);
   }  else if (tags["type"] === "waterway" || tags["waterway"] === "river") {
     return fetchRiverDetails(osm_type, osm_id,tags,result);

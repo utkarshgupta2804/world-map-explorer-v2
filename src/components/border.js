@@ -13,7 +13,7 @@ function borderCheck(within50){
                 if(nm.name!="sea(mostly)"){
                     borderCheck(0)
                 }
-                if((within50<=60)&&(nm!=oname)){
+                if((within50<=60)&&(nm.name!=oname.name)){
                     if(crossedhigherlevel(oname,pname)){
                         console.log(`${oname.display_name} crossed. ${nm.display_name} entered`);
                         var message = new SpeechSynthesisUtterance(`${oname.display_name} crossed. ${nm.display_name} entered`);

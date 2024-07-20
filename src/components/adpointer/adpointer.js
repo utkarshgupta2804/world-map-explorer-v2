@@ -22,6 +22,7 @@ L.AdPointer = L.Layer.extend({
         flag2=true
         // Add a reference to the keydown handler to remove it later
         this._handleKeydown = function(event) {
+            var da = new SpeechSynthesisUtterance();
             switch(event.key) {
                 case 'a':
                     sel ? sel = false : sel = true;
@@ -30,19 +31,31 @@ L.AdPointer = L.Layer.extend({
                     if (sel) {
                         AdPointer.distance = AdPointer.distance + 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
+                        console.log(AdPointer.diskm);
+                        da.text = 'Distance' + AdPointer.diskm;
+
+                        
                     } else {
                         AdPointer.angle = AdPointer.angle + 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
+                        da.text = 'Angle: ' + AdPointer.ang;
+                        console.log(AdPointer.ang);
                     }
+                    speechSynthesis.speak(da);
                     break;
                 case 's':
                     if (sel) {
                         AdPointer.distance = AdPointer.distance - 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
+                        console.log(AdPointer.diskm);
+                        da.text ='Distance: ' + AdPointer.diskm;
                     } else {
                         AdPointer.angle = AdPointer.angle - 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
+                        da.text = 'Angle: ' + AdPointer.ang;
+                        console.log(AdPointer.ang);
                     }
+                    speechSynthesis.speak(da);
                     break;
                 default: return;
             }
@@ -56,6 +69,16 @@ L.AdPointer = L.Layer.extend({
                 }, 650);
             }
         }.bind(this);
+        //Logic to display details on a keypress    key = "o"
+        document.addEventListener('keypress', function(speakDetails) {
+            if (speakDetails.key === 'o') {
+                speakDetails.preventDefault()
+                var det = new SpeechSynthesisUtterance();
+                det.text = 'Place: ' + document.getElementById('placeDisplay').textContent + ',  Distance: ' + AdPointer.diskm + 
+                ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
+                speechSynthesis.speak(det);
+            }
+        })
     
         document.addEventListener('keydown', this._handleKeydown);
     
@@ -238,18 +261,29 @@ L.AdPointer = L.Layer.extend({
           const distanceInKm = this.distanceO / 1000;
             const fdist = this.flatdist/1000
           // Update the display:
-          document.getElementById('distanceDisplay').textContent = distanceInKm.toFixed(2) + ' KM';
-          document.getElementById('flatdistance').textContent = fdist.toFixed(2) + ' KM';
-          document.getElementById('angleDisplay').textContent = 360-Math.round(this.angle) + ' degrees';
-          document.getElementById('lat').textContent =' Latitude : '+ this.secondaryMarker.getLatLng().lat.toFixed(5)
-          document.getElementById('lng').textContent =' Longitude : '+ this.secondaryMarker.getLatLng().lng.toFixed(5)
+          this.diskm = distanceInKm.toFixed(2) + ' KM';
+          this.fdiskm = fdist.toFixed(2) + ' KM';
+          this.ang =  360-Math.round(this.angle) + ' degrees';
+          this.lat1 = ' Latitude : '+ this.secondaryMarker.getLatLng().lat.toFixed(5);
+          this.lng1 = ' Longitude : '+ this.secondaryMarker.getLatLng().lng.toFixed(5)
+
+          document.getElementById('distanceDisplay').textContent = this.diskm;
+          document.getElementById('flatdistance').textContent = this.fdiskm;
+          document.getElementById('angleDisplay').textContent = this.ang;
+          document.getElementById('lat').textContent = this.lat1;
+          document.getElementById('lng').textContent = this.lng1;
           
 
           
         } else {
           document.getElementById('infoBox').style.display = 'none';
         }
-      }
+      }, 
+      
+
+      
+
+
 
 
 });

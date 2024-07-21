@@ -8,7 +8,18 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     noWrap: true
 }).addTo(map);
 L.control.scale().addTo(map);
-
+addmarker(10.903219337541, 76.43448118177776)
+//Zoom in functions using + and - buttons
+map.getContainer().addEventListener('keydown', function(event) {
+    if (event.key === '+' || event.key === '-') {
+        event.preventDefault();
+    }
+    if (event.key === '+') {
+        map.zoomIn();
+    } else if (event.key === '-') {
+        map.zoomOut();
+    }
+});
 // Event listener for zoom in
 document.getElementById('controls-box').querySelector('.fa-plus').addEventListener('click', function () {
     map.zoomIn();

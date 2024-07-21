@@ -1,4 +1,5 @@
 let flag2=true
+let speak=true
 var sel=true
 L.AdPointer = L.Layer.extend({
     
@@ -41,7 +42,13 @@ L.AdPointer = L.Layer.extend({
                         da.text = 'Angle: ' + AdPointer.ang;
                         console.log(AdPointer.ang);
                     }
-                    speechSynthesis.speak(da);
+                    if(speak){
+                        speak=false
+                        speechSynthesis.speak(da);
+                        setTimeout(() => {
+                            speak=true
+                          }, 2000)
+                    }
                     break;
                 case 's':
                     if (sel) {
@@ -55,7 +62,13 @@ L.AdPointer = L.Layer.extend({
                         da.text = 'Angle: ' + AdPointer.ang;
                         console.log(AdPointer.ang);
                     }
-                    speechSynthesis.speak(da);
+                    if(speak){
+                        speak=false
+                        speechSynthesis.speak(da);
+                        setTimeout(() => {
+                            speak=true
+                          }, 2000)
+                    }
                     break;
                 default: return;
             }

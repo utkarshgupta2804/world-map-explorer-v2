@@ -47,7 +47,7 @@ L.AdPointer = L.Layer.extend({
                         speechSynthesis.speak(da);
                         setTimeout(() => {
                             speak=true
-                          }, 2000)
+                          }, 3000)
                     }
                     break;
                 case 's':
@@ -67,7 +67,7 @@ L.AdPointer = L.Layer.extend({
                         speechSynthesis.speak(da);
                         setTimeout(() => {
                             speak=true
-                          }, 2000)
+                          }, 3000)
                     }
                     break;
                 default: return;
@@ -121,7 +121,7 @@ L.AdPointer = L.Layer.extend({
     
         this._handleSecondaryMove = function(e) {
             AdPointer.angle = AdPointer._getAngle(marker1, marker2);
-            svg.setAttribute('transform', 'rotate(' + (AdPointer.angle) + ')');
+            svg.setAttribute('transform', 'rotate(' + (AdPointer.angle-90) + ')');
             AdPointer.distanceO = marker1.getLatLng().distanceTo(marker2.getLatLng())
 
             AdPointer.distance = L.point(map.latLngToContainerPoint(marker1.getLatLng())).distanceTo(L.point(map.latLngToContainerPoint(marker2.getLatLng())))
@@ -203,7 +203,7 @@ L.AdPointer = L.Layer.extend({
       _calculateDestination: function(start,d, angle) {
         //const latLng1 = start.getLatLng();
         const point1 = map.latLngToLayerPoint(start);
-        const theta = (angle) * (Math.PI / 180)
+        const theta = (angle-90) * (Math.PI / 180)
         const x= d*Math.cos(theta)+point1.x
         const y= d*Math.sin(theta)+point1.y
         const final= map.layerPointToLatLng([x,y])
@@ -231,13 +231,13 @@ L.AdPointer = L.Layer.extend({
         let angleDeg = angleRad * (180 / Math.PI);
         
         // Normalize the angle to be between 0 and 360 degrees
-        angleDeg = (angleDeg + 360) % 360;
+        angleDeg = (angleDeg+90+ 360) % 360;
         
         return angleDeg;
     },
    
     _secondoryupdate: function(primary){
-        var arrowhead = `<svg id="mysvg" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)" width="18" height="15" viewBox="0 0 18 15" fill="none">
+        var arrowhead = `<svg id="mysvg" xmlns="http://www.w3.org/2000/svg" transform="rotate(270)" width="18" height="15" viewBox="0 0 18 15" fill="none">
         <path id="polygon" d="M0.5 0.75L16.7 7.5L0.5 14.25V0.75Z" fill="#005304" stroke="black"/>
         </svg>`   
 
@@ -276,7 +276,7 @@ L.AdPointer = L.Layer.extend({
           // Update the display:
           this.diskm = distanceInKm.toFixed(2) + ' KM';
           this.fdiskm = fdist.toFixed(2) + ' KM';
-          this.ang =  360-Math.round(this.angle) + ' degrees';
+          this.ang =  Math.round(this.angle) + ' degrees';
           this.lat1 = ' Latitude : '+ this.secondaryMarker.getLatLng().lat.toFixed(5);
           this.lng1 = ' Longitude : '+ this.secondaryMarker.getLatLng().lng.toFixed(5)
 

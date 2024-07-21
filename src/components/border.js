@@ -145,3 +145,4 @@ function crossedhigherlevel(cro,ent){
           } 
     }
 }
+addmarker([10.903219337541, 76.43448118177776])

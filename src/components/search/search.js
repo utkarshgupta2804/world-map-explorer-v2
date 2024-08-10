@@ -1,9 +1,9 @@
 //var searchInput = document.getElementById('search-input');
 var mapContainer = document.getElementById("map");
-var placeids=[]
-let i=0
+var placeids = []
+let i = 0
 // Function to handle search and update results
-function performSearch(inputField,placeid) {
+function performSearch(inputField, placeid) {
   return new Promise((resolve, reject) => {
     var query = inputField.value.trim();
     if (query.length <= 2) {
@@ -23,9 +23,9 @@ function performSearch(inputField,placeid) {
           }
         }
       });
-      if(placeid==""){
-        placeids=[]
-        i=0
+      if (placeid == "") { //for removing already shown
+        placeids = []
+        i = 0
       }
       let controllera;
       if (controllera) {
@@ -46,41 +46,40 @@ function performSearch(inputField,placeid) {
             inputField.parentNode.insertBefore(ul, inputField.nextSibling);
           }
           var searchResults = document.getElementById("search-results");
-         
+
           searchResults.innerHTML = "";
           console.log(data.length)
           data.forEach((result) => {
             var li = document.createElement("li");
             li.innerHTML =
               '<span style="color: grey;display:flex;">' +
-              result.type +
+              result.type + // display result type
               "&nbsp</span>" +
-              result.display_name;
-              placeids[i]=result.place_id
-              i++
+              result.display_name; // display name
+            placeids[i] = result.place_id
+            i++
             li.addEventListener("click", function () {
               // Update map view on selecting a result
-              // map.setView([result.lat, result.lon], 13);
 
               resolve(result); // Resolve the promise with the clicked result
             });
-          searchResults.appendChild(li);
-            
-          });
-          if(data.length==0){
-            var li = document.createElement("li");
-            li.innerHTML ="No result found"
-          searchResults.appendChild(li);
+            searchResults.appendChild(li);
 
-          }else{
+          });
+          if (data.length == 0) {
             var li = document.createElement("li");
-            li.innerHTML ="More results"
+            li.innerHTML = "No result found"
+            searchResults.appendChild(li);
+
+          } else {
+            var li = document.createElement("li");
+            li.innerHTML = "More results"
             li.addEventListener("click", function () {
-              performSearch(inputField,placeids.toString())
-              searchResults.scrollTop = 0; 
-              
+              performSearch(inputField, placeids.toString())
+              searchResults.scrollTop = 0;
+
             });
-          searchResults.appendChild(li);
+            searchResults.appendChild(li);
 
           }
         })
@@ -94,9 +93,9 @@ document
   .getElementById("search-input")
   .addEventListener("input", function (event) {
     document.getElementById("closeBtn").click();
-    performSearch(this,"")
+    performSearch(this, "")
       .then((result) => {
-       placeappear(result) // Call fetchDetails with the clicked result
+        placeappear(result) // Call fetchDetails with the clicked result
         //console.log(result)
         // You can now access the clicked result data here
       })
@@ -123,18 +122,11 @@ async function geoJSON(type, id) {
     geoLayer.remove();
     delete centre;
   } //removing if there any already
-  /*if(result.elements[0].members){
-        if(result.elements[0].members[result.elements[0].members.length-1].role=="label"){
-            centre={
-                lat: result.elements[0].members[result.elements[0].members.length-1].lat,
-                lng: result.elements[0].members[result.elements[0].members.length-1].lon
-            }
-        }
-    }*/
+ 
   result = osmtogeojson(result); //converting JSON to geoJSON
-  //pname=result.features[0].properties.name
+  
   let centre = turf.centerOfMass(result);
-  //console.log(centre.geometry.coordinates)
+  
   addmarker([centre.geometry.coordinates[1], centre.geometry.coordinates[0]]);
 
   //adding geoJSON to map
@@ -154,14 +146,10 @@ async function geoJSON(type, id) {
   });
   await map.fitBounds(geoLayer.getBounds()); //aligning the added layer to centre of the map
 
-  /*if(typeof centre!='undefined'){
-        addmarker(centre)
-    }else{
-        addmarker(map.getCenter());
-    }*/
+ 
   setTimeout(() => {
     geoLayer.addTo(map);
-  }, 500); //dont change this
+  }, 500); //dont change this, time lagg to wait for completing map movement
 }
 
 //by athul
@@ -185,13 +173,13 @@ async function fetchDetails(result) {
 
   if (adminLevel <= 2) {
     return fetchCountryDetails(display_name, osm_type, osm_id);
-  } else if (adminLevel == 4|| adminLevel==3) {
+  } else if (adminLevel == 4 || adminLevel == 3) {
     return fetchStateDetails(display_name, osm_type, osm_id);
   } else if (adminLevel == 5) {
     return fetchDistrictDetails(display_name, osm_type, osm_id);
-  }  else if (tags["type"] === "waterway" || tags["waterway"] === "river") {
-    return fetchRiverDetails(osm_type, osm_id,tags,result);
-  }else{
+  } else if (tags["type"] === "waterway" || tags["waterway"] === "river") {
+    return fetchRiverDetails(osm_type, osm_id, tags, result);
+  } else {
     return fetchOtherDetails(tags, result)
   }
 }
@@ -264,24 +252,24 @@ async function fetchCountryDetails(displayName, osm_type, osm_id) {
   //Fetching capital
   if (claims.P36) {
     const capitalClaims = claims.P36;
-    let latestCapitalClaim = capitalClaims[0]; 
-  
+    let latestCapitalClaim = capitalClaims[0];
+
     capitalClaims.forEach((claim) => {
       if (claim.rank === 'preferred') {
         latestCapitalClaim = claim;
       }
     });
-  
+
     const capitalClaim = getClaimValue(latestCapitalClaim);
-    
+
     if (capitalClaim && capitalClaim.id) {
       const capitalDetails = await fetch(
         `https://www.wikidata.org/wiki/Special:EntityData/${capitalClaim.id}.json`
       ).then((res) => res.json());
-  
+
       const entityId = Object.keys(capitalDetails.entities)[0];
       const capitalName = capitalDetails.entities[entityId].labels.en.value;
-  
+
       details.capital = capitalName;
     }
   }
@@ -339,38 +327,38 @@ async function fetchCountryDetails(displayName, osm_type, osm_id) {
   }
 
   // Fetching coordinates
-if (claims.P1332) {
-  const coordinateClaim = claims.P1332[0].mainsnak.datavalue.value;
-  if (coordinateClaim) {
-    const longitude = coordinateClaim.longitude.toFixed(3);
-    const latitude = coordinateClaim.latitude.toFixed(3);
-    details.northernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  if (claims.P1332) {
+    const coordinateClaim = claims.P1332[0].mainsnak.datavalue.value;
+    if (coordinateClaim) {
+      const longitude = coordinateClaim.longitude.toFixed(3);
+      const latitude = coordinateClaim.latitude.toFixed(3);
+      details.northernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+    }
   }
-}
-if (claims.P1333) {
-  const coordinateClaim = claims.P1333[0].mainsnak.datavalue.value;
-  if (coordinateClaim) {
-    const longitude = coordinateClaim.longitude.toFixed(3);
-    const latitude = coordinateClaim.latitude.toFixed(3);
-    details.southernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  if (claims.P1333) {
+    const coordinateClaim = claims.P1333[0].mainsnak.datavalue.value;
+    if (coordinateClaim) {
+      const longitude = coordinateClaim.longitude.toFixed(3);
+      const latitude = coordinateClaim.latitude.toFixed(3);
+      details.southernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+    }
   }
-}
-if (claims.P1334) {
-  const coordinateClaim = claims.P1334[0].mainsnak.datavalue.value;
-  if (coordinateClaim) {
-    const longitude = coordinateClaim.longitude.toFixed(3);
-    const latitude = coordinateClaim.latitude.toFixed(3);
-    details.easternmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  if (claims.P1334) {
+    const coordinateClaim = claims.P1334[0].mainsnak.datavalue.value;
+    if (coordinateClaim) {
+      const longitude = coordinateClaim.longitude.toFixed(3);
+      const latitude = coordinateClaim.latitude.toFixed(3);
+      details.easternmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+    }
   }
-}
-if (claims.P1335) {
-  const coordinateClaim = claims.P1335[0].mainsnak.datavalue.value;
-  if (coordinateClaim) {
-    const longitude = coordinateClaim.longitude.toFixed(3);
-    const latitude = coordinateClaim.latitude.toFixed(3);
-    details.westernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+  if (claims.P1335) {
+    const coordinateClaim = claims.P1335[0].mainsnak.datavalue.value;
+    if (coordinateClaim) {
+      const longitude = coordinateClaim.longitude.toFixed(3);
+      const latitude = coordinateClaim.latitude.toFixed(3);
+      details.westernmostPoint = `Lon :${longitude} , Lat :${latitude}`;
+    }
   }
-}
 
   return `
   <h2>${displayName}</h2>
@@ -389,7 +377,7 @@ if (claims.P1335) {
   <li>East-most: ${details.easternmostPoint} </li>
   <li>West-most: ${details.westernmostPoint} </li></ul>
 `;
-  
+
 }
 
 async function fetchStateDetails(displayName, osm_type, osm_id) {
@@ -580,9 +568,9 @@ async function fetchDistrictDetails(displayName, osm_type, osm_id) {
           <p>Summery: ${details.summary}</p>
           `;
       // Display in searchdetails box
-      
+
     } else {
-     return `<h3>No valid Wikidata entity found for the provided ID.</h3>`
+      return `<h3>No valid Wikidata entity found for the provided ID.</h3>`
     }
   } else {
     return `<h3>No valid Wikidata entity found for the provided ID.</h3>`
@@ -592,12 +580,12 @@ async function fetchDistrictDetails(displayName, osm_type, osm_id) {
 
 async function fetchOtherDetails(tags, result) {
   let prefix = await fetchPrefix(tags);
-  
+
   let data = `
     <h3>Details</h3>
     <ul>
     <li>Name : ${result.name}</li>
-    <li>Type : ${(prefix!="")?prefix:result.type}</li>
+    <li>Type : ${(prefix != "") ? prefix : result.type}</li>
     <li>Address : ${result.display_name}</li></ul>
     `;
   return data;
@@ -630,7 +618,7 @@ async function fetchPrefix(result) {
       if (prefixes[key]) {
         var first = value.slice(0, 1).toUpperCase(); // Remove (...) from slice
         var rest = value.slice(1).replace(/_/g, " ");
-      
+
         return first + rest;
         return first + rest;
       }
@@ -639,7 +627,7 @@ async function fetchPrefix(result) {
   return prefix;
 }
 
-async function fetchRiverDetails(osm_type, osm_id,tagsa,resulta) {
+async function fetchRiverDetails(osm_type, osm_id, tagsa, resulta) {
   const riverQuery = `
       [out:json];
       ${osm_type}(${osm_id});
@@ -729,18 +717,18 @@ async function fetchRiverDetails(osm_type, osm_id,tagsa,resulta) {
               `;
         // Display in searchdetails box
       } else {
-        otherdata =await  fetchOtherDetails(tagsa,resulta)
+        otherdata = await fetchOtherDetails(tagsa, resulta)
 
         return `${otherdata}<h3>No valid Wikidata entity found for the provided ID.</h3>`
 
       }
     } catch (error) {
-      otherdata =await  fetchOtherDetails(tagsa,resulta)
+      otherdata = await fetchOtherDetails(tagsa, resulta)
 
       return `${otherdata}<h3>Error fetching Wikidata details: ${error}</h3>`
     }
   } else {
-    otherdata =await  fetchOtherDetails(tagsa,resulta)
+    otherdata = await fetchOtherDetails(tagsa, resulta)
 
     return `${otherdata}<h3>No valid Wikidata entity found for the river.</h3>`
 
@@ -751,7 +739,7 @@ function clearSearchDetails() {
   document.getElementById("searchdetails").style.display = "none";
   document.getElementById("searchdetails").innerHTML = "";
 }
-document.getElementById("closeBtnD").addEventListener('click',function(){
+document.getElementById("closeBtnD").addEventListener('click', function () {
   document.getElementById("searchdetails").style.display = "none";
   if (geoLayer != null) {
     geoLayer.remove();
@@ -760,16 +748,16 @@ document.getElementById("closeBtnD").addEventListener('click',function(){
   //document.getElementById("searchdetails").innerHTML = "";
 
 })
-function placeappear(result){
+function placeappear(result) {
   geoJSON(result.osm_type, result.osm_id);
-  if(document.getElementById("search-results")){
+  if (document.getElementById("search-results")) {
     document.getElementById("search-results").remove();
   }
-  let det =document.getElementById("det")
-  det.parentElement.style.display="block"
-  det.innerHTML='<h2 style="padding:50px;">Loading...</h2>'
-  details = fetchDetails(result).then(data=>{
-  det.innerHTML=data
+  let det = document.getElementById("det")
+  det.parentElement.style.display = "block"
+  det.innerHTML = '<h2 style="padding:50px;">Loading...</h2>'
+  details = fetchDetails(result).then(data => {
+    det.innerHTML = data
 
 
   })

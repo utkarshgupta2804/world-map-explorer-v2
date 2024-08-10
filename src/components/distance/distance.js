@@ -1,16 +1,16 @@
-document.getElementById("trigger-icon").addEventListener("click", function () {
+document.getElementById("trigger-icon").addEventListener("click", function () {// open the distance box when clicking on find distance button
   document.getElementById("box").style.display = "block";
-  if( document.getElementById("closeBtnD")){
-  document.getElementById("closeBtnD").click()
+  if (document.getElementById("closeBtnD")) {
+    document.getElementById("closeBtnD").click()// close search details box
   }
-  if(AdPointer){
+  if (AdPointer) {
     AdPointer.remove()
-    AdPointer=null
+    AdPointer = null
   }
   let des, beg;
   let lgrp;
-  document.getElementById("beginning").addEventListener("input", function () {
-    performSearch(this,"")
+  document.getElementById("beginning").addEventListener("input", function () { // store beginning location
+    performSearch(this, "")
       .then((result) => {
         beg = {
           lat: parseFloat(result.lat),
@@ -25,10 +25,10 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
         console.error("Error fetching search results:", error);
       });
 
-    // Event listener for map click
+ 
   });
-  document.getElementById("destination").addEventListener("input", function () {
-    performSearch(this,"")
+  document.getElementById("destination").addEventListener("input", function () { //// store destination location
+    performSearch(this, "")
       .then((result) => {
         des = {
           lat: parseFloat(result.lat),
@@ -37,20 +37,20 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
         console.log(des);
         this.value = result.name;
         document.getElementById("search-results").remove();
-        // You can now access the clicked result data here
+      
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
       });
 
-    // Event listener for map click
+   
   });
-  document.addEventListener("click", function (event) {
+  document.addEventListener("click", function (event) {// store point from map
     if (event.target.id == "beginning" || event.target.id == "destination") {
       focusedIn = document.activeElement;
     }
   });
-  document.getElementById("fromMap").addEventListener("click", function () {
+  document.getElementById("fromMap").addEventListener("click", function () {// function to choose from map
     try {
       focusedIn.value = marker.getLatLng().lat + "," + marker.getLatLng().lng;
       let temp = {
@@ -68,7 +68,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
       );
     }
   });
-  document.getElementById("closeBtn").addEventListener("click", function () {
+  document.getElementById("closeBtn").addEventListener("click", function () { //on closing of distance finder
     if (des) {
       delete des;
     }
@@ -83,7 +83,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
     document.getElementById("destination").value = "";
     document.getElementById("box").style.display = "none";
   });
-  document.getElementById("find").addEventListener("click", function () {
+  document.getElementById("find").addEventListener("click", function () {// calculate the distance using valhalla
     let points = [beg, des];
     let route = FOSSGISValhallaEngine("route", "auto", points);
     route.getRoute(function (error, route) {
@@ -140,7 +140,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {
     });
   });
 });
-
+// routing engine(copied from OSM)
 function FOSSGISValhallaEngine(id, costing, locations) {
   var INSTR_MAP = [
     0, // kNone = 0;

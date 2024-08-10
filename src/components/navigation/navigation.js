@@ -1,6 +1,8 @@
 var marker;
 var pane=map.createPane('customPane')
 map.getPane('customPane').style.zIndex = 1000; //for control z index of marker
+
+//function for adding marker
 function addmarker(coord){
     if(AdPointer){
         AdPointer.remove()
@@ -8,9 +10,9 @@ function addmarker(coord){
 
     }
     if(marker){
-        let old = marker.getLatLng()
+        let old = marker.getLatLng()//previos marker location
         marker.setLatLng(coord).addTo(map)
-        borderCheck(map.project(old).distanceTo(map.project(marker.getLatLng())))
+        borderCheck(map.project(old).distanceTo(map.project(marker.getLatLng())))// for checking border cross
     }
     else if(!marker){
     marker = L.circleMarker(coord,{
@@ -25,6 +27,8 @@ function addmarker(coord){
     addpoly()
     }
 }
+
+//function for adding adpointer 
 function addAdPointer(coord) {
     if (marker) {
       marker.remove();
@@ -66,7 +70,6 @@ function addAdPointer(coord) {
     }
 
     // Set the new center of the map
-    //fmarker.setLatLng(new L.LatLng(lat, lng));
     const mar= map.layerPointToLatLng(L.point(lat,lng));
     return mar;
 }
@@ -77,13 +80,13 @@ document.addEventListener('keydown', function(event) {
         return; // Do nothing if the event target is any of the above
     }
    
-    if(event.key == 'a' || event.key == 'w' || event.key == 's'){
+    if(event.key == 'a' || event.key == 'w' || event.key == 's'){//enable adpointer
         event.preventDefault();
         if(marker){ 
             addAdPointer(marker.getLatLng())
         }
     }
-    if(event.code == 'KeyF'||event.code == 'Enter'){
+    if(event.code == 'KeyF'||event.code == 'Enter'){ //for stating place name and select place 
         event.preventDefault();
         let pointer
         if(marker){
@@ -99,7 +102,7 @@ document.addEventListener('keydown', function(event) {
             speechSynthesis.speak(message);
         })
     }
-    if(event.code=='KeyZ'){
+    if(event.code=='KeyZ'){ // for stating zoom value
         event.preventDefault();
        try {
         let scale = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8)*10
@@ -112,10 +115,10 @@ document.addEventListener('keydown', function(event) {
         alert('add marker first')
        }
     }
-    if(event.code=='KeyL'){
+    if(event.code=='KeyL'){ // locate current user location
         document.getElementById("locateme").click()
     }
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' ) {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' ) { //marker movement on map using arrowkeys
         event.preventDefault(); // Prevent the default behavior
          event.stopImmediatePropagation(); // Stop the event from propagating further
         switch (event.key) {
@@ -137,16 +140,14 @@ document.addEventListener('keydown', function(event) {
     }
     
     if(marker)map.panTo(marker.getLatLng());
-    //if (event.keyCode === 13) {
-    //    map.click();
-    //}
+  
 
 });
 function fixdist(num) {
     const distanceArray = [1280000,6400000,3200000,1600000,800000,400000,200000,96000,48000,24000,12000,6000,3000,1500,700,350,150,100,50];
     return distanceArray[num];
 }
-map.on('click',function(e){
+map.on('click',function(e){//appear marker when clicking
     addmarker(e.latlng)
     marker.setLatLng(e.latlng)
     console.log('aaaa')

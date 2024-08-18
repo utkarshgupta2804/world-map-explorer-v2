@@ -124,7 +124,7 @@ async function geoJSON(type, id) {
   } //removing if there any already
  
   result = osmtogeojson(result); //converting JSON to geoJSON
-  
+  overp=result
   let centre = turf.centerOfMass(result);
   
   addmarker([centre.geometry.coordinates[1], centre.geometry.coordinates[0]]);
@@ -149,6 +149,7 @@ async function geoJSON(type, id) {
  
   setTimeout(() => {
     geoLayer.addTo(map);
+    place = geoLayer.toGeoJSON()
   }, 500); //dont change this, time lagg to wait for completing map movement
 }
 
@@ -704,7 +705,7 @@ async function fetchRiverDetails(osm_type, osm_id, tagsa, resulta) {
         if (claims.P2043) {
           // Property for length
           const lengthValue = claims.P2043[0].mainsnak.datavalue.value.amount;
-          details.length = `${lengthValue} meter`;
+          details.length = `${lengthValue} Kilo meter`;
         }
         return `<h3>River Details</h3>
               <ul>

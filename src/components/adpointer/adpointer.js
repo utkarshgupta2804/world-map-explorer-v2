@@ -26,7 +26,14 @@ L.AdPointer = L.Layer.extend({
             var da = new SpeechSynthesisUtterance();
             switch(event.key) {
                 case 'a':
-                    sel ? sel = false : sel = true;
+                    if(sel){
+                        sel=false
+                        da.text = 'Angle'
+                    }else{
+                        sel=true
+                        da.text = 'Distance'
+                    }
+                    speechSynthesis.speak(da);
                     break;
                 case 'w':
                     if (sel) {
@@ -279,10 +286,30 @@ L.AdPointer = L.Layer.extend({
           this.ang =  Math.round(this.angle) + ' degrees';
           this.lat1 = ' Latitude : '+ this.secondaryMarker.getLatLng().lat.toFixed(5);
           this.lng1 = ' Longitude : '+ this.secondaryMarker.getLatLng().lng.toFixed(5)
-
+          function getDirection(angle) {
+            angle = (angle + 360) % 360; // Normalize angle to [0, 360)
+          
+            if (angle >= 355 && angle < 5) {
+              return "North";
+            } else if (angle >= 5 && angle < 85) {
+              return "North-East";
+            } else if (angle >= 85 && angle < 95) {
+              return "East";
+            } else if (angle >= 95 && angle < 175) {
+              return "South-East";
+            } else if (angle >= 175 && angle < 185) {
+              return "South";
+            } else if (angle >= 185 && angle < 265) {
+              return "South-West";
+            } else if (angle >= 265 && angle < 275) {
+              return "West";
+            } else {
+              return "North-West";
+            }
+          }
           document.getElementById('distanceDisplay').textContent = this.diskm;
           document.getElementById('flatdistance').textContent = this.fdiskm;
-          document.getElementById('angleDisplay').textContent = this.ang;
+          document.getElementById('angleDisplay').textContent = this.ang+' '+getDirection(this.angle);
           document.getElementById('lat').textContent = this.lat1;
           document.getElementById('lng').textContent = this.lng1;
           

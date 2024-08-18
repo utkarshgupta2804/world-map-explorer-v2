@@ -62,6 +62,7 @@ map.getContainer().addEventListener('keydown', function (event) {
   }
   if (event.key === '+') {
     map.zoomIn();
+    
   } else if (event.key === '-') {
     map.zoomOut();
   }

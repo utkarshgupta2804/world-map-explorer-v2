@@ -1,3 +1,4 @@
+let closeeventkeyboard
 document.getElementById("trigger-icon").addEventListener("click", function () {// open the distance box when clicking on find distance button
   document.getElementById("box").style.display = "block";
   if (document.getElementById("closeBtnD")) {
@@ -9,26 +10,32 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
   }
   let des, beg;
   let lgrp;
-  document.getElementById("beginning").addEventListener("input", function () { // store beginning location
-    performSearch(this, "")
-      .then((result) => {
-        beg = {
-          lat: parseFloat(result.lat),
-          lon: parseFloat(result.lon),
-        };
-        console.log(beg);
-        this.value = result.name;
-        document.getElementById("search-results").remove();
-        // You can now access the clicked result data here
-      })
-      .catch((error) => {
-        console.error("Error fetching search results:", error);
-      });
+  
+    document.getElementById("beginning").addEventListener("keydown", function () { // store beginning location
+      if (event.key === 'Enter') {
+        performSearch(this, "")
+        .then((result) => {
+          beg = {
+            lat: parseFloat(result.lat),
+            lon: parseFloat(result.lon),
+          };
+          console.log(beg);
+          this.value = result.name;
+          document.getElementById("search-results").remove();
+          // You can now access the clicked result data here
+        })
+        .catch((error) => {
+          console.error("Error fetching search results:", error);
+        });
+      }
+      
+  
+   
+    });
 
- 
-  });
-  document.getElementById("destination").addEventListener("input", function () { //// store destination location
-    performSearch(this, "")
+    document.getElementById("destination").addEventListener("keydown", function () { // store beginning location
+      if (event.key === 'Enter') {
+        performSearch(this, "")
       .then((result) => {
         des = {
           lat: parseFloat(result.lat),
@@ -42,9 +49,12 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
       .catch((error) => {
         console.error("Error fetching search results:", error);
       });
-
+      }
+      
+  
    
-  });
+    });
+
   document.addEventListener("click", function (event) {// store point from map
     if (event.target.id == "beginning" || event.target.id == "destination") {
       focusedIn = document.activeElement;

@@ -3,10 +3,13 @@ let oname, pname// old name, present name
 let flag = true// for avoid repeated fetch
 let wentfar = 0
 // function to check weather passed the border
+const bordercrossSound = new Audio('border-crossing.wav');
+
 function borderCheck(within50) { 
     if (poly) {
         if (((leafletPip.pointInLayer(marker.getLatLng(), poly).length <= 0)) && flag) {
             flag = false
+            bordercrossSound.play()
             poly.remove()
 
             oname = pname 
@@ -18,17 +21,22 @@ function borderCheck(within50) {
                 if ((within50 <= 60) && (nm.name != oname.name)) {
                     if (crossedhigherlevel(oname, pname)) { //if crossed to higher level 
                         console.log(`${oname.display_name} crossed. ${nm.display_name} entered`);
-                        var message = new SpeechSynthesisUtterance(`${oname.display_name} crossed. ${nm.display_name} entered`);
-                        speechSynthesis.speak(message);
+                        
+                            quu+=`${oname.display_name} crossed. ${nm.display_name} entered`
+                        
+                        // var message = new SpeechSynthesisUtterance(`${oname.display_name} crossed. ${nm.display_name} entered`);
+                        // speechSynthesis.speak(message);
                     } else {
                         console.log(`${oname.name} crossed. ${nm.name} entered`);
-                        var message = new SpeechSynthesisUtterance(`${oname.name} crossed. ${nm.name} entered`);
-                        speechSynthesis.speak(message);
+                        // var message = new SpeechSynthesisUtterance(`${oname.name} crossed. ${nm.name} entered`);
+                        // speechSynthesis.speak(message);
+                        quu+=`${oname.display_name} crossed. ${nm.display_name} entered`
+
                     }
                     if (wentfar >= 7) {
                         console.log("May be went too far")
-                        var war = new SpeechSynthesisUtterance("May be went too far");
-                        speechSynthesis.speak(war);
+                        quu+="May be went too far"
+                        
                         wentfar = 0
                     }
                 }
@@ -149,3 +157,8 @@ function crossedhigherlevel(cro, ent) {
     }
 }
 addmarker([10.903219337541, 76.43448118177776])
+mape.addEventListener("focusin",()=>{
+    findplacename(marker).then((place)=>{
+        updateLiveRegion(`now marker is in ${place}`)
+    })
+  })

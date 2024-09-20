@@ -4,6 +4,7 @@ var placeids = []
 let i = 0
 // Function to handle search and update results
 function performSearch(inputField, placeid) {
+ 
   return new Promise((resolve, reject) => {
     var query = inputField.value.trim();
     if (query.length <= 2) {
@@ -33,19 +34,26 @@ function performSearch(inputField, placeid) {
       }
       controllera = new AbortController();
       const signal = controllera.signal;
+      let ul = inputField.nextElementSibling;
+          if (!ul || ul.tagName !== "UL") {
+            ul = document.createElement("ul");
+            ul.setAttribute("id", "search-results");
+            ul.setAttribute("tabindex", "0");
+            ul.setAttribute("aria-label", "select your result");
+            inputField.parentNode.insertBefore(ul, inputField.nextSibling);
+          }
+          var searchResults = document.getElementById("search-results");
+          
+          searchResults.innerHTML = '<h2  style="padding:10px; padding-left:50px">Loading...</h2>'
+          //searchResults.appendChild(det)
+          Loadinginterval = setInterval(notifyLoading, 2000);
       fetch(
         `https://nominatim.openstreetmap.org/search.php?q=${query}&format=jsonv2&exclude_place_ids=${placeid}`,
         { signal }
       )
         .then((response) => response.json())
         .then((data) => {
-          let ul = inputField.nextElementSibling;
-          if (!ul || ul.tagName !== "UL") {
-            ul = document.createElement("ul");
-            ul.setAttribute("id", "search-results");
-            inputField.parentNode.insertBefore(ul, inputField.nextSibling);
-          }
-          var searchResults = document.getElementById("search-results");
+          clearInterval(Loadinginterval)
 
           searchResults.innerHTML = "";
           console.log(data.length)
@@ -89,11 +97,11 @@ function performSearch(inputField, placeid) {
 }
 // Event listener for search input
 
-document
-  .getElementById("search-input")
-  .addEventListener("input", function (event) {
-    document.getElementById("closeBtn").click();
-    performSearch(this, "")
+document.getElementById("search-input").addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') { // Check if the Enter key was pressed
+    //event.preventDefault();  // Prevent the default form submission (if needed)
+    console.log(this)
+    performSearch(document.getElementById("search-input"), "")
       .then((result) => {
         placeappear(result) // Call fetchDetails with the clicked result
         //console.log(result)
@@ -102,9 +110,24 @@ document
       .catch((error) => {
         console.error("Error fetching search results:", error);
       });
+  }
+});
+// document
+//   .getElementById("search-input")
+//   .addEventListener("input", function (event) {
+//     document.getElementById("closeBtn").click();
+//     performSearch(this, "")
+//       .then((result) => {
+//         placeappear(result) // Call fetchDetails with the clicked result
+//         //console.log(result)
+//         // You can now access the clicked result data here
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching search results:", error);
+//       });
 
-    // Event listener for map click
-  });
+//     // Event listener for map click
+//   });
 
 var geoLayer = null;
 async function geoJSON(type, id) {
@@ -757,9 +780,12 @@ function placeappear(result) {
   let det = document.getElementById("det")
   det.parentElement.style.display = "block"
   det.innerHTML = '<h2 style="padding:50px;">Loading...</h2>'
+  Loadinginterval = setInterval(notifyLoading, 2000);
   details = fetchDetails(result).then(data => {
     det.innerHTML = data
-
+    clearInterval(Loadinginterval)
+    updateLiveRegion("details ready")
+    det.focus()
 
   })
 }

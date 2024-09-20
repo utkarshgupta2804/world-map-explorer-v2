@@ -9,12 +9,15 @@ fetch('boundary.geojson')
   }).then(dat => {
     addIndiaBoundaries();
   })
-var map = L.map('map').setView([34, 80], 4);
+var map = L.map('map',{
+  keyboardPanDelta: 0
+
+}).setView([34, 80], 4);
 // add the OpenStreetMap tiles
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-  noWrap: true
+  noWrap: true,
 }).addTo(map);
 
 
@@ -122,3 +125,31 @@ function fetchindia() {
 
 
 
+
+
+function updateLiveRegion(text, priority) {
+  var el = document.createElement("div");
+  var id = "speak-" + Date.now();
+  el.setAttribute("id", id);
+  el.setAttribute("aria-live", priority || "polite");
+  //el.classList.add("visually-hidden");
+  document.body.appendChild(el);
+
+  window.setTimeout(function () {
+    document.getElementById(id).innerHTML = text;
+  }, 1000);
+
+  window.setTimeout(function () {
+    document.body.removeChild(document.getElementById(id));
+  }, 10000);
+}
+
+
+function notifyLoading() {
+  updateLiveRegion("Loading.")
+  // Add your logic here
+}
+
+// Set the interval (2000ms = 2 seconds)
+let Loadinginterval 
+mape.focus()

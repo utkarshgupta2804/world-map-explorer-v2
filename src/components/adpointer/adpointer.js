@@ -1,6 +1,8 @@
 let flag2=true
 let speak=true
 var sel=true
+let mape =document.getElementById("map")
+
 L.AdPointer = L.Layer.extend({
     
     initialize: function(pointer) {
@@ -23,60 +25,63 @@ L.AdPointer = L.Layer.extend({
         flag2=true
         // Add a reference to the keydown handler to remove it later
         this._handleKeydown = function(event) {
-            var da = new SpeechSynthesisUtterance();
+            var da
             switch(event.key) {
                 case 'a':
                     if(sel){
                         sel=false
-                        da.text = 'Angle'
+                        da = 'Angle'
                     }else{
                         sel=true
-                        da.text = 'Distance'
+                        da = 'Distance'
                     }
-                    speechSynthesis.speak(da);
+                    updateLiveRegion(da)
+
                     break;
                 case 'w':
                     if (sel) {
                         AdPointer.distance = AdPointer.distance + 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         console.log(AdPointer.diskm);
-                        da.text = 'Distance' + AdPointer.diskm;
+                        da = 'Distance' + AdPointer.diskm;
 
                         
                     } else {
                         AdPointer.angle = AdPointer.angle + 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
-                        da.text = 'Angle: ' + AdPointer.ang;
+                        da = 'Angle: ' + AdPointer.ang;
                         console.log(AdPointer.ang);
                     }
-                    if(speak){
-                        speak=false
-                        speechSynthesis.speak(da);
-                        setTimeout(() => {
-                            speak=true
-                          }, 3000)
-                    }
+                    updateLiveRegion(da)
+
                     break;
                 case 's':
                     if (sel) {
                         AdPointer.distance = AdPointer.distance - 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         console.log(AdPointer.diskm);
-                        da.text ='Distance: ' + AdPointer.diskm;
+                        da ='Distance: ' + AdPointer.diskm;
                     } else {
                         AdPointer.angle = AdPointer.angle - 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
-                        da.text = 'Angle: ' + AdPointer.ang;
+                        da = 'Angle: ' + AdPointer.ang;
                         console.log(AdPointer.ang);
                     }
-                    if(speak){
-                        speak=false
-                        speechSynthesis.speak(da);
-                        setTimeout(() => {
-                            speak=true
-                          }, 3000)
-                    }
+                    updateLiveRegion(da)
+
+                    // if(speak){
+                    //     speak=false
+                    //     speechSynthesis.speak(da);
+                    //     setTimeout(() => {
+                    //         speak=true
+                    //       }, 3000)
+                    // }
                     break;
+                    case 'o':
+                        det = 'Place: ' + document.getElementById('placeDisplay').textContent + ',  Distance: ' + AdPointer.diskm + 
+                        ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
+                        updateLiveRegion(det)
+                        break;
                 default: return;
             }
             if (flag2) {
@@ -90,17 +95,17 @@ L.AdPointer = L.Layer.extend({
             }
         }.bind(this);
         //Logic to display details on a keypress    key = "o"
-        document.addEventListener('keypress', function(speakDetails) {
-            if (speakDetails.key === 'o') {
-                speakDetails.preventDefault()
-                var det = new SpeechSynthesisUtterance();
-                det.text = 'Place: ' + document.getElementById('placeDisplay').textContent + ',  Distance: ' + AdPointer.diskm + 
-                ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
-                speechSynthesis.speak(det);
-            }
-        })
-    
-        document.addEventListener('keydown', this._handleKeydown);
+        // map.addEventListener('keypress', function(speakDetails) {
+        //     if (speakDetails.key === 'o') {
+        //         speakDetails.preventDefault()
+        //         det = 'Place: ' + document.getElementById('placeDisplay').textContent + ',  Distance: ' + AdPointer.diskm + 
+        //         ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
+        //         updateLiveRegion(det)
+
+        //     }
+        // })
+        
+        mape.addEventListener('keydown', this._handleKeydown);
     
         var svgstr = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
             <circle cx="7.5" cy="7.5" r="6.5" fill="#C60000" stroke="black" stroke-width="2"/>
@@ -116,6 +121,7 @@ L.AdPointer = L.Layer.extend({
         this.primaryMarker = new L.Marker(this.pointer, { 
             icon: customIcon 
         }).addTo(this._map);
+        //marker = this.primaryMarker
     
         //this.distance = 2000//this._fixdist(map.getZoom());
         this.angle = 0;
@@ -164,7 +170,7 @@ L.AdPointer = L.Layer.extend({
         //this._map.off('click', this._onClick, this);
         this._map.off('zoom')
         // Remove document event listeners
-        document.removeEventListener('keydown', this._handleKeydown);
+        mape.removeEventListener('keydown', this._handleKeydown);
     
         // Remove the primary marker from the map
         if (this.primaryMarker) {

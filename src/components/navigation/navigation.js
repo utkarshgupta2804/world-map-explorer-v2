@@ -1,4 +1,9 @@
 var marker, place, borderpoints, northDistance, southDistance, westDistance, eastDistance, perkeydist;
+let flag3=true
+let quu
+let timeout
+let old
+
 const clickSound = new Audio('click.wav');
 var pane = map.createPane('customPane')
 map.getPane('customPane').style.zIndex = 1000; //for control z index of marker
@@ -13,7 +18,7 @@ function addmarker(coord) {
 
     }
     if (marker) {
-        let old = marker.getLatLng()//previos marker location
+        old = marker.getLatLng()//previos marker location
         marker.setLatLng(coord).addTo(map)
         borderCheck(map.project(old).distanceTo(map.project(marker.getLatLng())))// for checking border cross
     }
@@ -93,7 +98,8 @@ function findborderpoints() {
 function addAdPointer(coord) {
     if (marker) {
         marker.remove();
-        marker = null
+        poly=null
+       // marker = null
     }
     if (!AdPointer) {
         AdPointer = new L.AdPointer(coord); // distance in meters, angle in degrees
@@ -137,7 +143,8 @@ function moveMap(direction) {
 }
 
 // Listen for keydown event on the whole document
-document.addEventListener('keydown', function (event) {
+const throttledFunction = _.throttle((event) => {
+    flag3 = false
     if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
         return; // Do nothing if the event target is any of the above
     }
@@ -159,9 +166,7 @@ document.addEventListener('keydown', function (event) {
         }
         findplacename(pointer, event).then(nm => {
             console.log(nm)
-            var message = new SpeechSynthesisUtterance();
-            message.text = nm;
-            speechSynthesis.speak(message);
+            updateLiveRegion(nm)
         })
     }
     if (event.code == 'KeyZ') { // for stating zoom value
@@ -170,9 +175,8 @@ document.addEventListener('keydown', function (event) {
             let scale = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 10
             let zoom = scale < 1000 ? parseInt(scale) + ' meters' : parseInt(scale / 1000) + ' Kilo meters'
             console.log(zoom)
-            var zoomLevel = new SpeechSynthesisUtterance()
-            zoomLevel.text = zoom;
-            speechSynthesis.speak(zoomLevel)
+            updateLiveRegion(zoom)
+
         } catch (error) {
             alert('add marker first')
         }
@@ -258,46 +262,47 @@ document.addEventListener('keydown', function (event) {
                 case 'ArrowUp':
                     dis = northDistance < 1000 ? parseInt(northDistance) + ' meters' : parseInt(northDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    var distext = new SpeechSynthesisUtterance()
-                    distext.text = dis;
-                    speechSynthesis.speak(distext)
+                    updateLiveRegion(dis)
+
                     break;
 
                 case 'ArrowDown':
                     dis = southDistance < 1000 ? parseInt(southDistance) + ' meters' : parseInt(southDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    var distext = new SpeechSynthesisUtterance()
-                    distext.text = dis;
-                    speechSynthesis.speak(distext)
+                    updateLiveRegion(dis)
+
                     break;
 
                 case 'ArrowLeft':
                     dis = eastDistance < 1000 ? parseInt(eastDistance) + ' meters' : parseInt(eastDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    var distext = new SpeechSynthesisUtterance()
-                    distext.text = dis;
-                    speechSynthesis.speak(distext)
+                    updateLiveRegion(dis)
+
                     break;
 
                 case 'ArrowRight':
                     dis = westDistance < 1000 ? parseInt(westDistance) + ' meters' : parseInt(westDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    var distext = new SpeechSynthesisUtterance()
-                    distext.text = dis;
-                    speechSynthesis.speak(distext)
+                    updateLiveRegion(dis)
                     break;
 
             }
         }
     }
     if (marker) map.panTo(marker.getLatLng());
+    timeout && clearTimeout(timeout)
+    timeout=setTimeout(() => {
+        flag3=true
+        updateLiveRegion(quu)
+        quu=""
+      }, 650);
 
-
-});
-function fixdist(num) {
-    const distanceArray = [1280000, 6400000, 3200000, 1600000, 800000, 400000, 200000, 96000, 48000, 24000, 12000, 6000, 3000, 1500, 700, 350, 150, 100, 50];
-    return distanceArray[num];
-}
+},120);
+mape.addEventListener("keydown",throttledFunction)
+// function fixdist(num) {
+//     const distanceArray = [1280000, 6400000, 3200000, 1600000, 800000, 400000, 200000, 96000, 48000, 24000, 12000, 6000, 3000, 1500, 700, 350, 150, 100, 50];
+//     return distanceArray[num];
+// }
 map.on('click', function (e) {//appear marker when clicking
     addmarker(e.latlng)
     marker.setLatLng(e.latlng)
@@ -330,8 +335,7 @@ async function findplacename(point, event) {
 }
 
 function bordertouched(dir) {
-    var message = new SpeechSynthesisUtterance(`${dir} Border touched`);
-    speechSynthesis.speak(message);
+    updateLiveRegion("border touched")
 }
 
 

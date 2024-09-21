@@ -38,7 +38,7 @@ function performSearch(inputField, placeid) {
           if (!ul || ul.tagName !== "UL") {
             ul = document.createElement("ul");
             ul.setAttribute("id", "search-results");
-            ul.setAttribute("tabindex", "0");
+            ul.setAttribute("tabindex", "7");
             ul.setAttribute("aria-label", "select your result");
             inputField.parentNode.insertBefore(ul, inputField.nextSibling);
           }
@@ -54,7 +54,7 @@ function performSearch(inputField, placeid) {
         .then((response) => response.json())
         .then((data) => {
           clearInterval(Loadinginterval)
-
+          updateLiveRegion("select from result")
           searchResults.innerHTML = "";
           console.log(data.length)
           data.forEach((result) => {
@@ -71,6 +71,7 @@ function performSearch(inputField, placeid) {
 
               resolve(result); // Resolve the promise with the clicked result
             });
+            li.setAttribute("aria-label",`"${result.display_name}"`)
             searchResults.appendChild(li);
 
           });

@@ -1,111 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="assets/styles.css" />
-    <link href='https://fonts.googleapis.com/css?family=Kumbh Sans' rel='stylesheet'>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mapbox/leaflet-pip@1.1.0/leaflet-pip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
-    <script src="../src/components/adpointer/adpointer.js" defer></script>
-    <script src="assets/script.js" defer></script>
-    <script src="../src/osmtogeojson.js"></script>
-    <script src="../src/components/navigation/navigation.js" defer></script>
-    <script src="../src/components/search/search.js" defer></script>
-    <script src="../src/components/distance/distance.js" defer></script>
-    <script src="../src/components/distance/Polyline.encoded.js" defer></script>
-    <script src="../src/components/border.js" defer></script>
-    <script src="https://unpkg.com/leaflet.vectorgrid@1.3.0/dist/Leaflet.VectorGrid.bundled.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <title>WorldMapExplorer</title>
-  </head>
-  <header>
-    <div class="header-content">
-      <div class="logo">
-        <img src="map-logo.png" alt="Map Logo" class="map-logo" />
-        <p id="map-explorer-text"><b>WorldMapExplorer</b></p>
-      </div>
-      <div class="header-icons">
-        <i class="fa fa-cog" title="Settings" id="settings-btn"></i>
-        <i class="fa fa-bookmark" title="Bookmark" id="bookmark-btn"></i>
-        <i class="fa fa-question-circle" title="Help" id="help-btn"></i>
-        <button id="login-btn">Log In</button>
-      </div>
+<head>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link href='https://fonts.googleapis.com/css?family=Kumbh Sans' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mapbox/leaflet-pip@1.1.0/leaflet-pip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+  <script src="../src/components/adpointer/adpointer.js" defer></script>
+  <script src="assets/script.js" defer></script>
+  <script src="../src/osmtogeojson.js"></script>
+  <script src="../src/components/navigation/navigation.js" defer></script>
+  <script src="../src/components/search/search.js" defer></script>
+  <script src="../src/components/distance/distance.js" defer></script>
+  <script src="../src/components/distance/Polyline.encoded.js" defer></script>
+  <script src="../src/components/border.js" defer></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@1.3.0/dist/Leaflet.VectorGrid.bundled.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <title>WorldMapExplorer</title>
+</head>
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <img src="map-logo.png" alt="Map Logo" class="map-logo" tabindex="-1" />
+      <p id="map-explorer-text" tabindex="1"><b>WorldMapExplorer</b></p>
     </div>
-  </header>
-  <body>
-    <div aria-live="polite" role="status" id="live-region" style="visibility: hidden;">
-      <!-- Content that will be announced by screen readers -->
-    </div>    
-    <div id="left-container">
-      <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search Places" />
-      <div id="searchdetails" class="searchdetails" style="display: none" tabindex="0" aria-label="Search results">
-      <i class="fas fa-times-circle" id="closeBtnD" aria-label="Close" tabindex="0"></i>
-      <span id="det"></span>
+    <div class="header-icons">
+      <i class="fa fa-cog" title="Settings" id="settings-btn" style="display: none;"></i>
+      <i class="fa fa-bookmark" title="Bookmark" id="bookmark-btn" style="display: none; "></i>
+      <i class="fa fa-question-circle" title="Help" id="help-btn" tabindex="1" aria-label="select for any help"></i>
+      <button id="login-btn" style="display: none;">Log In</button>
+    </div>
+  </div>
+</header>
+
+<body>
+  <div aria-live="polite" role="status" id="live-region" style="visibility: hidden; display: none;">
+    <!-- Content that will be announced by screen readers -->
+  </div>
+  <div id="left-container">
+    <div class="search-container" aria-label="search places">
+      <input type="text" tabindex="3" id="search-input" placeholder="Search Places" />
+      <div id="searchdetails" tabindex="4" class="searchdetails" style="display: none" aria-label="Search results">
+        <i class="fas fa-times-circle" id="closeBtnD" aria-label="Close details tab"
+          onclick="updateLiveRegion(`details tab closed`)"></i>
+        <span aria-live="polite" aria-atomic="true" id="det"></span>
       </div>
 
-      </div>
-      <i class="fas fa-directions" id="trigger-icon" tabindex="0" aria-label="Distance finder"></i>
+    </div>
+    <i class="fas fa-directions" tabindex="5" id="trigger-icon" aria-label="find distance between places"></i>
+  </div>
+
+  <div tabindex="-1" id="controls-box">
+    <i class="fa fa-plus" title="Zoom In"></i>
+    <i class="fa fa-minus" title="Zoom Out"></i>
+    <i class="fa fa-layer-group" title="Layers" id="layers-btn"></i>
+    <div id="layers-dropdown" class="dropdown-content">
+      <button id="geographical-layer">Geographical</button>
+      <button id="political-layer">Political</button>
+    </div>
+    <i class="fa fa-location-arrow" id="locateme" title="Locate me" aria-label="Locate your location on map"></i>
+  </div>
+
+  <div id="infoBox" tabindex="-1">
+    Place: <span id="placeDisplay"></span><br /><br />
+    Angle: <span id="angleDisplay"></span><br />
+    Distance: <span id="distanceDisplay"></span><br />
+    Flat Map Distance: <span id="flatdistance"></span><br />
+    <h3>coordinates:</h3>
+    <pre></pre>
+    <span id="coordinates">
+      <span id="lat"></span><br />
+      <span id="lng"></span>
+    </span>
+  </div>
+
+  <!-- Box that appears on icon click -->
+  <div class="box" id="box" tabindex="6" aria-label="distance finder opened">
+    <i class="fas fa-times-circle" id="closeBtn" aria-label="close distance finder" tabindex="0"
+      onclick="updateLiveRegion(`distance finder closed`)"></i>
+    <h1>Find Distance</h1>
+
+    <div class="box-input">
+      <span><i class="fas fa-circle"></i></span>
+      <input type="text" id="beginning" placeholder="Enter Starting point" aria-label="type place and press enter" />
     </div>
 
-    <div id="controls-box">
-      <i class="fa fa-plus" title="Zoom In"></i>
-      <i class="fa fa-minus" title="Zoom Out"></i>
-      <i class="fa fa-layer-group" title="Layers" id="layers-btn"></i>
-      <div id="layers-dropdown" class="dropdown-content">
-        <button id="geographical-layer">Geographical</button>
-        <button id="political-layer">Political</button>
-      </div>
-      <i class="fa fa-location-arrow" id="locateme" title="Locate me"></i>
+    <div class="box-input">
+      <span><i class="fas fa-map-marker-alt"></i></span>
+      <input type="text" id="destination" placeholder="Enter Destination" aria-label="type place and press enter" />
     </div>
-
-    <div id="infoBox">
-      Place: <span id="placeDisplay"></span><br /><br />
-      Angle: <span id="angleDisplay"></span><br />
-      Distance: <span id="distanceDisplay"></span><br />
-      Flat Map Distance: <span id="flatdistance"></span><br />
-      <h3>coordinates:</h3>
-      <pre></pre>
-      <span id="coordinates">
-        <span id="lat"></span><br />
-        <span id="lng"></span>
-      </span>
+    <i class="fas fa-map-marked-alt" title="Choose from map" id="fromMap" tabindex="-1"></i>
+    <i class="fas fa-arrow-circle-right" id="find" title="Find Distance" aria-label=" click to Find distance"
+      tabindex="0"></i>
+    <div id="distanceResult" aria-live="polite">
+      Distance : <span id="dist"></span><br />
+      Time : <span id="time"></span>
     </div>
+  </div>
+  <div tabindex="7" aria-label="focused on map. use arrow keys to navigate" id="map"></div>
+</body>
 
-    <!-- Box that appears on icon click -->
-    <div class="box" id="box">
-      <i class="fas fa-times-circle" id="closeBtn" aria-label="close" tabindex="0"></i>
-      <h1>Find Distance</h1>
-
-      <div class="box-input">
-        <span><i class="fas fa-circle"></i></span>
-        <input type="text" id="beginning" placeholder="Enter Starting point" />
-      </div>
-
-      <div class="box-input">
-        <span><i class="fas fa-map-marker-alt"></i></span>
-        <input type="text" id="destination" placeholder="Enter Destination" />
-      </div>
-      <i class="fas fa-map-marked-alt" title="Choose from map" id="fromMap"></i>
-      <i class="fas fa-arrow-circle-right" id="find" title="Find Distance" aria-label="Find distance" tabindex="0"></i>
-      <div id="distanceResult">
-        Distance : <span id="dist"></span><br />
-        Time : <span id="time"></span>
-      </div>
-    </div>
-    <div id="map"></div>
-  </body>
 </html>

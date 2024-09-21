@@ -79,7 +79,7 @@ async function addpoly() {
             if (data.features[0].properties.name === "India") {
                 data = await fetchindia();
             }
-
+            poly && poly.remove()
             // Create and add the GeoJSON layer to the map
              poly = L.geoJson(data, {
                 fillOpacity: 0

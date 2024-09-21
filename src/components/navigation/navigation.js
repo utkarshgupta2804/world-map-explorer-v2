@@ -15,6 +15,7 @@ function addmarker(coord) {
     if (AdPointer) {
         AdPointer.remove()
         AdPointer = null
+        updateLiveRegion(`Adjustable pointer off`)
 
     }
     if (marker) {
@@ -30,8 +31,11 @@ function addmarker(coord) {
             pane: 'customPane'
 
         }).addTo(map)
-        marker.getElement().setAttribute('tabindex', '0')
-        marker.getElement().setAttribute('title', 'marker')
+        findplacename(marker).then((place)=>{
+            updateLiveRegion(`marker is on ${place}. use arrow keys to navigate`)
+        })
+        //marker.getElement().setAttribute('tabindex', '0')
+        //marker.getElement().setAttribute('title', 'marker')
         addpoly().then(() => {
             if (!isGeoPresent) {
                 place = poly.toGeoJSON()
@@ -98,12 +102,15 @@ function findborderpoints() {
 function addAdPointer(coord) {
     if (marker) {
         marker.remove();
+        poly && poly.remove()
         poly=null
        // marker = null
     }
     if (!AdPointer) {
         AdPointer = new L.AdPointer(coord); // distance in meters, angle in degrees
         AdPointer.addTo(map);
+        updateLiveRegion(`Adjustable pointer on. use key 'A' to change between angle and distance. use keys 'W' and 'S' to increase and decrease values`)
+
         if (poly) {
             poly.remove()
         }
@@ -116,6 +123,7 @@ function moveMap(direction) {
     if (!marker) {
         addmarker(AdPointer.primaryMarker.getLatLng())
     }
+    flag3=true
     clickSound.play()
     var center = marker.getLatLng();
     var point = map.latLngToLayerPoint(center)
@@ -184,6 +192,7 @@ const throttledFunction = _.throttle((event) => {
     if (event.code == 'KeyL') { // locate current user location
         document.getElementById("locateme").click()
     }
+    
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') { //marker movement on map using arrowkeys
         if (!event.shiftKey) {
             perkeydist = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 10
@@ -292,9 +301,12 @@ const throttledFunction = _.throttle((event) => {
     if (marker) map.panTo(marker.getLatLng());
     timeout && clearTimeout(timeout)
     timeout=setTimeout(() => {
-        flag3=true
+        
         updateLiveRegion(quu)
         quu=""
+        flag3 && findplacename(marker).then((place)=>{
+            updateLiveRegion(place)
+        })
       }, 650);
 
 },120);
@@ -320,7 +332,14 @@ async function findplacename(point, event) {
                 .then(data => {
                     if (event?.code == "Enter") {
                         //console.log(data)
-                        placeappear(data)
+                        if(AdPointer){
+                            const poi= AdPointer.secondaryMarker
+                            
+                            addmarker(poi.getLatLng())
+                            updateLiveRegion("marker placed")
+                        }else{
+                            placeappear(data)
+                        }
                     }
                     name = data.name
                     if (data.error == "Unable to geocode") {
@@ -338,6 +357,13 @@ function bordertouched(dir) {
     updateLiveRegion("border touched")
 }
 
-
+document.addEventListener("keydown",function(event){
+    if(event.code == "Escape"){
+        console.log("heloo esc")
+    document.getElementById("closeBtnD").click()// close search details box
+    document.getElementById("closeBtn").click()// close search details box
+    updateLiveRegion(`closed`,"assertive")
+    }
+})
 
 

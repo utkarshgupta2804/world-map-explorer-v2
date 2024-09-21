@@ -1,4 +1,4 @@
-let closeeventkeyboard
+
 document.getElementById("trigger-icon").addEventListener("click", function () {// open the distance box when clicking on find distance button
   document.getElementById("box").style.display = "block";
   if (document.getElementById("closeBtnD")) {
@@ -145,7 +145,12 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
         speechSynthesis.speak(dist);
         document.getElementById("distanceResult").style.display = "block";
       } else {
-        alert("something went wrong");
+
+        if((document.getElementById("destination").value=='')||(document.getElementById("beginning").value=='')){
+          alert("select places")
+        }else{
+          alert("You’re looking for places that are really far away. Try looking within a distance of 1500 kilometers instead.");
+        }
       }
     });
   });

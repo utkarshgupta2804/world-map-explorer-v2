@@ -21,6 +21,9 @@ L.AdPointer = L.Layer.extend({
 
     onAdd: function(map) {
         this._map = map;
+        if(poly){
+            poly.remove()
+        }
         //this._map.on('click', this._onClick, this);
         flag2=true
         // Add a reference to the keydown handler to remove it later
@@ -82,6 +85,8 @@ L.AdPointer = L.Layer.extend({
                         ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
                         updateLiveRegion(det)
                         break;
+                    case 'Enter':
+                        
                 default: return;
             }
             if (flag2) {

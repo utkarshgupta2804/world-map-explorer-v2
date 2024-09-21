@@ -159,22 +159,13 @@ header {
     font-size: 16px;
 }
 #layers-dropdown {
-    display: none;
+  display: none;
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.695);
-    min-width: 120px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    margin-right: 370px;
+    margin-top: 60px;
+    
 }
-#layers-dropdown button {
-    color: white;
-    padding: 10px;
-    width: 100%;
-    text-align: left;
-    border: none;
-    background: none;
-    cursor: pointer;
-}
+
 #left-container{
     display: flex;
     position: fixed;
@@ -288,3 +279,42 @@ header {
   body{
     font-family: 'Kumbh Sans';
   }
+  .leaflet-control-scale-line {
+    pointer-events: none;
+   
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#geographical-layer{
+ position: absolute; 
+ margin-left: 105px;
+ color: black;
+ box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+ padding-left: 15px;
+
+}
+#political-layer{
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  padding-left: 50px;
+}
+#layers-dropdown button {
+  background-color: #000000b7;
+  color: white;
+  width: 100px;
+  height: 50px;
+  text-shadow: #000000;
+  padding-bottom: 0px;
+  padding-top: 30px;
+  border: 2px;
+  border-color: #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}

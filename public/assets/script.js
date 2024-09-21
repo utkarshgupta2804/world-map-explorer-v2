@@ -18,6 +18,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
   noWrap: true,
+  tabindex: 0,
 }).addTo(map);
 
 
@@ -73,10 +74,13 @@ map.getContainer().addEventListener('keydown', function (event) {
 // Event listener for zoom in
 document.getElementById('controls-box').querySelector('.fa-plus').addEventListener('click', function () {
   map.zoomIn();
+  updateLiveRegion(`zoom level. ${map.getZoom()}`)
 });
 // Event listener for zoom out
 document.getElementById('controls-box').querySelector('.fa-minus').addEventListener('click', function () {
   map.zoomOut();
+  updateLiveRegion(`zoom level. ${map.getZoom()}`)
+
 });
 //Event listener for navigation 
 
@@ -104,12 +108,28 @@ geographicalLayerBtn.addEventListener('click', function () {
   // Add your logic to switch to the geographical layer
   console.log('Switching to Geographical Layer');
   layersDropdown.style.display = 'none'; // Hide dropdown
+  L.tileLayer( "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+   
+  attribution:'Map data: &copy; <a href="https://www.opentopomap.org">OpenTopoMap</a>',
+    noWrap: true,
+    tabindex: 0,
+  }).addTo(map);
+  updateLiveRegion("switched to geograhical map")
 });
 // Event listener for political layer
 politicalLayerBtn.addEventListener('click', function () {
   // Add your logic to switch to the political layer
   console.log('Switching to Political Layer');
   layersDropdown.style.display = 'none'; // Hide dropdown
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+    noWrap: true,
+    tabindex: 0,
+  }).addTo(map);
+  updateLiveRegion("switched to political map")
+
 });
 
 function fetchindia() {
@@ -132,7 +152,7 @@ function updateLiveRegion(text, priority) {
   var id = "speak-" + Date.now();
   el.setAttribute("id", id);
   el.setAttribute("aria-live", priority || "polite");
-  //el.classList.add("visually-hidden");
+  el.classList.add("visually-hidden");
   document.body.appendChild(el);
 
   window.setTimeout(function () {

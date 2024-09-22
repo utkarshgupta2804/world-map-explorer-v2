@@ -53,7 +53,9 @@ function performSearch(inputField, placeid) {
       )
         .then((response) => response.json())
         .then((data) => {
+          
           clearInterval(Loadinginterval)
+          //    searchResults.focus()
           updateLiveRegion("select from result")
           searchResults.innerHTML = "";
           console.log(data.length)
@@ -71,7 +73,8 @@ function performSearch(inputField, placeid) {
 
               resolve(result); // Resolve the promise with the clicked result
             });
-            li.setAttribute("aria-label",`"${result.display_name}"`)
+            li.setAttribute("aria-atom",`"${result.display_name}"`)
+            li.setAttribute("tabindex","1")
             searchResults.appendChild(li);
 
           });
@@ -783,9 +786,10 @@ function placeappear(result) {
   det.innerHTML = '<h2 style="padding:50px;">Loading...</h2>'
   Loadinginterval = setInterval(notifyLoading, 2000);
   details = fetchDetails(result).then(data => {
-    det.innerHTML = data
     clearInterval(Loadinginterval)
-    updateLiveRegion("details ready")
+    //updateLiveRegion("details ready")
+    det.innerHTML = data
+
     det.focus()
 
   })

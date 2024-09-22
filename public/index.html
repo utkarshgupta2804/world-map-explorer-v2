@@ -35,7 +35,7 @@
     <div class="header-icons">
       <i class="fa fa-cog" title="Settings" id="settings-btn" style="display: none;"></i>
       <i class="fa fa-bookmark" title="Bookmark" id="bookmark-btn" style="display: none; "></i>
-      <i class="fa fa-question-circle" title="Help" id="help-btn" tabindex="1" aria-label="select for any help"  onclick="window.location.href='/public/user-guide/userguide.html';" style="cursor: pointer;"></i>
+      <i class="fa fa-question-circle" title="Help" id="help-btn" tabindex="1" aria-label="select for read user manual"  onclick="window.location.href='/public/user-guide/userguide.html';" style="cursor: pointer;"></i>
       <button id="login-btn" style="display: none;">Log In</button>
     </div>
   </div>
@@ -76,7 +76,7 @@
     Flat Map Distance: <span id="flatdistance"></span><br />
     <h3>coordinates:</h3>
     <pre></pre>
-    <span id="coordinates">
+    <span  id="coordinates">
       <span id="lat"></span><br />
       <span id="lng"></span>
     </span>
@@ -100,7 +100,7 @@
     <i class="fas fa-map-marked-alt" title="Choose from map" id="fromMap" tabindex="-1"></i>
     <i class="fas fa-arrow-circle-right" id="find" title="Find Distance" aria-label=" click to Find distance"
       tabindex="0"></i>
-    <div id="distanceResult" aria-live="polite">
+    <div tabindex="6" id="distanceResult" aria-live="polite">
       Distance : <span id="dist"></span><br />
       Time : <span id="time"></span>
     </div>

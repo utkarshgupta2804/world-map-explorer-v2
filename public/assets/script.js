@@ -56,6 +56,7 @@ function boundaryStyle(feature) {
 map.on("zoomend", function () {
   indiaBoundaries.removeFrom(map);
   addIndiaBoundaries();
+  updateLiveRegion(`zoom level ${map.getZoom()}`)
 });
 L.control.scale().addTo(map);
 

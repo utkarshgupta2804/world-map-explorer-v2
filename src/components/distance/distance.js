@@ -142,7 +142,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
             hrs + " Hours " + min + " Minutes";
           dist.text = 'Distance: ' + route.distance + " KM" + 'Time: ' + hrs + " Hours " + min + " Minutes";
         }
-        speechSynthesis.speak(dist);
+        updateLiveRegion(dist.text)
         document.getElementById("distanceResult").style.display = "block";
       } else {
 

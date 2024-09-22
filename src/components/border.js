@@ -22,15 +22,16 @@ function borderCheck(within50) {
                     if (crossedhigherlevel(oname, pname)) { //if crossed to higher level 
                         console.log(`${oname.display_name} crossed. ${nm.display_name} entered`);
                         
-                            quu+=`${oname.display_name} crossed. ${nm.display_name} entered`
+                            updateLiveRegion(`${oname.display_name} crossed. ${nm.display_name} entered`)
                         
                         // var message = new SpeechSynthesisUtterance(`${oname.display_name} crossed. ${nm.display_name} entered`);
                         // speechSynthesis.speak(message);
                     } else {
-                        console.log(`${oname.name} crossed. ${nm.name} entered`);
+                        console.log();
                         // var message = new SpeechSynthesisUtterance(`${oname.name} crossed. ${nm.name} entered`);
                         // speechSynthesis.speak(message);
-                        quu+=`${oname.display_name} crossed. ${nm.display_name} entered`
+                        updateLiveRegion(`${oname.name} crossed. ${nm.name} entered`)
+
 
                     }
                     if (wentfar >= 7) {
@@ -69,7 +70,7 @@ async function addpoly() {
         const signal = controller.signal;
 
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${threshold(map.getZoom())}`, { signal });
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, { signal });
             let data = await response.json();
             
             // Extract pname from the data

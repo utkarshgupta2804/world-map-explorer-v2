@@ -12,3 +12,8 @@
 - select a place on map - Enter
 - Say place name where marker located - F
 - say coordinates where marker located - Shift + F
+
+
+# command line 
+
+npx playwright test tests/file --headed 

@@ -1,0 +1,35 @@
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./tests",
+  timeout: 30000,
+  use: {
+    headless: true,
+    viewport: { width: 1280, height: 720 },
+    ignoreHTTPSErrors: true,
+    video: "retain-on-failure",
+    slowMo: 100, // Add 100ms delay between actions
+  },
+  projects: [
+    {
+      name: "Chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+    // {
+    //   name: "Firefox",
+    //   use: { ...devices["Desktop Firefox"] },
+    // },
+    // {
+    //   name: "WebKit",
+    //   use: { ...devices["Desktop Safari"] },
+    // },
+    // {
+    //   name: "Edge (Chromium)",
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //     channel: "msedge", // Use Microsoft Edge
+    //   },
+    // },
+  ],
+  reporter: [["list"], ["html", { outputFolder: "reports" }]],
+});

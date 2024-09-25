@@ -20,3 +20,11 @@
 # k6 
 - k6 run load-test.js( open the integrated terminal in the folder where test file is )
 
+# PS C:\Users\azhru\OneDrive\Documents\GitHub\WorldMapExplorer> git branch 
+  Accessibility
+  basic_layout
+  main
+  new_basic
+* shadil
+# PS C:\Users\azhru\OneDrive\Documents\GitHub\WorldMapExplorer> git checkout main
+M       src/components/search/search.js

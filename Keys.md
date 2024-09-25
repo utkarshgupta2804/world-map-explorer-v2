@@ -15,5 +15,8 @@
 
 
 # command line 
+- npx playwright test tests/file --headed
+- npx playwright test
+# k6 
+- k6 run load-test.js( open the integrated terminal in the folder where test file is )
 
-npx playwright test tests/file --headed 

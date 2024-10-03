@@ -1,7 +1,10 @@
 body {
     margin: 0;
 }
-
+button{
+  background: none;
+  border: none;
+}
 header {
     background:#ffffffdc;
     color: #6F0E0E;
@@ -68,16 +71,7 @@ header {
     display: none;
 }
 
-#search-bar {
-    padding: 3px;
-    text-align: left;
-    position: fixed;
-    width: 200px;
-    z-index: 1001; /* Place it above the map */
-    margin-top: 35px; /* Adjust as needed */
-    border-radius: 20px;
-    
-}
+
 
 #search-input {
     padding: 7px;
@@ -85,6 +79,8 @@ header {
     border-radius: 8px;
     background-color: #FFFFFF;
     border-color: rgb(73, 71, 71);
+    position: relative;
+    width:;
 }
 
 #controls-box {
@@ -103,7 +99,7 @@ header {
     box-shadow: 0 0 10px rgba(34, 33, 33, 0);
 }
 
-#controls-box i {
+#controls-box button {
     color: white;
     font-size: 20px;
     margin: 13px;
@@ -126,37 +122,34 @@ header {
   display: none;
   line-height: 22px;
 }
-.search-container {
+#search-container {
     position: relative;
     top: 50px;
     left: 10px;
     z-index: 1002;
-    display: flex;
+    display:flex;
     flex-direction: column;
+    align-items: baseline;
     max-width: 300px;
     border-radius: 8px;
+    height: fit-content;
 }
-#search-input {
-    padding: 8px;
-    margin-bottom: 5px;
-    border-radius: 8px;
-    
-} 
+ 
 #search-results {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 300px;
-    padding: 0;
-    margin-top: 0px;
-    z-index: 1005;
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    font-size: 16px;
+  list-style:none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 300px;
+  padding: 0;
+  margin-top: 0px;
+  z-index: 1005;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 16px;
 }
 #layers-dropdown {
   display: none;
@@ -182,7 +175,7 @@ header {
     background-color: white;
     border: 2px solid black;
     border-radius: 8px;
-    height: 20px;
+    height: fit-content;
     
 }
 #box{

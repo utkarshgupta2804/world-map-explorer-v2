@@ -100,8 +100,8 @@ function performSearch(inputField, placeid) {
   });
 }
 // Event listener for search input
-var ser=document.getElementsByClassName("search-container")
-ser[0].addEventListener('keydown', (event) => {
+var ser=document.getElementById("search-container")
+ser.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') { // Check if the Enter key was pressed
     //event.preventDefault();  // Prevent the default form submission (if needed)
     console.log(this)

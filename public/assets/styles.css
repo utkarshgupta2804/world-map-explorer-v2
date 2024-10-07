@@ -80,7 +80,7 @@ header {
     background-color: #FFFFFF;
     border-color: rgb(73, 71, 71);
     position: relative;
-    flex: 1;
+    width: 97%;
 }
 
 #controls-box {
@@ -125,9 +125,8 @@ header {
 #search-container {
     position: relative;
     top: 50px;
-    left: 10px;
     z-index: 1002;
-    display:flex;
+    display:flexbox;
     flex-direction: column;
     align-items: baseline;
     max-width: 300px;
@@ -200,6 +199,8 @@ header {
     position: relative;
     display: flexbox;
     align-items: center;
+    margin-left: 10px;
+
     margin-bottom: 20px;
   }
   .box-input #search-results {
@@ -207,7 +208,6 @@ header {
   }
 
   .box-input input {
-    margin-left: 10px;
     padding: 5px;
     flex: 1;
     border-radius: 6px;

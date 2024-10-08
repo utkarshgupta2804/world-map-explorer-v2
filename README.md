@@ -25,15 +25,20 @@ World Map Explorer is an inclusive and educational mapping tool designed for ind
 
 - **Inbound Navigation:** This feature keeps the marker locked within specific place boundaries, allowing for focused exploration that enhances understanding of the area.
 
+
+
+---
+
 ## Installation
 
-Follow these steps to get the project up and running on your local machine.
+Follow these steps to install and set up the project on your local machine.
 
 ### Prerequisites
 
 Ensure you have the following installed:
 - **Git:** For cloning the repository.
-- **Web Browser:** To view the `index.html` file.
+- **Node.js:** For running the server.
+- **Web Browser:** To view the application.
 
 ### Clone the Repository
 
@@ -50,20 +55,27 @@ Ensure you have the following installed:
     cd WorldMapExplorer
     ```
 
+---
+
 ## Usage
 
-1. After cloning the repository, navigate to the `public` directory:
+After that, follow these steps to run the application.
+
+### Start the Server
+
+1. Start the server with the following command:
 
     ```bash
-    cd public
+    node server.js
     ```
 
-2. Open the `index.html` file in your web browser:
+2. Once the server is running, the application will be accessible at:
 
-    ```bash
-    open index.html
+    ```
+    http://localhost:3000
     ```
 
-    Or double-click on the `index.html` file to open it in your default browser.
+3. Open this URL in your web browser to view and interact with the application.
+
 
 You’re done! You can now see the [detailed user manual](./public/user-guide/user-guide.md) for more information

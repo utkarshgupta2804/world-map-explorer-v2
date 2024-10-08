@@ -37,9 +37,7 @@ http.createServer((req, res) => {
   let filePath = path.join(publicDir, req.url === '/' ? 'index.html' : req.url);
 
   // Automatically load index.html when navigating to /userguide/
-  if (req.url === '/user-guide/' || req.url === '/user-guide') {
-    filePath = path.join(publicDir, 'user-guide/index.html');
-  }
+  
 
   // Ensure the file exists
   fs.exists(filePath, exists => {

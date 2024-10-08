@@ -2,9 +2,11 @@
 var mapContainer = document.getElementById("map");
 var placeids = []
 let i = 0
+var ser = document.querySelector(".box-input")
+
 // Function to handle search and update results
 function performSearch(inputField, placeid) {
- 
+
   return new Promise((resolve, reject) => {
     var query = inputField.value.trim();
     if (query.length <= 2) {
@@ -13,17 +15,15 @@ function performSearch(inputField, placeid) {
       }
     } else {
       document.addEventListener("click", function (event) {
-        // Clear search results when the map is clicked
         if (
-          !document
-            .getElementById("search-input")
-            .parentElement.contains(event.target)
+          !document.getElementById("search-input").parentElement.contains(event.target) 
         ) {
-          if (document.getElementById("search-results")) {
-            document.getElementById("search-results").remove();
+          if (!document.getElementById("searchbutton").contains(event.target)) {
+            document.getElementById("search-results") && document.getElementById("search-results").remove();
           }
         }
       });
+      
       if (placeid == "") { //for removing already shown
         placeids = []
         i = 0
@@ -35,25 +35,46 @@ function performSearch(inputField, placeid) {
       controllera = new AbortController();
       const signal = controllera.signal;
       let ul = inputField.nextElementSibling;
-          if (!ul || ul.tagName !== "UL") {
-            ul = document.createElement("ul");
-            ul.setAttribute("id", "search-results");
-            ul.setAttribute("tabindex", "7");
-            ul.setAttribute("aria-label", "select your result");
-            inputField.parentNode.insertBefore(ul, inputField.nextSibling);
-          }
-          var searchResults = document.getElementById("search-results");
-          
-          searchResults.innerHTML = '<h2  style="padding:10px; padding-left:50px">Loading...</h2>'
-          //searchResults.appendChild(det)
-          Loadinginterval = setInterval(notifyLoading, 2000);
+      if (!ul || ul.tagName !== "UL") {
+        ul = document.createElement("ul");
+        ul.setAttribute("id", "search-results");
+        ul.setAttribute("tabindex", "7");
+        ul.setAttribute("aria-label", "select your result");
+        inputField.parentNode.insertBefore(ul, inputField.nextSibling);
+      }
+
+
+    
+      var searchResults = document.getElementById("search-results");
+const dropdownMenuItems = searchResults.children
+let active = -1
+
+searchResults.parentElement.addEventListener('keydown', function (e) {
+  if (e.keyCode == 40) {
+    if (active < dropdownMenuItems.length-1) {
+      active++
+      dropdownMenuItems[active].focus()
+    }
+  }else if(e.keyCode == 38){
+    if (active > 0) {
+      active--
+      dropdownMenuItems[active].focus()
+    }
+  }else if(e.keyCode == 13){
+    dropdownMenuItems[active]?.click()
+
+  }
+})
+      searchResults.innerHTML = '<li style="justify-content: center;"><i class="fas fa-circle-notch fa-spin"></i></li>'
+      //searchResults.appendChild(det)
+      Loadinginterval = setInterval(notifyLoading, 2000);
       fetch(
         `https://nominatim.openstreetmap.org/search.php?q=${query}&format=jsonv2&exclude_place_ids=${placeid}`,
         { signal }
       )
         .then((response) => response.json())
         .then((data) => {
-          
+
           clearInterval(Loadinginterval)
           //    searchResults.focus()
           updateLiveRegion("select from result")
@@ -73,8 +94,8 @@ function performSearch(inputField, placeid) {
 
               resolve(result); // Resolve the promise with the clicked result
             });
-            li.setAttribute("aria-atom",`"${result.display_name}"`)
-            li.setAttribute("tabindex","1")
+            li.setAttribute("aria-atom", `"${result.display_name}"`)
+            li.setAttribute("tabindex", "1")
             searchResults.appendChild(li);
 
           });
@@ -86,7 +107,10 @@ function performSearch(inputField, placeid) {
           } else {
             var li = document.createElement("li");
             li.innerHTML = "More results"
+            li.setAttribute("tabindex", "1")
             li.addEventListener("click", function () {
+            document.getElementById("search-results").remove();
+
               performSearch(inputField, placeids.toString())
               searchResults.scrollTop = 0;
 
@@ -95,17 +119,26 @@ function performSearch(inputField, placeid) {
 
           }
         })
-        .catch((error) => reject(error)); // Reject the promise on errors
+        .catch((error) => reject(error))
+        .finally(()=>{
+          searchResults.focus()
+        }); // Reject the promise on errors
     }
   });
 }
 // Event listener for search input
-var ser=document.getElementById("search-container")
-ser.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') { // Check if the Enter key was pressed
-    //event.preventDefault();  // Prevent the default form submission (if needed)
-    console.log(this)
-    performSearch(document.getElementById("search-input"), "")
+
+
+
+
+//const dropdownToggle = document.querySelector('.dropdown-toggle')
+
+
+
+
+
+function mainsearchbar(){
+  performSearch(document.getElementById("search-input"), "")
       .then((result) => {
         placeappear(result) // Call fetchDetails with the clicked result
         //console.log(result)
@@ -114,8 +147,21 @@ ser.addEventListener('keydown', (event) => {
       .catch((error) => {
         console.error("Error fetching search results:", error);
       });
+}
+
+
+document.getElementById("search-input").addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') { // Check if the Enter key was pressed
+    //event.preventDefault();  // Prevent the default form submission (if needed)
+    //console.log(this)
+    mainsearchbar()
+
   }
 });
+document.getElementById("searchbutton").addEventListener('click', function(e){
+  mainsearchbar()
+
+})
 // document
 //   .getElementById("search-input")
 //   .addEventListener("input", function (event) {
@@ -149,11 +195,11 @@ async function geoJSON(type, id) {
     geoLayer.remove();
     delete centre;
   } //removing if there any already
- 
+
   result = osmtogeojson(result); //converting JSON to geoJSON
-  overp=result
+  overp = result
   let centre = turf.centerOfMass(result);
-  
+
   addmarker([centre.geometry.coordinates[1], centre.geometry.coordinates[0]]);
 
   //adding geoJSON to map
@@ -173,7 +219,7 @@ async function geoJSON(type, id) {
   });
   await map.fitBounds(geoLayer.getBounds()); //aligning the added layer to centre of the map
 
- 
+
   setTimeout(() => {
     geoLayer.addTo(map);
     place = geoLayer.toGeoJSON()
@@ -783,7 +829,7 @@ function placeappear(result) {
   }
   let det = document.getElementById("det")
   det.parentElement.style.display = "block"
-  det.innerHTML = '<h2 style="padding:50px;">Loading...</h2>'
+  det.innerHTML = '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></h2>'
   Loadinginterval = setInterval(notifyLoading, 2000);
   details = fetchDetails(result).then(data => {
     clearInterval(Loadinginterval)

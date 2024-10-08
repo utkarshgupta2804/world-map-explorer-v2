@@ -21,7 +21,8 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
           };
           console.log(beg);
           this.value = result.name;
-          document.getElementById("search-results").remove();
+          document.getElementById("search-results")?.remove();
+
           // You can now access the clicked result data here
         })
         .catch((error) => {
@@ -43,7 +44,8 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
         };
         console.log(des);
         this.value = result.name;
-        document.getElementById("search-results").remove();
+        document.getElementById("search-results")?.remove();
+
       
       })
       .catch((error) => {
@@ -94,6 +96,7 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
     document.getElementById("box").style.display = "none";
   });
   document.getElementById("find").addEventListener("click", function () {// calculate the distance using valhalla
+    document.getElementById("find").style.pointerEvents='none'
     let points = [beg, des];
     let route = FOSSGISValhallaEngine("route", "auto", points);
     route.getRoute(function (error, route) {
@@ -144,7 +147,10 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
         }
         updateLiveRegion(dist.text)
         document.getElementById("distanceResult").style.display = "block";
+    document.getElementById("find").style.pointerEvents='auto'
+
       } else {
+        console.log(error)
 
         if((document.getElementById("destination").value=='')||(document.getElementById("beginning").value=='')){
           alert("select places")

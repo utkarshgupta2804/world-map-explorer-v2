@@ -18,9 +18,7 @@ function performSearch(inputField, placeid) {
         if (
           !document.getElementById("search-input").parentElement.contains(event.target) 
         ) {
-          if (!document.getElementById("searchbutton").contains(event.target)) {
             document.getElementById("search-results") && document.getElementById("search-results").remove();
-          }
         }
       });
       

@@ -83,13 +83,13 @@ header {
     width: calc(100% - 15px);
 }
 #searchbutton{
-  z-index: 1500;
-  position: absolute;
+  z-index: 1540;
+  position: static;
   float:right;
-  margin-top: 57px;
-  margin-left: calc(100% - 65px);
+  margin-left: calc(100% - 25px);
   opacity: .5;
   cursor: pointer;
+  margin-top: -100%;
   
 }
 #controls-box {

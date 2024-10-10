@@ -10,40 +10,45 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
   }
   let des, beg;
   let lgrp;
-  
+  function beginning() {
+    let aaa = document.getElementById("beginning");  
+    performSearch(aaa, "")
+    .then((result) => {
+      beg = {
+        lat: parseFloat(result.lat),
+        lon: parseFloat(result.lon),
+      };
+      console.log(beg);
+      aaa.value = result.name;
+      document.getElementById("search-results")?.remove();
+
+      // You can now access the clicked result data here
+    })
+    .catch((error) => {
+      console.error("Error fetching search results:", error);
+    });
+  }
     document.getElementById("beginning").addEventListener("keydown", function () { // store beginning location
       if (event.key === 'Enter') {
-        performSearch(this, "")
-        .then((result) => {
-          beg = {
-            lat: parseFloat(result.lat),
-            lon: parseFloat(result.lon),
-          };
-          console.log(beg);
-          this.value = result.name;
-          document.getElementById("search-results")?.remove();
-
-          // You can now access the clicked result data here
-        })
-        .catch((error) => {
-          console.error("Error fetching search results:", error);
-        });
+       beginning()
       }
       
   
    
     });
-
-    document.getElementById("destination").addEventListener("keydown", function () { // store beginning location
-      if (event.key === 'Enter') {
-        performSearch(this, "")
+    document.getElementById("b-searchbutton").addEventListener("click", () => { // store beginning location 
+      beginning()
+    });
+    function destination() {
+      let aaa = document.getElementById("destination");
+      performSearch(aaa, "")
       .then((result) => {
         des = {
           lat: parseFloat(result.lat),
           lon: parseFloat(result.lon),
         };
         console.log(des);
-        this.value = result.name;
+        aaa.value = result.name;
         document.getElementById("search-results")?.remove();
 
       
@@ -51,12 +56,18 @@ document.getElementById("trigger-icon").addEventListener("click", function () {/
       .catch((error) => {
         console.error("Error fetching search results:", error);
       });
+    }
+    document.getElementById("destination").addEventListener("keydown", function () { // store beginning location
+      if (event.key === 'Enter') {
+        destination()
       }
       
   
    
     });
-
+    document.getElementById("d-searchbutton").addEventListener("click", () => { // store beginning location
+      destination()
+    });
   document.addEventListener("click", function (event) {// store point from map
     if (event.target.id == "beginning" || event.target.id == "destination") {
       focusedIn = document.activeElement;

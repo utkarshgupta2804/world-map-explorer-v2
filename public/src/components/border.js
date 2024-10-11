@@ -157,7 +157,18 @@ function crossedhigherlevel(cro, ent) {
         }
     }
 }
-addmarker([10.903219337541, 76.43448118177776])
+fetch('http://ip-api.com/json/')
+.then(response => response.json())
+.then(data => {
+  addmarker([data.lat, data.lon])
+  map.panTo([data.lat, data.lon])
+
+
+})
+.catch(error => {
+  console.error('Error fetching location data:', error);
+});
+
 mape.addEventListener("focusin",()=>{
     findplacename(marker).then((place)=>{
         updateLiveRegion(`now marker is in ${place}`)

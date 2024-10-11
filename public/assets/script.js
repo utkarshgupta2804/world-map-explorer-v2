@@ -12,7 +12,7 @@ fetch('boundary.geojson')
 var map = L.map('map',{
   keyboardPanDelta: 0
 
-}).setView([34, 80], 4);
+}).setView([34, 80], 7);
 // add the OpenStreetMap tiles
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,

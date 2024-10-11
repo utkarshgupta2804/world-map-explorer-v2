@@ -30,6 +30,7 @@ document.addEventListener("click", function (event) {
         document.getElementById("search-results").remove();
     }
   }
+  
 });
 // Function to handle search and update results
 function performSearch(inputField, placeid) {

@@ -113,28 +113,7 @@ header {
   bottom: 0;
   
 }
-#controls-box {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translate(0, -50%);
-    background-color: rgba(0, 0, 0, 0.695);
-    padding: 1px;
-    border-radius: 10px 0 0 10px;
-    z-index: 1001;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(34, 33, 33, 0);
-}
 
-#controls-box button {
-    color: white;
-    font-size: 20px;
-    margin: 13px;
-    cursor: pointer;
-}
 
 #map {
     height: 100vh;
@@ -203,13 +182,7 @@ header {
   background-color: #FFFFFF;
   cursor: text;
 }
-#layers-dropdown {
-  display: none;
-    position: absolute;
-    margin-right: 370px;
-    margin-top: 60px;
-    
-}
+
 
 #left-container{
     display: flex;
@@ -318,17 +291,35 @@ header {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
-#geographical-layer{
- position: absolute; 
- margin-left: 105px;
- color: black;
- box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
- padding-left: 15px;
-
+#controls-box {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  background-color: rgba(0, 0, 0, 0.695);
+  padding: 1px;
+  border-radius: 10px 0 0 10px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(34, 33, 33, 0);
 }
-#political-layer{
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  padding-left: 50px;
+
+#controls-box .fa {
+  color: white;
+  font-size: 20px;
+  margin: 13px;
+  cursor: pointer;
+}
+#layers-dropdown {
+  display: none;
+    position: absolute;
+    margin-right: 378px;
+    margin-top: 60px;
+
+    
 }
 #layers-dropdown button {
   background-color: #000000b7;
@@ -342,7 +333,21 @@ header {
   border-color: #000000;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 10px;
 }
+#geographical-layer{
+ position: absolute; 
+ margin-left: 105px;
+ color: black;
+ box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+ padding-left: 15px;
+
+}
+#political-layer{
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  padding-left: 50px;
+}
+
 .dist-input{
   margin-left: 7px;
   padding: 3px;

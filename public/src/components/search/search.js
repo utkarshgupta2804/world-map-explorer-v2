@@ -2,27 +2,50 @@
 var mapContainer = document.getElementById("map");
 var placeids = []
 let i = 0
+let active = -1
 var ser = document.querySelector(".box-input")
+ function keyboardselect(e){
+  if (e.keyCode == 40) {
+    if (active < this.querySelector("#search-results").children.length-1) {
+      active++
+      this.querySelector("#search-results").children[active].focus()
+    }
+  }else if(e.keyCode == 38){
+    if (active > 0) {
+      active--
+      this.querySelector("#search-results").children[active].focus()
+    }
+  }else if(e.keyCode == 13){
+    this.querySelector("#search-results").children[active]?.click()
 
+  }
+}
+document.addEventListener("click", function (event) {
+  if(document.getElementById("search-results")){
+    if (
+      !(event.target.closest(".box-input") || event.target.closest("#search-results"))
+    ) {
+      document.getElementById("search-results").parentElement.removeEventListener('keydown', keyboardselect)
+
+        document.getElementById("search-results").remove();
+    }
+  }
+  
+});
 // Function to handle search and update results
 function performSearch(inputField, placeid) {
 
   return new Promise((resolve, reject) => {
+    active = -1
     var query = inputField.value.trim();
     if (query.length <= 2) {
       if (document.getElementById("search-results")) {
+      document.getElementById("search-results").parentElement.removeEventListener('keydown', keyboardselect)
+
         document.getElementById("search-results").remove();
       }
     } else {
-      document.addEventListener("click", function (event) {
-        if (
-          !document.getElementById("search-input").parentElement.contains(event.target) 
-        ) {
-          if (!document.getElementById("searchbutton").contains(event.target)) {
-            document.getElementById("search-results") && document.getElementById("search-results").remove();
-          }
-        }
-      });
+      
       
       if (placeid == "") { //for removing already shown
         placeids = []
@@ -40,31 +63,15 @@ function performSearch(inputField, placeid) {
         ul.setAttribute("id", "search-results");
         ul.setAttribute("tabindex", "7");
         ul.setAttribute("aria-label", "select your result");
-        inputField.parentNode.insertBefore(ul, inputField.nextSibling);
+        inputField.parentElement.parentNode.insertBefore(ul, inputField.parentNode.nextSibling);
       }
 
 
     
       var searchResults = document.getElementById("search-results");
-const dropdownMenuItems = searchResults.children
-let active = -1
 
-searchResults.parentElement.addEventListener('keydown', function (e) {
-  if (e.keyCode == 40) {
-    if (active < dropdownMenuItems.length-1) {
-      active++
-      dropdownMenuItems[active].focus()
-    }
-  }else if(e.keyCode == 38){
-    if (active > 0) {
-      active--
-      dropdownMenuItems[active].focus()
-    }
-  }else if(e.keyCode == 13){
-    dropdownMenuItems[active]?.click()
 
-  }
-})
+searchResults.parentElement.addEventListener('keydown', keyboardselect)
       searchResults.innerHTML = '<li style="justify-content: center;"><i class="fas fa-circle-notch fa-spin"></i></li>'
       //searchResults.appendChild(det)
       Loadinginterval = setInterval(notifyLoading, 2000);
@@ -109,9 +116,13 @@ searchResults.parentElement.addEventListener('keydown', function (e) {
             li.innerHTML = "More results"
             li.setAttribute("tabindex", "1")
             li.addEventListener("click", function () {
+      document.getElementById("search-results").parentElement.removeEventListener('keydown', keyboardselect)
+
             document.getElementById("search-results").remove();
 
-              performSearch(inputField, placeids.toString())
+              performSearch(inputField, placeids.toString()).then((result) => {
+                resolve(result)
+              })
               searchResults.scrollTop = 0;
 
             });
@@ -138,6 +149,10 @@ searchResults.parentElement.addEventListener('keydown', function (e) {
 
 
 function mainsearchbar(){
+  if(document.getElementById("search-results")){
+    document.getElementById("search-results").parentElement.removeEventListener('keydown', keyboardselect)
+    document.getElementById("search-results").remove();
+  }
   performSearch(document.getElementById("search-input"), "")
       .then((result) => {
         placeappear(result) // Call fetchDetails with the clicked result
@@ -669,7 +684,7 @@ async function fetchPrefix(result) {
   var tags = result;
   var prefix = "";
 
-  const response = await fetch("../src/components/search/prefix.json");
+  const response = await fetch("src/components/search/prefix.json");
   const data = await response.json();
 
   if (tags.boundary === "administrative" && tags.admin_level) {
@@ -825,6 +840,7 @@ document.getElementById("closeBtnD").addEventListener('click', function () {
 function placeappear(result) {
   geoJSON(result.osm_type, result.osm_id);
   if (document.getElementById("search-results")) {
+    document.getElementById("search-results").parentElement.removeEventListener('keydown', keyboardselect)
     document.getElementById("search-results").remove();
   }
   let det = document.getElementById("det")

@@ -1,5 +1,63 @@
 
+// disclaimer part
 
+const disclaimer = document.createElement('div');
+disclaimer.id = 'disclaimer';
+disclaimer.setAttribute('role', 'alert');
+disclaimer.setAttribute('aria-label', 'Disclaimer');
+
+const message = document.createElement('p');
+message.setAttribute("tabindex", 1);
+message.setAttribute("aria-atom","true");
+message.id = 'messagec';
+const messageContainer = document.createElement('div');
+messageContainer.id='message';
+message.innerHTML = `<p>
+    <strong>Welcome to World Map Explorer</strong><br><br>
+    Please note the following:<br>
+    <ol>
+        <li>This application uses OpenStreetMap (OSM) data for map information.</li>
+        <li>OSM is responsible for the maintenance and accuracy of the map.</li>
+        <li>The routing engine used in this application is Valhalla, which provides navigation routes.</li>
+        <li>For users navigating markers:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;- On GNU/Linux systems, please use <strong>Focus Mode</strong>.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;- On Windows, disable <strong>Scan Mode</strong> for proper marker navigation.</li>
+        <li>By using this application, you agree to the terms and limitations of OSM and Valhalla routing services.</li>
+    </ol>
+    Thank you for using World Map Explorer!
+</p>
+`;
+
+const closeButton = document.createElement('button');
+closeButton.id = 'close-button';
+closeButton.setAttribute('aria-label', 'Close Disclaimer');
+closeButton.textContent = 'X';
+
+closeButton.addEventListener('click', () => {
+  document.removeEventListener('keydown', handleKeyDown);
+  disclaimer.remove();
+});
+
+message.appendChild(closeButton);
+
+messageContainer.appendChild(message);
+disclaimer.appendChild(messageContainer);
+document.body.prepend(disclaimer);
+function handleKeyDown(event) {
+  if (event.keyCode === 9) {
+    event.preventDefault();
+      if(document.activeElement.id === 'messagec'){
+        closeButton.focus();
+        console.log('close button focused')
+      }
+      else if(document.activeElement.id === 'close-button'){
+        message.focus();
+        console.log('message focused')
+      }
+  }
+}
+document.addEventListener('keydown', handleKeyDown);
+// disclaimer part ends
 
 var indiaBoundayLines
 fetch('boundary.geojson')

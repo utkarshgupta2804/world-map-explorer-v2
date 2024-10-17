@@ -3,7 +3,14 @@ var mapContainer = document.getElementById("map");
 var placeids = []
 let i = 0
 let active = -1
+const osmIds = [307573, 270056, 153310, 2748339, 2748436, 1997914, 153292];
+const bbox = L.latLngBounds(
+  L.latLng(31.579199916145, 71.366088444458),  // Southwest corner (minLat, minLon)
+  L.latLng(37.596155337118,80.442480694206)   // Northeast corner (maxLat, maxLon)
+);
+
 var ser = document.querySelector(".box-input")
+const successSound= new Audio('sucessfull.mp3')
  function keyboardselect(e){
   if (e.keyCode == 40) {
     if (active < this.querySelector("#search-results").children.length-1) {
@@ -84,6 +91,7 @@ searchResults.parentElement.addEventListener('keydown', keyboardselect)
 
           clearInterval(Loadinginterval)
           //    searchResults.focus()
+          successSound.play()
           updateLiveRegion("select from result")
           searchResults.innerHTML = "";
           console.log(data.length)
@@ -212,10 +220,18 @@ async function geoJSON(type, id) {
   } //removing if there any already
 
   result = osmtogeojson(result); //converting JSON to geoJSON
-  overp = result
+  if (result.features[0].properties.name === "India") {
+    result = await fetchindia();
+}
+  osmIds.forEach((value)=>{ // deduct kashmir parts from china and pak
+    if (value==id){
+      result = turf.difference(result.features[0], Kashmir.features[0]);
+    }
+  })
   let centre = turf.centerOfMass(result);
-
-  addmarker([centre.geometry.coordinates[1], centre.geometry.coordinates[0]]);
+centre =L.latLng([centre.geometry.coordinates[1], centre.geometry.coordinates[0]])
+  addmarker(centre);
+  console.log(result)
 
   //adding geoJSON to map
   geoLayer = L.geoJSON(result, {
@@ -824,11 +840,12 @@ async function fetchRiverDetails(osm_type, osm_id, tagsa, resulta) {
   }
 }
 //clearing searchdetails box when not in use
-function clearSearchDetails() {
-  document.getElementById("searchdetails").style.display = "none";
-  document.getElementById("searchdetails").innerHTML = "";
-}
+// function clearSearchDetails() {
+//   document.getElementById("searchdetails").style.display = "none";
+//   document.getElementById("searchdetails").innerHTML = "";
+// }
 document.getElementById("closeBtnD").addEventListener('click', function () {
+  closeSound.play()
   document.getElementById("searchdetails").style.display = "none";
   if (geoLayer != null) {
     geoLayer.remove();
@@ -837,7 +854,7 @@ document.getElementById("closeBtnD").addEventListener('click', function () {
   //document.getElementById("searchdetails").innerHTML = "";
 
 })
-function placeappear(result) {
+async function placeappear(result) {
   geoJSON(result.osm_type, result.osm_id);
   if (document.getElementById("search-results")) {
     document.getElementById("search-results").parentElement.removeEventListener('keydown', keyboardselect)
@@ -847,12 +864,35 @@ function placeappear(result) {
   det.parentElement.style.display = "block"
   det.innerHTML = '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></h2>'
   Loadinginterval = setInterval(notifyLoading, 2000);
-  details = fetchDetails(result).then(data => {
-    clearInterval(Loadinginterval)
-    //updateLiveRegion("details ready")
-    det.innerHTML = data
-
+  details = fetchDetails(result).then(async data => {
+    successSound.play()
+    updateLiveRegion("details ready")
+    
+    if(await isInindiaKashmir(result)){
+      det.innerHTML='No data found for this region'
+    }else{
+      det.innerHTML=data
+    }
     det.focus()
 
+  }).catch((error)=>{
+    console.error(error)
+  }).finally(()=>{
+    clearInterval(Loadinginterval)
   })
+}
+
+async function isInindiaKashmir(result){
+  if(bbox.contains(marker.getLatLng())){
+    const addressData = await fetch(`https://nominatim.openstreetmap.org/details.php?osmtype=${result.osm_type.trim().charAt(0).toUpperCase()}&osmid=${result.osm_id}&addressdetails=1&format=json`)
+.then(response => response.json());
+
+    if((leafletPip.pointInLayer(marker.getLatLng(), L.geoJson(Kashmir)).length > 0) && addressData.country_code!='in'){ //make no data for pak-kasmir
+      return true
+    }else{
+      return false
+    }
+  }else{
+    return false
+  }
 }

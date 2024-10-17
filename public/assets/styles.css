@@ -123,7 +123,7 @@ header {
   bottom: 50px;
   left: 15px;
   color: white;
-  background-color: #6F0E0E;
+  background-color: #6f0e0edb;
   border: 1px solid black;
   padding: 10px;
   border-radius: 5px;
@@ -281,16 +281,7 @@ header {
     pointer-events: none;
    
 }
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
+
 #controls-box {
   position: fixed;
   top: 50%;
@@ -409,4 +400,38 @@ header {
   font-size: 16px;
   cursor: pointer;
   color: #ffffff;
+}
+
+#live-region-container{
+  z-index: 1900;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: 100px;
+  margin-bottom: 50px;
+  width: fit-content;
+  display: flex;
+  overflow: hidden;
+  max-height: 30vh;
+  flex-direction:column;
+}
+#status-bar{
+  border: #000000 1px solid;
+  padding: 20px;
+  width: 180px;
+  font-size: medium;
+  border-radius: 3px;
+  margin: 1.5px;
+  background-color: #6f0e0edb;
+  color: #efeaea;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

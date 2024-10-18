@@ -44,9 +44,6 @@
 </header>
 
 <body>
-  <div aria-live="polite" role="status" id="live-region" style="visibility: hidden; display: none;">
-    <!-- Content that will be announced by screen readers -->
-  </div>
   <div id="left-container">
     <div class="box-input" id="search-container" aria-label="search places">
       <div id="c-search-input"> <input type="text" tabindex="1" id="search-input" placeholder="Search Places" />
@@ -122,7 +119,11 @@
     <p style="font-size: 10px;" class="text-center"><br>Directions courtesy of <a
         href="https://gis-ops.com/global-open-valhalla-server-online/" target="_blank">Valhalla (FOSSGIS)</a></p>
   </div>
+  
   <div tabindex="1" aria-label="focused on map. use arrow keys to navigate" id="map"></div>
+  
 </body>
-
+<footer>
+  <div id="status-bar"></div>
+</footer>
 </html>

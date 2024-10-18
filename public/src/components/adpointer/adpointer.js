@@ -38,7 +38,7 @@ L.AdPointer = L.Layer.extend({
                         sel=true
                         da = 'Distance'
                     }
-                    updateLiveRegion(da)
+                    updateLiveRegion(da,true)
 
                     break;
                 case 'w':

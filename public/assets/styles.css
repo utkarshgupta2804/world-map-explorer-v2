@@ -116,14 +116,14 @@ header {
 
 
 #map {
-    height: 100vh;
+    height: calc(100vh - 22px);
 }
 #infoBox {
   position: absolute; /* Position it in the corner */
   bottom: 50px;
   left: 15px;
   color: white;
-  background-color: #6F0E0E;
+  background-color: #6f0e0edb;
   border: 1px solid black;
   padding: 10px;
   border-radius: 5px;
@@ -260,7 +260,7 @@ header {
     line-height: 25px;
     color: white;
   }
-  li{
+  #search-results li{
     cursor: pointer;
     margin: 3.5px;
     background-color: #efeaea;
@@ -270,7 +270,7 @@ header {
     display: flex;
     
   }
-  li:hover{
+  #search-results li:hover{
     background-color: rgb(223, 242, 236);
   }
   
@@ -281,16 +281,7 @@ header {
     pointer-events: none;
    
 }
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
+
 #controls-box {
   position: fixed;
   top: 50%;
@@ -375,4 +366,61 @@ header {
   opacity: .5;
   cursor: pointer;
   
+}
+#disclaimer {
+  position:fixed;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f9edbe92;
+  padding: 15px;
+  justify-content: center;
+  z-index: 2000;
+}
+#disclaimer li{
+  background: none;
+}
+#message {
+ position: relative;
+  color: #f2eeee;
+  background-color: #6F0E0E;
+  justify-content: center;
+  padding: 30px;
+  margin: 0;
+  max-width: 60%;
+}
+#disclaimer button { 
+  position: absolute;
+  top:0;
+  right: 0;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+
+#status-bar{
+  border: #000000 1px solid;
+  padding: 4px;
+  width: calc(100% - 10px);
+  height: 12px;
+  font-size: 11px;
+  font-style: bold;
+  background-color: #683333;
+  color: #ffffff;
+  position: relative;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

@@ -4,13 +4,13 @@ let lgrp;
 document.getElementById("trigger-icon").addEventListener("click", function (e) {// open the distance box when clicking on find distance button
   document.getElementById("box").style.display = "block";
   if (document.getElementById("closeBtnD")) {
-    document.getElementById("closeBtnD").click()// close search details box
+    document.getElementById('searchdetails').style.display=="block" && document.getElementById("closeBtnD").click()// close search details box
   }
   if (AdPointer) {
     AdPointer.remove()
     AdPointer = null
   }
- 
+ successSound.play()
 });    
 
 function beginning() {
@@ -104,6 +104,7 @@ document.getElementById("closeBtn").addEventListener("click", function () { //on
   if (lgrp) {
     lgrp.remove();
   }
+  closeSound.play()
   document.getElementById("distanceResult").style.display = "none";
   document.getElementById("beginning").value = "";
   document.getElementById("destination").value = "";

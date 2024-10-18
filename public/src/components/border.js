@@ -22,7 +22,7 @@ function borderCheck(within50) {
                     if (crossedhigherlevel(oname, pname)) { //if crossed to higher level 
                         console.log(`${oname.display_name} crossed. ${nm.display_name} entered`);
                         
-                            updateLiveRegion(`${oname.display_name} crossed. ${nm.display_name} entered`)
+                            updateLiveRegion(`${oname.display_name} crossed. ${nm.display_name} entered`,true)
                         
                         // var message = new SpeechSynthesisUtterance(`${oname.display_name} crossed. ${nm.display_name} entered`);
                         // speechSynthesis.speak(message);
@@ -30,7 +30,7 @@ function borderCheck(within50) {
                         console.log();
                         // var message = new SpeechSynthesisUtterance(`${oname.name} crossed. ${nm.name} entered`);
                         // speechSynthesis.speak(message);
-                        updateLiveRegion(`${oname.name} crossed. ${nm.name} entered`)
+                        updateLiveRegion(`${oname.name} crossed. ${nm.name} entered`,true)
 
 
                     }
@@ -70,7 +70,10 @@ async function addpoly() {
         const signal = controller.signal;
 
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, { signal });
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, {
+                signal: signal, // The signal object for cancellation
+                referrerPolicy: "strict-origin-when-cross-origin" // The referrer policy
+            })
             let data = await response.json();
             
             // Extract pname from the data
@@ -80,6 +83,15 @@ async function addpoly() {
             if (data.features[0].properties.name === "India") {
                 data = await fetchindia();
             }
+            if(await isInindiaKashmir(pname)){
+            pname = { name: "India", display_name: "India" };
+            data = await fetchindia();
+            }
+            osmIds.forEach((value)=>{
+                if (value==pname.osm_id){
+                  data = turf.difference(data.features[0], Kashmir.features[0]);
+                }
+              })
             poly && poly.remove()
             // Create and add the GeoJSON layer to the map
              poly = L.geoJson(data, {
@@ -101,6 +113,7 @@ async function addpoly() {
                 }
             } else if (error instanceof TypeError) {
                 // Handle TypeError
+
                 pname = { name: "sea(mostly)", display_name: "sea(mostly)" };
             } else {
                 // Log other errors
@@ -157,20 +170,10 @@ function crossedhigherlevel(cro, ent) {
         }
     }
 }
-fetch('http://ip-api.com/json/')
-.then(response => response.json())
-.then(data => {
-  addmarker([data.lat, data.lon])
-  map.panTo([data.lat, data.lon])
-
-
-})
-.catch(error => {
-  console.error('Error fetching location data:', error);
-});
+addmarker([10.16,76.64])
 
 mape.addEventListener("focusin",()=>{
     findplacename(marker).then((place)=>{
-        updateLiveRegion(`now marker is in ${place}`)
+        updateLiveRegion(`now marker is in ${place}`,true)
     })
   })

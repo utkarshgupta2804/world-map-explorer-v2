@@ -5,6 +5,7 @@ let timeout
 let old
 
 const clickSound = new Audio('click.wav');
+const closeSound = new Audio('close.flac');
 var pane = map.createPane('customPane')
 map.getPane('customPane').style.zIndex = 1000; //for control z index of marker
 
@@ -16,6 +17,7 @@ function addmarker(coord) {
         AdPointer.remove()
         AdPointer = null
         updateLiveRegion(`Adjustable pointer off`)
+        closeSound.play()
 
     }
     if (marker) {
@@ -32,7 +34,7 @@ function addmarker(coord) {
 
         }).addTo(map)
         findplacename(marker).then((place)=>{
-            updateLiveRegion(`marker is on ${place}. use arrow keys to navigate`)
+            updateLiveRegion(`marker is on ${place}. use arrow keys to navigate`,true)
         })
         //marker.getElement().setAttribute('tabindex', '0')
         //marker.getElement().setAttribute('title', 'marker')
@@ -109,7 +111,7 @@ function addAdPointer(coord) {
     if (!AdPointer) {
         AdPointer = new L.AdPointer(coord); // distance in meters, angle in degrees
         AdPointer.addTo(map);
-        updateLiveRegion(`Adjustable pointer on. use key 'A' to change between angle and distance. use keys 'W' and 'S' to increase and decrease values`)
+        updateLiveRegion(`Adjustable pointer on. use key 'A' to change between angle and distance. use keys 'W' and 'S' to increase and decrease values`,true)
 
         if (poly) {
             poly.remove()
@@ -159,8 +161,16 @@ const throttledFunction = _.throttle((event) => {
 
     if (event.key == 'a' || event.key == 'w' || event.key == 's') {//enable adpointer
         event.preventDefault();
-        if (marker) {
-            addAdPointer(marker.getLatLng())
+        if (event.altKey && event.key === 's') {
+            // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+            event.preventDefault();
+            
+            // Focus on the search bar element
+            document.getElementById('search-input')?.focus() // Adjust the ID to match your HTML element
+        }else{
+            if (marker) {
+                addAdPointer(marker.getLatLng())
+            }
         }
     }
     if (event.code == 'KeyF' || event.code == 'Enter') { //for stating place name and select place 
@@ -174,7 +184,7 @@ const throttledFunction = _.throttle((event) => {
         }
         findplacename(pointer, event).then(nm => {
             console.log(nm)
-            updateLiveRegion(nm)
+            updateLiveRegion(nm,true)
         })
     }
     if (event.code == 'KeyZ') { // for stating zoom value
@@ -183,7 +193,7 @@ const throttledFunction = _.throttle((event) => {
             let scale = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 10
             let zoom = scale < 1000 ? parseInt(scale) + ' meters' : parseInt(scale / 1000) + ' Kilo meters'
             console.log(zoom)
-            updateLiveRegion(zoom)
+            updateLiveRegion(zoom+'per key press',true)
 
         } catch (error) {
             alert('add marker first')
@@ -271,28 +281,28 @@ const throttledFunction = _.throttle((event) => {
                 case 'ArrowUp':
                     dis = northDistance < 1000 ? parseInt(northDistance) + ' meters' : parseInt(northDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    updateLiveRegion(dis)
+                    updateLiveRegion(dis+' to north',true)
 
                     break;
 
                 case 'ArrowDown':
                     dis = southDistance < 1000 ? parseInt(southDistance) + ' meters' : parseInt(southDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    updateLiveRegion(dis)
+                    updateLiveRegion(dis+' to south',true)
 
                     break;
 
                 case 'ArrowLeft':
                     dis = eastDistance < 1000 ? parseInt(eastDistance) + ' meters' : parseInt(eastDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    updateLiveRegion(dis)
+                    updateLiveRegion(dis+' to east',true)
 
                     break;
 
                 case 'ArrowRight':
                     dis = westDistance < 1000 ? parseInt(westDistance) + ' meters' : parseInt(westDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    updateLiveRegion(dis)
+                    updateLiveRegion(dis+' to west',true)
                     break;
 
             }
@@ -305,7 +315,7 @@ const throttledFunction = _.throttle((event) => {
         updateLiveRegion(quu)
         quu=""
         flag3 && findplacename(marker).then((place)=>{
-            updateLiveRegion(place)
+            updateLiveRegion(place,true)
         })
       }, 650);
 
@@ -327,9 +337,13 @@ async function findplacename(point, event) {
         if (event ? event.shiftKey : event) {
             return marker.getLatLng().lat.toFixed(5) + ' North, ' + marker.getLatLng().lng.toFixed(5) + ' West'
         } else {
-            await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
+            await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`,{
+
+                referrerPolicy: "strict-origin-when-cross-origin"
+
+        })
                 .then(response => response.json())
-                .then(data => {
+                .then(async data => {
                     if (event?.code == "Enter") {
                         //console.log(data)
                         if(AdPointer){
@@ -345,7 +359,14 @@ async function findplacename(point, event) {
                     if (data.error == "Unable to geocode") {
                         name = 'Sea'
                     }
-                })
+                    if(await isInindiaKashmir(data)){
+                        console.log(data)
+                        name="India"
+                    }
+                }).catch(error => {
+                    console.error("Error in fetching place name:", error);
+                }
+                )
         }
         return name
     } else {
@@ -362,7 +383,20 @@ document.addEventListener("keydown",function(event){
         console.log("heloo esc")
     document.getElementById("closeBtnD").click()// close search details box
     document.getElementById("closeBtn").click()// close search details box
-    updateLiveRegion(`closed`,"assertive")
+    updateLiveRegion(`closed`,false,"assertive")
+    }
+    if (event.altKey && event.key === 's') {
+        // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+        event.preventDefault();
+        
+        // Focus on the search bar element
+        document.getElementById('search-input')?.focus() // Adjust the ID to match your HTML element
+    }if (event.altKey && event.key == 'l') {
+        // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+        event.preventDefault();
+        
+        // Focus on the search bar element
+        document.getElementById('fromMap')?.click() // Adjust the ID to match your HTML element
     }
 })
 

@@ -161,8 +161,16 @@ const throttledFunction = _.throttle((event) => {
 
     if (event.key == 'a' || event.key == 'w' || event.key == 's') {//enable adpointer
         event.preventDefault();
-        if (marker) {
-            addAdPointer(marker.getLatLng())
+        if (event.altKey && event.key === 's') {
+            // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+            event.preventDefault();
+            
+            // Focus on the search bar element
+            document.getElementById('search-input')?.focus() // Adjust the ID to match your HTML element
+        }else{
+            if (marker) {
+                addAdPointer(marker.getLatLng())
+            }
         }
     }
     if (event.code == 'KeyF' || event.code == 'Enter') { //for stating place name and select place 
@@ -329,9 +337,13 @@ async function findplacename(point, event) {
         if (event ? event.shiftKey : event) {
             return marker.getLatLng().lat.toFixed(5) + ' North, ' + marker.getLatLng().lng.toFixed(5) + ' West'
         } else {
-            await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`)
+            await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`,{
+
+                referrerPolicy: "strict-origin-when-cross-origin"
+
+        })
                 .then(response => response.json())
-                .then(data => {
+                .then(async data => {
                     if (event?.code == "Enter") {
                         //console.log(data)
                         if(AdPointer){
@@ -347,10 +359,14 @@ async function findplacename(point, event) {
                     if (data.error == "Unable to geocode") {
                         name = 'Sea'
                     }
-                    if(isInindiaKashmir(data)){
+                    if(await isInindiaKashmir(data)){
+                        console.log(data)
                         name="India"
                     }
-                })
+                }).catch(error => {
+                    console.error("Error in fetching place name:", error);
+                }
+                )
         }
         return name
     } else {
@@ -368,6 +384,19 @@ document.addEventListener("keydown",function(event){
     document.getElementById("closeBtnD").click()// close search details box
     document.getElementById("closeBtn").click()// close search details box
     updateLiveRegion(`closed`,false,"assertive")
+    }
+    if (event.altKey && event.key === 's') {
+        // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+        event.preventDefault();
+        
+        // Focus on the search bar element
+        document.getElementById('search-input')?.focus() // Adjust the ID to match your HTML element
+    }if (event.altKey && event.key == 'l') {
+        // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+        event.preventDefault();
+        
+        // Focus on the search bar element
+        document.getElementById('fromMap')?.click() // Adjust the ID to match your HTML element
     }
 })
 

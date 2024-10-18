@@ -884,7 +884,11 @@ async function placeappear(result) {
 
 async function isInindiaKashmir(result){
   if(bbox.contains(marker.getLatLng())){
-    const addressData = await fetch(`https://nominatim.openstreetmap.org/details.php?osmtype=${result.osm_type.trim().charAt(0).toUpperCase()}&osmid=${result.osm_id}&addressdetails=1&format=json`)
+    const addressData = await fetch(`https://nominatim.openstreetmap.org/details.php?osmtype=${result.osm_type.trim().charAt(0).toUpperCase()}&osmid=${result.osm_id}&addressdetails=1&format=json`,{
+
+      referrerPolicy: "strict-origin-when-cross-origin"
+
+})
 .then(response => response.json());
 
     if((leafletPip.pointInLayer(marker.getLatLng(), L.geoJson(Kashmir)).length > 0) && addressData.country_code!='in'){ //make no data for pak-kasmir

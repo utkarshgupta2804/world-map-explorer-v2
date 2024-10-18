@@ -70,7 +70,10 @@ async function addpoly() {
         const signal = controller.signal;
 
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, { signal });
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, {
+                signal: signal, // The signal object for cancellation
+                referrerPolicy: "strict-origin-when-cross-origin" // The referrer policy
+            })
             let data = await response.json();
             
             // Extract pname from the data

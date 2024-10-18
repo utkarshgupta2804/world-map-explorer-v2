@@ -116,7 +116,7 @@ header {
 
 
 #map {
-    height: 100vh;
+    height: calc(100vh - 22px);
 }
 #infoBox {
   position: absolute; /* Position it in the corner */
@@ -402,28 +402,17 @@ header {
   color: #ffffff;
 }
 
-#live-region-container{
-  z-index: 1900;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  margin-right: 100px;
-  margin-bottom: 50px;
-  width: fit-content;
-  display: flex;
-  overflow: hidden;
-  max-height: 30vh;
-  flex-direction:column;
-}
+
 #status-bar{
   border: #000000 1px solid;
-  padding: 20px;
-  width: 180px;
-  font-size: medium;
-  border-radius: 3px;
-  margin: 1.5px;
-  background-color: #6f0e0edb;
-  color: #efeaea;
+  padding: 4px;
+  width: calc(100% - 10px);
+  height: 12px;
+  font-size: 11px;
+  font-style: bold;
+  background-color: #683333;
+  color: #ffffff;
+  position: relative;
 }
 .visually-hidden {
   position: absolute;

@@ -225,9 +225,7 @@ function updateLiveRegion(text,view, priority) {
   document.body.appendChild(el);
 let statusBar =document.getElementById('status-bar')
 if(view){
-  timer && clearTimeout(timer)
 statusBar.innerText=text
-statusBar.style.display='block'
 }
 
   window.setTimeout(function () {
@@ -237,9 +235,6 @@ statusBar.style.display='block'
   window.setTimeout(function () {
     document.body.removeChild(document.getElementById(id));
   }, 10000);
-  timer = setTimeout(() => {
-    statusBar.style.display='none'
-  }, 10000); // 5 seconds
 }
 
 

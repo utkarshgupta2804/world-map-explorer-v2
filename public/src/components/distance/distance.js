@@ -1,8 +1,10 @@
 
 let des, beg;
 let lgrp;
+let box = document.getElementById("box");
+
 document.getElementById("trigger-icon").addEventListener("click", function (e) {// open the distance box when clicking on find distance button
-  document.getElementById("box").style.display = "block";
+  box.style.display = "block";
   if (document.getElementById("closeBtnD")) {
     document.getElementById('searchdetails').style.display=="block" && document.getElementById("closeBtnD").click()// close search details box
   }
@@ -88,6 +90,7 @@ document.getElementById("fromMap").addEventListener("click", function () {// fun
     } else {
       des = temp;
     }
+    successSound.play()
   } catch (error) {
     alert(
       "click on the starting point or destination then select point on map"
@@ -108,7 +111,7 @@ document.getElementById("closeBtn").addEventListener("click", function () { //on
   document.getElementById("distanceResult").style.display = "none";
   document.getElementById("beginning").value = "";
   document.getElementById("destination").value = "";
-  document.getElementById("box").style.display = "none";
+  box.style.display = "none";
 });
 document.getElementById("find").addEventListener("click", function () {// calculate the distance using valhalla
   document.getElementById("find").style.pointerEvents='none'
@@ -171,6 +174,22 @@ document.getElementById("find").addEventListener("click", function () {// calcul
     }
   });
   });
+  
+
+
+box.addEventListener("keydown", function (event) {
+  if (event.altKey && event.key == 'l') {
+    // Prevent default behavior if needed (e.g., avoid browser shortcuts)
+    event.preventDefault();
+    
+    // Focus on the search bar element
+    document.getElementById('fromMap')?.click() // Adjust the ID to match your HTML element
+}
+});
+
+
+
+
   
   // routing engine (copied from OSM)
   function FOSSGISValhallaEngine(id, costing, locations) {

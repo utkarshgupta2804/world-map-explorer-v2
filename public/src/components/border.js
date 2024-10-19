@@ -170,10 +170,9 @@ function crossedhigherlevel(cro, ent) {
         }
     }
 }
-addmarker([10.16,76.64])
 
 mape.addEventListener("focusin",()=>{
     findplacename(marker).then((place)=>{
-        updateLiveRegion(`now marker is in ${place}`,true)
+        updateLiveRegion(`Now marker is in ${place}`,true)
     })
   })

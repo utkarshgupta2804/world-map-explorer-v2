@@ -34,7 +34,7 @@ function addmarker(coord) {
 
         }).addTo(map)
         findplacename(marker).then((place)=>{
-            updateLiveRegion(`marker is on ${place}. use arrow keys to navigate`,true)
+            updateLiveRegion(`Marker is on ${place}. Use arrow keys to navigate`,true)
         })
         //marker.getElement().setAttribute('tabindex', '0')
         //marker.getElement().setAttribute('title', 'marker')
@@ -159,7 +159,7 @@ const throttledFunction = _.throttle((event) => {
         return; // Do nothing if the event target is any of the above
     }
 
-    if (event.key == 'a' || event.key == 'w' || event.key == 's') {//enable adpointer
+    if (event.key.toLowerCase() == 'a' || event.key == 'w' || event.key == 's') {//enable adpointer
         event.preventDefault();
         if (event.altKey && event.key === 's') {
             // Prevent default behavior if needed (e.g., avoid browser shortcuts)
@@ -193,7 +193,7 @@ const throttledFunction = _.throttle((event) => {
             let scale = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 10
             let zoom = scale < 1000 ? parseInt(scale) + ' meters' : parseInt(scale / 1000) + ' Kilo meters'
             console.log(zoom)
-            updateLiveRegion(zoom+'per key press',true)
+            updateLiveRegion(zoom+' per key press',true)
 
         } catch (error) {
             alert('add marker first')
@@ -350,7 +350,7 @@ async function findplacename(point, event) {
                             const poi= AdPointer.secondaryMarker
                             
                             addmarker(poi.getLatLng())
-                            updateLiveRegion("marker placed")
+                            updateLiveRegion("Marker placed")
                         }else{
                             placeappear(data)
                         }
@@ -375,7 +375,7 @@ async function findplacename(point, event) {
 }
 
 function bordertouched(dir) {
-    updateLiveRegion("border touched")
+    updateLiveRegion("Border touched")
 }
 
 document.addEventListener("keydown",function(event){
@@ -391,12 +391,6 @@ document.addEventListener("keydown",function(event){
         
         // Focus on the search bar element
         document.getElementById('search-input')?.focus() // Adjust the ID to match your HTML element
-    }if (event.altKey && event.key == 'l') {
-        // Prevent default behavior if needed (e.g., avoid browser shortcuts)
-        event.preventDefault();
-        
-        // Focus on the search bar element
-        document.getElementById('fromMap')?.click() // Adjust the ID to match your HTML element
     }
 })
 

@@ -1,8 +1,10 @@
 
 let timer=null
+var map
 // disclaimer part
 const geocodingAPI = 'https://nominatim.geocoding.ai';
 const disclaimer = document.createElement('div');
+let staringPoint
 disclaimer.id = 'disclaimer';
 disclaimer.setAttribute('role', 'alert');
 disclaimer.setAttribute('aria-label', 'Disclaimer');
@@ -69,10 +71,26 @@ fetch('boundary.geojson')
   }).then(dat => {
     addIndiaBoundaries();
   })
-var map = L.map('map',{
-  keyboardPanDelta: 0
+  map = L.map('map',{
+    keyboardPanDelta: 0
+  
+  }).setView([0,0], 2);
 
-}).setView([10.16,76.64], 7);
+  fetch('https://ipinfo.io/json')
+  .then(response => response.json())
+  .then(data => {
+      const [lat, lon] = data.loc.split(',');
+      console.log(data)
+      map.setView([lat, lon], 7)
+  })
+  .catch(error => {
+map.setView([10.16,76.64],7)
+  }).finally(()=>{
+    addmarker(map.getCenter())
+  })
+
+  
+
 
 
 
@@ -122,7 +140,7 @@ function boundaryStyle(feature) {
 map.on("zoomend", function () {
   indiaBoundaries.removeFrom(map);
   addIndiaBoundaries();
-  updateLiveRegion(`zoom level ${map.getZoom()}`,true)
+  updateLiveRegion(`Zoom level ${map.getZoom()}`,true)
 });
 L.control.scale().addTo(map);
 
@@ -141,12 +159,12 @@ map.getContainer().addEventListener('keydown', function (event) {
 // Event listener for zoom in
 document.getElementById('controls-box').querySelector('.fa-plus').addEventListener('click', function () {
   map.zoomIn();
-  updateLiveRegion(`zoom level. ${map.getZoom()}`,true)
+  updateLiveRegion(`Zoom level. ${map.getZoom()}`,true)
 });
 // Event listener for zoom out
 document.getElementById('controls-box').querySelector('.fa-minus').addEventListener('click', function () {
   map.zoomOut();
-  updateLiveRegion(`zoom level. ${map.getZoom()}`,true)
+  updateLiveRegion(`Zoom level. ${map.getZoom()}`,true)
 
 });
 //Event listener for navigation 
@@ -160,6 +178,7 @@ document.getElementById('controls-box').querySelector('.fa-location-arrow').addE
   });
   map.on('locationerror', function (e) {
     updateLiveRegion(e.code==1?'Please grant loacation permisson':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
+    alert(e.code==1?'Please grant loacation permisson':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
   })
 
 });
@@ -184,7 +203,7 @@ geographicalLayerBtn.addEventListener('click', function () {
     noWrap: true,
     tabindex: 0,
   }).addTo(map);
-  updateLiveRegion("switched to geograhical map")
+  updateLiveRegion("Switched to geograhical map")
 });
 // Event listener for political layer
 politicalLayerBtn.addEventListener('click', function () {
@@ -197,7 +216,7 @@ politicalLayerBtn.addEventListener('click', function () {
     noWrap: true,
     tabindex: 0,
   }).addTo(map);
-  updateLiveRegion("switched to political map")
+  updateLiveRegion("Switched to political map")
 
 });
 

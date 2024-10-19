@@ -337,7 +337,7 @@ async function findplacename(point, event) {
         if (event ? event.shiftKey : event) {
             return marker.getLatLng().lat.toFixed(5) + ' North, ' + marker.getLatLng().lng.toFixed(5) + ' West'
         } else {
-            await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`,{
+            await fetch(`${geocodingAPI}/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`,{
 
                 referrerPolicy: "strict-origin-when-cross-origin"
 

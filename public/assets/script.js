@@ -1,7 +1,7 @@
 
 let timer=null
 // disclaimer part
-
+const geocodingAPI = 'https://nominatim.geocoding.ai';
 const disclaimer = document.createElement('div');
 disclaimer.id = 'disclaimer';
 disclaimer.setAttribute('role', 'alert');

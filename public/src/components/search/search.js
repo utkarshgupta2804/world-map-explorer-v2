@@ -83,7 +83,7 @@ searchResults.parentElement.addEventListener('keydown', keyboardselect)
       //searchResults.appendChild(det)
       Loadinginterval = setInterval(notifyLoading, 2000);
       fetch(
-        `https://nominatim.openstreetmap.org/search.php?q=${query}&format=jsonv2&exclude_place_ids=${placeid}`,
+        `${geocodingAPI}/search.php?q=${query}&format=jsonv2&exclude_place_ids=${placeid}`,
         { signal }
       )
         .then((response) => response.json())
@@ -208,7 +208,7 @@ async function geoJSON(type, id) {
     method: "POST",
     // The body contains the query
     // to understand the query language see "The Programmatic Query Language" on
-    // https://wiki.openstreetmap.org/wiki/Overpass_API#The_Programmatic_Query_Language_(OverpassQL)
+    // https://wiki.geocoding.ai/wiki/Overpass_API#The_Programmatic_Query_Language_(OverpassQL)
     body:
       "data=" +
       encodeURIComponent(`
@@ -884,7 +884,7 @@ async function placeappear(result) {
 
 async function isInindiaKashmir(result){
   if(bbox.contains(marker.getLatLng())){
-    const addressData = await fetch(`https://nominatim.openstreetmap.org/details.php?osmtype=${result.osm_type.trim().charAt(0).toUpperCase()}&osmid=${result.osm_id}&addressdetails=1&format=json`,{
+    const addressData = await fetch(`${geocodingAPI}/details.php?osmtype=${result.osm_type.trim().charAt(0).toUpperCase()}&osmid=${result.osm_id}&addressdetails=1&format=json`,{
 
       referrerPolicy: "strict-origin-when-cross-origin"
 

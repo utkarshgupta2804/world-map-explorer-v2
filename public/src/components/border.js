@@ -70,7 +70,7 @@ async function addpoly() {
         const signal = controller.signal;
 
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, {
+            const response = await fetch(`${geocodingAPI}/reverse.php?lat=${marker.getLatLng().lat}&lon=${marker.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1/(Math.pow(map.getZoom(),3))}`, {
                 signal: signal, // The signal object for cancellation
                 referrerPolicy: "strict-origin-when-cross-origin" // The referrer policy
             })
@@ -170,10 +170,9 @@ function crossedhigherlevel(cro, ent) {
         }
     }
 }
-addmarker([10.16,76.64])
 
 mape.addEventListener("focusin",()=>{
     findplacename(marker).then((place)=>{
-        updateLiveRegion(`now marker is in ${place}`,true)
+        updateLiveRegion(`Now marker is in ${place}`,true)
     })
   })

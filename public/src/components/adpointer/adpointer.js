@@ -29,7 +29,7 @@ L.AdPointer = L.Layer.extend({
         // Add a reference to the keydown handler to remove it later
         this._handleKeydown = function(event) {
             var da
-            switch(event.key) {
+            switch(event.key.toLowerCase()) {
                 case 'a':
                     if(sel){
                         sel=false

@@ -144,7 +144,11 @@ map.on('zoomend', function (e) {
     if (poly) {
         poly.remove()
         if (marker) {
-            addpoly()
+            addpoly().then(()=>{
+                place = poly.toGeoJSON()
+                addmarker(marker.getLatLng())
+
+            })
         }
         //console.log(getZooom())
     }
@@ -176,3 +180,20 @@ mape.addEventListener("focusin",()=>{
         updateLiveRegion(`Now marker is in ${place}`,true)
     })
   })
+
+
+fetch('https://ipinfo.io/json')
+  .then(response => response.json())
+  .then(data => {
+      const [lat, lon] = data.loc.split(',');
+      console.log(data)
+      map.setView([lat, lon], 7)
+  })
+  .catch(error => {
+map.setView([10.16,76.64],7)
+  }).finally(()=>{
+    addmarker(map.getCenter())
+  calculateHeight()
+
+  })
+

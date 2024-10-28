@@ -1,6 +1,7 @@
 
 let timer=null
 var map
+var height
 // disclaimer part
 const geocodingAPI = 'https://nominatim.geocoding.ai';
 const disclaimer = document.createElement('div');
@@ -62,6 +63,7 @@ function handleKeyDown(event) {
 }
 document.addEventListener('keydown', handleKeyDown);
 // disclaimer part ends
+message.focus();
 
 var indiaBoundayLines
 fetch('boundary.geojson')
@@ -76,19 +78,7 @@ fetch('boundary.geojson')
   
   }).setView([0,0], 2);
 
-  fetch('https://ipinfo.io/json')
-  .then(response => response.json())
-  .then(data => {
-      const [lat, lon] = data.loc.split(',');
-      console.log(data)
-      map.setView([lat, lon], 7)
-  })
-  .catch(error => {
-map.setView([10.16,76.64],7)
-  }).finally(()=>{
-    addmarker(map.getCenter())
-  })
-
+ 
   
 
 
@@ -138,9 +128,11 @@ function boundaryStyle(feature) {
 // whenever the zoom level changes, remove the layer and re-add it to 
 // force the style to update based on the current map scale
 map.on("zoomend", function () {
+  calculateHeight()
   indiaBoundaries.removeFrom(map);
   addIndiaBoundaries();
   updateLiveRegion(`Zoom level ${map.getZoom()}`,true)
+  updateLiveRegion(`View height ${height}`)
 });
 L.control.scale().addTo(map);
 
@@ -271,3 +263,5 @@ fetch('kashmir.geojson')
   .then(data => {
     Kashmir = data
   })
+
+

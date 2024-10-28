@@ -403,7 +403,7 @@ header {
 }
 
 
-#status-bar{
+footer {
   border: #000000 1px solid;
   padding: 4px;
   width: calc(100% - 10px);
@@ -423,4 +423,15 @@ header {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+#elevation{
+  align-items: right;
+  float: right;
+  margin-left: 10px;
+
+}
+#camera-height{
+  align-items: right;
+  float: right;
+  margin-left: 10px;
 }

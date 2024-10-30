@@ -3,7 +3,7 @@ var mapContainer = document.getElementById("map");
 var placeids = []
 let i = 0
 let active = -1
-const osmIds = [307573, 270056, 153310, 2748339, 2748436, 1997914, 153292];
+const osmIds = [307573, 270056, 153310, 2748339, 2748436, 1997914, 153292];// needs modification india-border issue
 const bbox = L.latLngBounds(
   L.latLng(31.579199916145, 71.366088444458),  // Southwest corner (minLat, minLon)
   L.latLng(37.596155337118,80.442480694206)   // Northeast corner (maxLat, maxLon)
@@ -228,10 +228,21 @@ async function geoJSON(type, id) {
       result = turf.difference(result.features[0], Kashmir.features[0]);
     }
   })
-  let centre = turf.centerOfMass(result);
-centre =L.latLng([centre.geometry.coordinates[1], centre.geometry.coordinates[0]])
+  let centre// = turf.centerOfMass(result);
+  try{
+    const addressData = await fetch(`${geocodingAPI}/details.php?osmtype=${type.trim().charAt(0).toUpperCase()}&osmid=${id}&addressdetails=1&format=json`,{
+
+      referrerPolicy: "strict-origin-when-cross-origin"
+
+})
+.then(response => response.json());
+    centre = addressData.geometry.coordinates.reverse()
+  }catch(error){
+    centre = turf.centerOfMass(result);
+    centre = centre.geometry.coordinates.reverse()
+  }
   addmarker(centre);
-  console.log(result)
+  // console.log(result)
 
   //adding geoJSON to map
   geoLayer = L.geoJSON(result, {
@@ -899,4 +910,24 @@ async function isInindiaKashmir(result){
   }else{
     return false
   }
+}
+
+
+
+function findLargestPolygonArea(multiPolygonGeoJson) {
+
+  let largestArea = 0;
+  let largestPolygon = null;
+
+  multiPolygonGeoJson.geometry.coordinates.forEach((polygon) => {
+      polygon=turf.polygon(polygon)
+      const area = turf.area(polygon);
+      
+      if (area > largestArea) {
+          largestArea = area;
+          largestPolygon = polygon;
+      }
+  });
+  console.log(largestPolygon)
+  return largestPolygon;
 }

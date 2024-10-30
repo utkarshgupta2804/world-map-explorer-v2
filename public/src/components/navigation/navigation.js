@@ -8,11 +8,27 @@ const clickSound = new Audio('click.wav');
 const closeSound = new Audio('close.flac');
 var pane = map.createPane('customPane')
 map.getPane('customPane').style.zIndex = 1000; //for control z index of marker
-
+function isGeoPresent(){
+     return geoLayer ? (map.hasLayer(geoLayer)&&(leafletPip.pointInLayer(marker.getLatLng(), geoLayer).length > 0)) : false;
+}
 //function for adding marker
 function addmarker(coord) {
-    var isGeoPresent = geoLayer ? map.hasLayer(geoLayer) : false;
-
+    if(coord[0]<-180){
+        coord[0]=180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
+    if(coord[0]>180){
+        coord[0]=-180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
+    if(coord?.lng<-180){
+        coord.lng=180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
+    if(coord?.lng>180){
+        coord.lng=-180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
     if (AdPointer) {
         AdPointer.remove()
         AdPointer = null
@@ -39,14 +55,14 @@ function addmarker(coord) {
         //marker.getElement().setAttribute('tabindex', '0')
         //marker.getElement().setAttribute('title', 'marker')
         addpoly().then(() => {
-            if (!isGeoPresent) {
+            if (!isGeoPresent()) {
                 place = poly.toGeoJSON()
 
             }
         })
 
     }
-    if (isGeoPresent) {
+    if (isGeoPresent()) {
 
         place = geoLayer.toGeoJSON()
     } else if (poly ? map.hasLayer(poly) : false) {
@@ -59,6 +75,7 @@ function addmarker(coord) {
         eastDistance = L.latLng(borderpoints.east).distanceTo(marker.getLatLng())
         westDistance = L.latLng(borderpoints.west).distanceTo(marker.getLatLng())
     }
+    fetchElevation()
 
 }
 function findborderpoints() {
@@ -202,7 +219,10 @@ const throttledFunction = _.throttle((event) => {
     if (event.code == 'KeyL') { // locate current user location
         document.getElementById("locateme").click()
     }
-    
+    if(event.code == 'KeyE'){//for stating altitude
+        event.preventDefault();
+        updateLiveRegion(document.getElementById("elevation").innerHTML)
+    }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') { //marker movement on map using arrowkeys
         if (!event.shiftKey) {
             perkeydist = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 10
@@ -210,7 +230,7 @@ const throttledFunction = _.throttle((event) => {
             event.stopImmediatePropagation(); // Stop the event from propagating further
             switch (event.key) {
                 case 'ArrowUp':
-                    if (geoLayer ? map.hasLayer(geoLayer) : false) {
+                    if (isGeoPresent()) {
                         if ((northDistance <= perkeydist)) {
                             addmarker([borderpoints.north[0] - 0.000001, borderpoints.north[1]])
                             bordertouched("north")
@@ -223,7 +243,7 @@ const throttledFunction = _.throttle((event) => {
                     }
                     break;
                 case 'ArrowDown':
-                    if (geoLayer ? map.hasLayer(geoLayer) : false) {
+                    if (isGeoPresent()) {
                         if ((southDistance <= perkeydist)) {
                             addmarker([borderpoints.south[0] + 0.000001, borderpoints.south[1]])
                             bordertouched("south")
@@ -237,7 +257,7 @@ const throttledFunction = _.throttle((event) => {
                     }
                     break;
                 case 'ArrowLeft':
-                    if (geoLayer ? map.hasLayer(geoLayer) : false) {
+                    if (isGeoPresent()) {
                         if ((eastDistance <= perkeydist)) {
                             addmarker([borderpoints.east[0], borderpoints.east[1] + .000001])
                             bordertouched("east")
@@ -251,7 +271,7 @@ const throttledFunction = _.throttle((event) => {
                     }
                     break;
                 case 'ArrowRight':
-                    if (geoLayer ? map.hasLayer(geoLayer) : false) {
+                    if (isGeoPresent()) {
                         if ((westDistance <= perkeydist)) {
                             addmarker([borderpoints.west[0], borderpoints.west[1] - .000001])
                             bordertouched("west")
@@ -395,3 +415,18 @@ document.addEventListener("keydown",function(event){
 })
 
 
+function calculateHeight(){
+  
+    let num = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 1050
+    height = num < 1000 ? parseInt(num) + ' meters' : parseInt(num / 1000) + ' Kilo meters'
+    document.getElementById('camera-height').innerText = 'View Height :'+height
+  }
+const fetchElevation = _.throttle(async (point) => {
+    fetch(`https://api.open-elevation.com/api/v1/lookup?locations=${marker.getLatLng().lat},${marker.getLatLng().lng}`)
+    .then(response => response.json())
+    .then(data => {
+        if(data.results[0].elevation){
+           document.getElementById("elevation").innerHTML=`Elevation: ${data.results[0].elevation} meters`
+        }
+    }).catch(error => { console.error("Error in fetching place name:", error); })
+},1001)

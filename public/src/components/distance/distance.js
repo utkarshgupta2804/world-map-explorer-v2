@@ -150,9 +150,7 @@ document.getElementById("find").addEventListener("click", function () {// calcul
       // Process route steps, distance, time, etc.
       lgrp.addTo(map);
       map.fitBounds(lgrp.getBounds());
-      if (marker) {
-        marker.remove();
-      }
+      
       document.getElementById("dist").innerHTML = route.distance + " KM";
       if (route.time < 60) {
         document.getElementById("time").innerHTML = route.time + " Minutes";

@@ -13,6 +13,22 @@ function isGeoPresent(){
 }
 //function for adding marker
 function addmarker(coord) {
+    if(coord[0]<-180){
+        coord[0]=180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
+    if(coord[0]>180){
+        coord[0]=-180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
+    if(coord?.lng<-180){
+        coord.lng=180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
+    if(coord?.lng>180){
+        coord.lng=-180
+        updateLiveRegion(`Marker moved to other side of the map`,true)
+    }
     if (AdPointer) {
         AdPointer.remove()
         AdPointer = null
@@ -203,7 +219,10 @@ const throttledFunction = _.throttle((event) => {
     if (event.code == 'KeyL') { // locate current user location
         document.getElementById("locateme").click()
     }
-    
+    if(event.code == 'KeyE'){//for stating altitude
+        event.preventDefault();
+        updateLiveRegion(document.getElementById("elevation").innerHTML)
+    }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') { //marker movement on map using arrowkeys
         if (!event.shiftKey) {
             perkeydist = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 10
@@ -400,14 +419,14 @@ function calculateHeight(){
   
     let num = 40075016 * Math.cos(marker.getLatLng().lat * Math.PI / 180) / Math.pow(2, map.getZoom() + 8) * 1050
     height = num < 1000 ? parseInt(num) + ' meters' : parseInt(num / 1000) + ' Kilo meters'
-    document.getElementById('camera-height').innerText = 'View-height :'+height
+    document.getElementById('camera-height').innerText = 'View Height :'+height
   }
 const fetchElevation = _.throttle(async (point) => {
     fetch(`https://api.open-elevation.com/api/v1/lookup?locations=${marker.getLatLng().lat},${marker.getLatLng().lng}`)
     .then(response => response.json())
     .then(data => {
         if(data.results[0].elevation){
-           document.getElementById("elevation").innerHTML=`Altitude: ${data.results[0].elevation} meters`
+           document.getElementById("elevation").innerHTML=`Elevation: ${data.results[0].elevation} meters`
         }
     }).catch(error => { console.error("Error in fetching place name:", error); })
 },1001)

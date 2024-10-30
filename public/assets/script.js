@@ -87,13 +87,13 @@ fetch('boundary.geojson')
 var borderpane = map.createPane('borderPane')
 map.getPane('borderPane').style.zIndex = 200;
 // add the OpenStreetMap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
   noWrap: true,
   tabindex: 0,
-}).addTo(map);
-
+})
+tileLayer.addTo(map);
 
 
 var indiaBoundaries;
@@ -188,13 +188,15 @@ geographicalLayerBtn.addEventListener('click', function () {
   // Add your logic to switch to the geographical layer
   console.log('Switching to Geographical Layer');
   layersDropdown.style.display = 'none'; // Hide dropdown
-  L.tileLayer( "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+  tileLayer.remove();
+  tileLayer = L.tileLayer( "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
    
   attribution:'Map data: &copy; <a href="https://www.opentopomap.org">OpenTopoMap</a>',
     noWrap: true,
     tabindex: 0,
-  }).addTo(map);
+  })
+  tileLayer.addTo(map);
   updateLiveRegion("Switched to geograhical map")
 });
 // Event listener for political layer
@@ -202,12 +204,14 @@ politicalLayerBtn.addEventListener('click', function () {
   // Add your logic to switch to the political layer
   console.log('Switching to Political Layer');
   layersDropdown.style.display = 'none'; // Hide dropdown
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  tileLayer.remove();
+  tileLayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     noWrap: true,
     tabindex: 0,
-  }).addTo(map);
+  })
+  tileLayer.addTo(map);
   updateLiveRegion("Switched to political map")
 
 });

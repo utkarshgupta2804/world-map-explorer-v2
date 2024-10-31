@@ -1,6 +1,7 @@
 let flag2 = true
 let speak = true
 var sel = true
+var realangle
 let mape = document.getElementById("map")
 
 L.AdPointer = L.Layer.extend({
@@ -16,6 +17,8 @@ L.AdPointer = L.Layer.extend({
         this.distance = distance; // Distance in meters
         var angle = 0  // Angle in degrees from north
         this.angle = angle
+        var realangle = 0
+        this.realangle = realangle
 
     },
 
@@ -46,7 +49,7 @@ L.AdPointer = L.Layer.extend({
                         AdPointer.distance = AdPointer.distance + 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         console.log(AdPointer.diskm);
-                        da = 'Distance' + AdPointer.diskm;
+                        da = 'Flat Distance: ' + AdPointer.fdiskm + 'Real: ' + AdPointer.diskm;
 
 
                     } else {
@@ -63,7 +66,7 @@ L.AdPointer = L.Layer.extend({
                         AdPointer.distance = AdPointer.distance - 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         console.log(AdPointer.diskm);
-                        da = 'Distance: ' + AdPointer.diskm;
+                        da = 'Flat Distance: ' + AdPointer.fdiskm + 'Real: ' + AdPointer.diskm;
                     } else {
                         AdPointer.angle = AdPointer.angle - 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
@@ -141,7 +144,7 @@ L.AdPointer = L.Layer.extend({
             AdPointer.angle = AdPointer._getAngle(marker1, marker2);
             svg.setAttribute('transform', 'rotate(' + (AdPointer.angle - 90) + ')');
             AdPointer.distanceO = distanceOnMap(marker1.getLatLng(), marker2.getLatLng())
-
+            AdPointer.realangle = AdPointer._getAngle(marker1, marker2,true)
             AdPointer.distance = L.point(map.latLngToContainerPoint(marker1.getLatLng())).distanceTo(L.point(map.latLngToContainerPoint(marker2.getLatLng())))
             AdPointer.flatdist = Math.sqrt(Math.pow(AdPointer.secondaryMarker.getLatLng().lat - AdPointer.primaryMarker.getLatLng().lat, 2) + Math.pow(AdPointer.secondaryMarker.getLatLng().lng - AdPointer.primaryMarker.getLatLng().lng, 2)) * 40075016.7 / 360
             AdPointer.line.setLatLngs([marker1.getLatLng(), marker2.getLatLng()]);
@@ -229,11 +232,14 @@ L.AdPointer = L.Layer.extend({
         return final
     },
 
-    _getAngle: function (marker1, marker2) {
+    _getAngle: function (marker1, marker2,flag) {
         // Get geographical coordinates
         const latLng1 = marker1.getLatLng();
         const latLng2 = marker2.getLatLng();
+        var rpoint1 =latLng1
+        var rpoint2 =latLng2
 
+        
         // Convert geographical coordinates to pixel coordinates
         const point1 = map.latLngToLayerPoint(latLng1);
         const point2 = map.latLngToLayerPoint(latLng2);
@@ -251,7 +257,19 @@ L.AdPointer = L.Layer.extend({
         // Normalize the angle to be between 0 and 360 degrees
         angleDeg = (angleDeg + 90 + 360) % 360;
 
-        return angleDeg;
+        if ((latLng1.lng-latLng2.lng)>=180 || (latLng1.lng-latLng2.lng)<=-180) {
+            realangle = 360 - angleDeg
+        } else {    
+            realangle = angleDeg
+        }
+
+        console.log(realangle)
+        if(flag){
+            return realangle   
+        }else{
+            return angleDeg
+        }
+        
     },
 
     _secondoryupdate: function (primary) {
@@ -291,16 +309,17 @@ L.AdPointer = L.Layer.extend({
             document.getElementById('infoBox').style.display = 'block';
             const distanceInKm = this.distanceO / 1000;
             const fdist = this.flatdist / 1000
+            
             // Update the display:
-            this.diskm = distanceInKm.toFixed(2) + ' KM';
-            this.fdiskm = fdist.toFixed(2) + ' KM';
+            this.diskm = this.distanceO < 1000 ? parseInt(this.distanceO) + ' meters' : parseInt(this.distanceO / 1000) + ' K M'
+            this.fdiskm = this.flatdist < 1000 ? parseInt(this.flatdist) + ' meters' : parseInt(this.flatdist / 1000) + ' K M'
+            this.rangle = Math.round(this.realangle) + ' degrees';
             this.ang = Math.round(this.angle) + ' degrees';
             this.lat1 = ' Latitude : ' + this.secondaryMarker.getLatLng().lat.toFixed(5);
             this.lng1 = ' Longitude : ' + this.secondaryMarker.getLatLng().lng.toFixed(5)
             function getDirection(angle) {
                 angle = (angle + 360) % 360; // Normalize angle to [0, 360)
-
-                if (angle >= 355 && angle < 5) {
+                if (angle >= 355 || angle < 5) {
                     return "North";
                 } else if (angle >= 5 && angle < 85) {
                     return "North-East";
@@ -314,13 +333,14 @@ L.AdPointer = L.Layer.extend({
                     return "South-West";
                 } else if (angle >= 265 && angle < 275) {
                     return "West";
-                } else {
+                } else if(angle >= 275 && angle < 355){
                     return "North-West";
                 }
             }
             document.getElementById('distanceDisplay').textContent = this.diskm;
             document.getElementById('flatdistance').textContent = this.fdiskm;
             document.getElementById('angleDisplay').textContent = this.ang + ' ' + getDirection(this.angle);
+            document.getElementById('realAngle').textContent = this.rangle + ' ' + getDirection(this.realangle);
             document.getElementById('lat').textContent = this.lat1;
             document.getElementById('lng').textContent = this.lng1;
 

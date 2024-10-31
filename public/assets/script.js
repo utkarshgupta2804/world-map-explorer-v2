@@ -63,7 +63,9 @@ function handleKeyDown(event) {
 }
 document.addEventListener('keydown', handleKeyDown);
 // disclaimer part ends
-message.focus();
+window.onload = function () { 
+  message.focus();
+}
 
 var indiaBoundayLines
 fetch('boundary.geojson')

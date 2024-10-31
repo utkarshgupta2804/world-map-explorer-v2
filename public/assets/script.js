@@ -146,7 +146,6 @@ function handleKeyDownK(event) {
       }
   }
 }
-document.addEventListener('keydown', handleKeyDownK);
 
 
 

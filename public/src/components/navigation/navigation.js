@@ -315,14 +315,14 @@ const throttledFunction = _.throttle((event) => {
                 case 'ArrowLeft':
                     dis = eastDistance < 1000 ? parseInt(eastDistance) + ' meters' : parseInt(eastDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    updateLiveRegion(dis+' to east',true)
-
+                    updateLiveRegion(dis+' to west',true)
+	
                     break;
 
                 case 'ArrowRight':
                     dis = westDistance < 1000 ? parseInt(westDistance) + ' meters' : parseInt(westDistance / 1000) + ' Kilo meters'
                     console.log(dis)
-                    updateLiveRegion(dis+' to west',true)
+                    updateLiveRegion(dis+' to east',true)
                     break;
 
             }

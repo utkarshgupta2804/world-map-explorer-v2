@@ -22,7 +22,8 @@ message.innerHTML = `<p>
     Please note the following:<br>
     <ol>
         <li>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</li>
-        <li>While using main features of map like searching and navigating using marker, keep focus mode on or keep scan mode off <br>
+        <li>While using main features of map like searching and navigating using marker, keep focus mode on or keep scan mode off </li>
+        <li>To navigate using marker, press TAB untill focus on map. Then make sure focus mode is on. Now you can navigate using arrow keys</li>
         <li>For users navigating markers with screen readers:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>NVDA Modifier+Space</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For JAWS users, press <strong>Insert+Z</strong> to disable Virtual Cursor.<br>

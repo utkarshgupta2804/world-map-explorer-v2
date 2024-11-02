@@ -24,7 +24,7 @@ const successSound= new Audio('sucessfull.mp3')
       this.querySelector("#search-results").children[active].focus()
     }
   }else if(e.keyCode == 13){
-    this.querySelector("#search-results").children[active]?.click()
+    document.activeElement?.click()
 
   }
 }
@@ -141,7 +141,7 @@ searchResults.parentElement.addEventListener('keydown', keyboardselect)
         })
         .catch((error) => reject(error))
         .finally(()=>{
-          searchResults.focus()
+          // searchResults.focus()
         }); // Reject the promise on errors
     }
   });

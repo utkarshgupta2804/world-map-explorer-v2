@@ -368,7 +368,7 @@ header {
   cursor: pointer;
   
 }
-#disclaimer {
+#disclaimer,#keys{
   position:fixed;
   display: flex;
   align-items: center;
@@ -382,16 +382,24 @@ header {
 #disclaimer li{
   background: none;
 }
-#message {
+#keys li{
+  background: none;
+}
+#message,#keysText {
  position: relative;
   color: #f2eeee;
+ 
   background-color: #6F0E0E;
   justify-content: center;
   padding: 30px;
   margin: 0;
   max-width: 60%;
 }
-#disclaimer button { 
+#messagec,#keysTextc{
+  overflow-y: auto;
+  height: 350px;;
+}
+#message button { 
   position: absolute;
   top:0;
   right: 0;
@@ -402,7 +410,17 @@ header {
   cursor: pointer;
   color: #ffffff;
 }
-
+#keys button { 
+  position: absolute;
+  top:0;
+  right: 0;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+}
 
 footer {
   border: #000000 1px solid;

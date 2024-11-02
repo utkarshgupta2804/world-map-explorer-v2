@@ -73,11 +73,17 @@ function beginning() {
   document.getElementById("d-searchbutton").addEventListener("click", () => { // store beginning location
     destination()
   });
-document.addEventListener("click", function (event) {// store point from map
-  if (event.target.id == "beginning" || event.target.id == "destination") {
+  document.getElementById("beginning").addEventListener("focus", function (event) {// store point from map
+      focusedIn = document.activeElement;
+  });
+  document.getElementById("destination").addEventListener("focus", function (event) {// store point from map
     focusedIn = document.activeElement;
-  }
 });
+// document.addEventListener("click", function (event) {// store point from map
+//   if (event.target.id == "beginning" || event.target.id == "destination") {
+//     focusedIn = document.activeElement;
+//   }
+// });
 document.getElementById("fromMap").addEventListener("click", function () {// function to choose from map
   try {
     focusedIn.value = marker.getLatLng().lat + "," + marker.getLatLng().lng;
@@ -93,7 +99,7 @@ document.getElementById("fromMap").addEventListener("click", function () {// fun
     successSound.play()
   } catch (error) {
     alert(
-      "click on the starting point or destination then select point on map"
+      "focus on the starting point or destination then select point on map"
     );
   }
 });

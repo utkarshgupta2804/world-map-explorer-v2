@@ -405,7 +405,7 @@ document.addEventListener("keydown",function(event){
     document.getElementById("closeBtn").click()// close search details box
     updateLiveRegion(`closed`,false,"assertive")
     }
-    if (event.altKey && event.key === 's') {
+    if (event.altKey && event.code === 'KeyS') {
         // Prevent default behavior if needed (e.g., avoid browser shortcuts)
         event.preventDefault();
         

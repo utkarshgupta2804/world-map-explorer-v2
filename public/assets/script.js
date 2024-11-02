@@ -23,7 +23,6 @@ message.innerHTML = `<p>
     <ol>
         <li>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</li>
         <li>While using main features of map like searching and navigating using marker, keep focus mode on or keep scan mode off <br>
-        
         <li>For users navigating markers with screen readers:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>NVDA Modifier+Space</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For JAWS users, press <strong>Insert+Z</strong> to disable Virtual Cursor.<br>
@@ -52,14 +51,18 @@ disclaimer.appendChild(messageContainer);
 document.body.prepend(disclaimer);
 function handleKeyDown(event) {
   if (event.keyCode === 9) {
-    event.preventDefault();
+
       if(document.activeElement.id === 'messagec'){
         closeButton.focus();
         console.log('close button focused')
+    event.preventDefault();
+
       }
       else if(document.activeElement.id === 'close-button'){
         message.focus();
         console.log('message focused')
+    event.preventDefault();
+
       }
   }
 }
@@ -91,9 +94,10 @@ keysText.id = 'keysTextc';
 const keysTextContainer = document.createElement('div');
 keysTextContainer.id='keysText';
 keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
+<p>Use browse mode to navigate throgh each list item following using arrow keys</p>
 <ol>
-    <li><strong>Ctrl + A</strong>: Switch between browse mode and focus mode in Ubuntu</li>
-    <li><strong>Ctrl + Space</strong>: Turn on/off scan mode in Windows</li>
+    <li><strong>ORCA Modifier + A</strong>: Switch between browse mode and focus mode in Ubuntu</li>
+    <li><strong>NVDA Modifier + Space</strong>: Turn on/off scan mode in Windows</li>
     <li><strong>F</strong>: Announce the name of the current location</li>
     <li><strong>Shift + F</strong>: Announce the coordinates of the current location</li>
     <li><strong>Enter</strong>: Select the current location of the pointer</li>
@@ -263,8 +267,8 @@ document.getElementById('controls-box').querySelector('.fa-location-arrow').addE
     addmarker(e.latlng)
   });
   map.on('locationerror', function (e) {
-    updateLiveRegion(e.code==1?'Please grant loacation permisson':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
-    alert(e.code==1?'Please grant loacation permisson':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
+    updateLiveRegion(e.code==1?'Please grant loacation permission':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
+    alert(e.code==1?'Please grant loacation permission':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
   })
 
 });
@@ -354,7 +358,7 @@ function notifyLoading() {
 
 // Set the interval (2000ms = 2 seconds)
 let Loadinginterval 
-mape.focus()
+// mape.focus()
 let Kashmir
 fetch('kashmir.geojson')
   .then(response => response.json())

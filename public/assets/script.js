@@ -21,11 +21,12 @@ message.innerHTML = `<p>
     Please note the following:<br>
     <ol>
         <li>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</li>
+        <li>While using main features of map like searching and navigating using marker, keep focus mode on or keep scan mode off <br>
         
         <li>For users navigating markers with screen readers:<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>Insert+Space</strong> to toggle Focus Mode.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>NVDA Modifier+Space</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For JAWS users, press <strong>Insert+Z</strong> to disable Virtual Cursor.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- For ORCA users, press <strong>Insert+Z</strong> to toggle Focus Mode.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;- For ORCA users, press <strong>ORCA Modifier+A</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For VoiceOver users, press <strong>Control+Option+Shift+U</strong> to interact with markers.</li>
     </ol>
     Thank you for using World Map Explorer!

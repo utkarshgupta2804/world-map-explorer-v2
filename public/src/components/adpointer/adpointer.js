@@ -84,9 +84,10 @@ L.AdPointer = L.Layer.extend({
                     // }
                     break;
                 case 'o':
-                    det = 'Place: ' + document.getElementById('placeDisplay').textContent + ',  Distance: ' + AdPointer.diskm +
-                        ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
-                    updateLiveRegion(det)
+                    // det = 'Place: ' + document.getElementById('placeDisplay').textContent + ', Angle: '+AdPointer.angle+',  Distance: ' + AdPointer.diskm +
+                    //     ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
+                    // updateLiveRegion(det)
+                    updateLiveRegion(document.getElementById('infoBox').textContent)
                     break;
                 case 'Enter':
 
@@ -311,8 +312,8 @@ L.AdPointer = L.Layer.extend({
             const fdist = this.flatdist / 1000
             
             // Update the display:
-            this.diskm = this.distanceO < 1000 ? parseInt(this.distanceO) + ' meters' : parseInt(this.distanceO / 1000) + ' K M'
-            this.fdiskm = this.flatdist < 1000 ? parseInt(this.flatdist) + ' meters' : parseInt(this.flatdist / 1000) + ' K M'
+            this.diskm = this.distanceO < 1000 ? parseInt(this.distanceO) + ' meters.' : parseInt(this.distanceO / 1000) + ' K M.'
+            this.fdiskm = this.flatdist < 1000 ? parseInt(this.flatdist) + ' meters.' : parseInt(this.flatdist / 1000) + ' K M.'
             this.rangle = Math.round(this.realangle) + ' degrees';
             this.ang = Math.round(this.angle) + ' degrees';
             this.lat1 = ' Latitude : ' + this.secondaryMarker.getLatLng().lat.toFixed(5);
@@ -320,28 +321,28 @@ L.AdPointer = L.Layer.extend({
             function getDirection(angle) {
                 angle = (angle + 360) % 360; // Normalize angle to [0, 360)
                 if (angle >= 355 || angle < 5) {
-                    return "North";
+                    return "North.";
                 } else if (angle >= 5 && angle < 85) {
-                    return "North-East";
+                    return "North-East.";
                 } else if (angle >= 85 && angle < 95) {
-                    return "East";
+                    return "East.";
                 } else if (angle >= 95 && angle < 175) {
-                    return "South-East";
+                    return "South-East.";
                 } else if (angle >= 175 && angle < 185) {
-                    return "South";
+                    return "South.";
                 } else if (angle >= 185 && angle < 265) {
-                    return "South-West";
+                    return "South-West.";
                 } else if (angle >= 265 && angle < 275) {
-                    return "West";
+                    return "West.";
                 } else if(angle >= 275 && angle < 355){
-                    return "North-West";
+                    return "North-West.";
                 }
             }
             document.getElementById('distanceDisplay').textContent = this.diskm;
             document.getElementById('flatdistance').textContent = this.fdiskm;
             document.getElementById('angleDisplay').textContent = this.ang + ' ' + getDirection(this.angle);
             document.getElementById('realAngle').textContent = this.rangle + ' ' + getDirection(this.realangle);
-            document.getElementById('lat').textContent = this.lat1;
+            document.getElementById('lat').textContent = this.lat1+'.';
             document.getElementById('lng').textContent = this.lng1;
 
 

@@ -3,9 +3,10 @@ let timer=null
 var map
 var height
 // disclaimer part
+let staringPoint
+
 const geocodingAPI = 'https://nominatim.geocoding.ai';
 const disclaimer = document.createElement('div');
-let staringPoint
 disclaimer.id = 'disclaimer';
 disclaimer.setAttribute('role', 'alert');
 disclaimer.setAttribute('aria-label', 'Disclaimer');
@@ -21,11 +22,11 @@ message.innerHTML = `<p>
     Please note the following:<br>
     <ol>
         <li>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</li>
-        
+        <li>While using main features of map like searching and navigating using marker, keep focus mode on or keep scan mode off <br>
         <li>For users navigating markers with screen readers:<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>Insert+Space</strong> to toggle Focus Mode.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>NVDA Modifier+Space</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For JAWS users, press <strong>Insert+Z</strong> to disable Virtual Cursor.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- For ORCA users, press <strong>Insert+Z</strong> to toggle Focus Mode.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;- For ORCA users, press <strong>ORCA Modifier+A</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For VoiceOver users, press <strong>Control+Option+Shift+U</strong> to interact with markers.</li>
     </ol>
     Thank you for using World Map Explorer!
@@ -50,20 +51,117 @@ disclaimer.appendChild(messageContainer);
 document.body.prepend(disclaimer);
 function handleKeyDown(event) {
   if (event.keyCode === 9) {
-    event.preventDefault();
+
       if(document.activeElement.id === 'messagec'){
         closeButton.focus();
         console.log('close button focused')
+    event.preventDefault();
+
       }
       else if(document.activeElement.id === 'close-button'){
         message.focus();
         console.log('message focused')
+    event.preventDefault();
+
       }
   }
 }
 document.addEventListener('keydown', handleKeyDown);
 // disclaimer part ends
-message.focus();
+window.onload = function () { 
+  message.focus();
+}
+
+
+
+
+
+
+
+
+
+
+
+const keys = document.createElement('div');
+keys.id = 'keys';
+keys.setAttribute('role', 'alert');
+keys.setAttribute('aria-label', 'keys');
+
+const keysText = document.createElement('p');
+keysText.setAttribute("tabindex", 1);
+keysText.setAttribute("aria-atom","true");
+keysText.id = 'keysTextc';
+const keysTextContainer = document.createElement('div');
+keysTextContainer.id='keysText';
+keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
+<p>Use browse mode to navigate throgh each list item following using arrow keys</p>
+<ol>
+    <li><strong>ORCA Modifier + A</strong>: Switch between browse mode and focus mode in Ubuntu</li>
+    <li><strong>NVDA Modifier + Space</strong>: Turn on/off scan mode in Windows</li>
+    <li><strong>F</strong>: Announce the name of the current location</li>
+    <li><strong>Shift + F</strong>: Announce the coordinates of the current location</li>
+    <li><strong>Enter</strong>: Select the current location of the pointer</li>
+    <li><strong>Alt + S</strong>: Toggle search bar</li>
+    <li><strong>+ or =</strong>: Zoom in</li>
+    <li><strong>-</strong>: Zoom out</li>
+    <li><strong>Z</strong>: Know the distance traveled by the cursor in one key press</li>
+    <li><strong>E</strong>: Announce the altitude of the current place</li>
+    <li><strong>L</strong>: Reset the cursor to the user's location (if location permission is enabled)</li>
+    <li><strong>Shift + Up</strong>: Know the distance to the northern border</li>
+    <li><strong>Shift + Down</strong>: Know the distance to the southern border</li>
+    <li><strong>Shift + Right</strong>: Know the distance to the eastern border</li>
+    <li><strong>Shift + Left</strong>: Know the distance to the western border</li>
+    <li><strong>W, S, or A</strong>: Activate adjustable pointer</li>
+    <li><strong>W</strong> (when adjustable pointer is active): Increase distance or angle</li>
+    <li><strong>S</strong> (when adjustable pointer is active): Decrease distance or angle</li>
+    <li><strong>A</strong>: Switch between angle and distance adjustment of the adjustable pointer</li>
+    <li><strong>O</strong>: Announce details of the place indicated by the adjustable pointer</li>
+    <li><strong>Alt + L</strong>: Select the current location as the initial or final location in distance finder</li>
+    <li><strong>Enter</strong> (when adjustable pointer is active): Move the cursor to the location pointed by the adjustable pointer</li>
+    <li><strong>Alt + K</strong> To check keyboard shortcuts anytime</li>
+</ol>
+`;
+
+
+const closeButtonK = document.createElement('button');
+closeButtonK.id = 'close-button-k';
+closeButtonK.setAttribute('aria-label', 'Close keys');
+closeButtonK.textContent = 'X';
+
+closeButtonK.addEventListener('click', () => {
+  document.removeEventListener('keydown', handleKeyDownK);
+  keys.remove();
+  closeSound.play()
+});
+
+keysText.appendChild(closeButtonK);
+
+keysTextContainer.appendChild(keysText);
+keys.appendChild(keysTextContainer);
+function handleKeyDownK(event) {
+  if (event.keyCode === 9) {
+    event.preventDefault();
+      if(document.activeElement.id === 'keysTextc'){
+        closeButtonK.focus();
+        console.log('close button focused')
+      }
+      else{
+        keysText.focus();
+        console.log('keysText focused')
+      }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 var indiaBoundayLines
 fetch('boundary.geojson')
@@ -169,8 +267,8 @@ document.getElementById('controls-box').querySelector('.fa-location-arrow').addE
     addmarker(e.latlng)
   });
   map.on('locationerror', function (e) {
-    updateLiveRegion(e.code==1?'Please grant loacation permisson':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
-    alert(e.code==1?'Please grant loacation permisson':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
+    updateLiveRegion(e.code==1?'Please grant loacation permission':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
+    alert(e.code==1?'Please grant loacation permission':e.message,true)    // Handle the error appropriately (e.g., show an alert or a fallback message)
   })
 
 });
@@ -260,7 +358,7 @@ function notifyLoading() {
 
 // Set the interval (2000ms = 2 seconds)
 let Loadinginterval 
-mape.focus()
+// mape.focus()
 let Kashmir
 fetch('kashmir.geojson')
   .then(response => response.json())

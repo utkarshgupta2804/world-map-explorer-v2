@@ -405,12 +405,24 @@ document.addEventListener("keydown",function(event){
     document.getElementById("closeBtn").click()// close search details box
     updateLiveRegion(`closed`,false,"assertive")
     }
-    if (event.altKey && event.key === 's') {
+    if (event.altKey && event.code === 'KeyS') {
         // Prevent default behavior if needed (e.g., avoid browser shortcuts)
         event.preventDefault();
         
         // Focus on the search bar element
         document.getElementById('search-input')?.focus() // Adjust the ID to match your HTML element
+    }
+    if(event.altKey && event.code == 'KeyK'){//for stating altitude
+        document.body.prepend(keys);
+        successSound.play()
+        
+        document.addEventListener('keydown', handleKeyDownK);
+
+        setTimeout(() => {
+            keysText.focus();
+        }, 0);
+        
+
     }
 })
 

@@ -12,6 +12,7 @@ const bbox = L.latLngBounds(
 var ser = document.querySelector(".box-input")
 const successSound= new Audio('sucessfull.mp3')
  function keyboardselect(e){
+  event.preventDefault()
   if (e.keyCode == 40) {
     if (active < this.querySelector("#search-results").children.length-1) {
       active++

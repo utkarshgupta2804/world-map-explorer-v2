@@ -176,6 +176,7 @@ function crossedhigherlevel(cro, ent) {
 }
 
 mape.addEventListener("focusin",()=>{
+    successSound.play()
     findplacename(marker).then((place)=>{
         updateLiveRegion(`Now marker is in ${place}`,true)
     })

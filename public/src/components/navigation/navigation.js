@@ -355,7 +355,7 @@ async function findplacename(point, event) {
     if (point) {
         let name
         if (event ? event.shiftKey : event) {
-            return marker.getLatLng().lat.toFixed(5) + ' North, ' + marker.getLatLng().lng.toFixed(5) + ' West'
+            return marker.getLatLng().lat.toFixed(5) + ' Latitude, ' + marker.getLatLng().lng.toFixed(5) + ' Longitude'
         } else {
             await fetch(`${geocodingAPI}/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng}&zoom=${map.getZoom()}&format=jsonv2`,{
 
@@ -422,6 +422,17 @@ document.addEventListener("keydown",function(event){
             keysText.focus();
         }, 0);
         
+
+    }
+    if(event.altKey && event.code == 'KeyM'){//for stating altitude
+        mape.focus()
+        
+
+    }
+    if(event.ctrlKey && event.altKey && event.code == 'KeyG'){//
+        console.log("gggg")
+        document.getElementById('trigger-icon').click()
+        box.focus()
 
     }
 })

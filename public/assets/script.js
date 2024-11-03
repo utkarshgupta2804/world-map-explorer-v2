@@ -23,7 +23,8 @@ message.innerHTML = `<p>
     <ol>
         <li>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</li>
         <li>While using main features of map like searching and navigating using marker, keep focus mode on or keep scan mode off </li>
-        <li>To navigate using marker, press TAB untill focus on map. Then make sure focus mode is on. Now you can navigate using arrow keys</li>
+        <li>To navigate using marker, press TAB untill focus on map(or <strong>ALT + M</strong>). Then make sure focus mode is on. Now you can navigate using arrow keys</li>
+        <li>To get all short cuts press <strong>ALT + K</strong></li>
         <li>For users navigating markers with screen readers:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For NVDA users, press <strong>NVDA Modifier+Space</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For JAWS users, press <strong>Insert+Z</strong> to disable Virtual Cursor.<br>
@@ -97,12 +98,14 @@ keysTextContainer.id='keysText';
 keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
 <p>Use browse mode to navigate throgh each list item following using arrow keys</p>
 <ol>
+    <li><strong>Alt + M</strong>: Focus on the map</li>
     <li><strong>ORCA Modifier + A</strong>: Switch between browse mode and focus mode in Ubuntu</li>
     <li><strong>NVDA Modifier + Space</strong>: Turn on/off scan mode in Windows</li>
+    <li>Use <strong>Arrow Keys</strong> to navigate using marker</li>
+    <li><strong>Alt + S</strong>: Toggle search bar</li>
     <li><strong>F</strong>: Announce the name of the current location</li>
     <li><strong>Shift + F</strong>: Announce the coordinates of the current location</li>
     <li><strong>Enter</strong>: Select the current location of the pointer</li>
-    <li><strong>Alt + S</strong>: Toggle search bar</li>
     <li><strong>+ or =</strong>: Zoom in</li>
     <li><strong>-</strong>: Zoom out</li>
     <li><strong>Z</strong>: Know the distance traveled by the cursor in one key press</li>
@@ -120,6 +123,7 @@ keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
     <li><strong>Alt + L</strong>: Select the current location as the initial or final location in distance finder</li>
     <li><strong>Enter</strong> (when adjustable pointer is active): Move the cursor to the location pointed by the adjustable pointer</li>
     <li><strong>Alt + K</strong> To check keyboard shortcuts anytime</li>
+    <li><strong>Ctrl + Alt + G</strong> To turn on distance finder</li>
 </ol>
 `;
 

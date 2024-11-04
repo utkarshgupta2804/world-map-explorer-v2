@@ -430,6 +430,8 @@ document.addEventListener("keydown",function(event){
 
     }
     if(event.ctrlKey && event.altKey && event.code == 'KeyG'){//
+        event.preventDefault()
+
         console.log("gggg")
         document.getElementById('trigger-icon').click()
         box.focus()

@@ -9,21 +9,31 @@ const bbox = L.latLngBounds(
   L.latLng(37.596155337118,80.442480694206)   // Northeast corner (maxLat, maxLon)
 );
 
+
 var ser = document.querySelector(".box-input")
 const successSound= new Audio('sucessfull.mp3')
  function keyboardselect(e){
-  event.preventDefault()
+
   if (e.keyCode == 40) {
+  e.preventDefault()
+
+    // if (activeElement.id == "search-input") {
+    //   active = -1
+    // }
     if (active < this.querySelector("#search-results").children.length-1) {
       active++
       this.querySelector("#search-results").children[active].focus()
     }
   }else if(e.keyCode == 38){
+  e.preventDefault()
+
     if (active > 0) {
       active--
       this.querySelector("#search-results").children[active].focus()
     }
   }else if(e.keyCode == 13){
+  e.preventDefault()
+
     document.activeElement?.click()
 
   }
@@ -141,7 +151,7 @@ searchResults.parentElement.addEventListener('keydown', keyboardselect)
         })
         .catch((error) => reject(error))
         .finally(()=>{
-          // searchResults.focus()
+          //document.getElementById("c-search-input").focus()
         }); // Reject the promise on errors
     }
   });

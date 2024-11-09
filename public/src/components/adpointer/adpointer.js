@@ -32,49 +32,43 @@ L.AdPointer = L.Layer.extend({
         // Add a reference to the keydown handler to remove it later
         this._handleKeydown = function (event) {
             var da
-            switch (event.key.toLowerCase()) {
-                case 'a':
-                    if (sel) {
-                        sel = false
-                        da = 'Angle'
-                    } else {
-                        sel = true
-                        da = 'Distance'
-                    }
-                    updateLiveRegion(da, true)
+            switch (event.code) {
+                case 'KeyJ':
+                    addmarker(AdPointer.primaryMarker.getLatLng())
+                    updateLiveRegion("Swithced to Marker", true)
 
                     break;
-                case 'w':
-                    if (sel) {
+                case 'ArrowUp':
                         AdPointer.distance = AdPointer.distance + 10//(AdPointer._fixdist(map.getZoom()) / 5);
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         console.log(AdPointer.diskm);
                         da = 'Flat Distance: ' + AdPointer.fdiskm + 'Real: ' + AdPointer.diskm;
+                    updateLiveRegion(da)
 
-
-                    } else {
+                    break;
+                case 'ArrowDown':
+                    AdPointer.distance = AdPointer.distance - 10//(AdPointer._fixdist(map.getZoom()) / 5);
+                    AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
+                    console.log(AdPointer.diskm);
+                    da = 'Flat Distance: ' + AdPointer.fdiskm + 'Real: ' + AdPointer.diskm;
+                    updateLiveRegion(da)
+                    break;
+                case 'ArrowRight':
+                        
                         AdPointer.angle = AdPointer.angle + 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         da = 'Angle: ' + AdPointer.ang;
                         console.log(AdPointer.ang);
-                    }
+            
                     updateLiveRegion(da)
-
                     break;
-                case 's':
-                    if (sel) {
-                        AdPointer.distance = AdPointer.distance - 10//(AdPointer._fixdist(map.getZoom()) / 5);
-                        AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
-                        console.log(AdPointer.diskm);
-                        da = 'Flat Distance: ' + AdPointer.fdiskm + 'Real: ' + AdPointer.diskm;
-                    } else {
-                        AdPointer.angle = AdPointer.angle - 1;
+                case 'ArrowLeft':
+                    AdPointer.angle = AdPointer.angle - 1;
                         AdPointer._secondoryupdate(AdPointer.primaryMarker.getLatLng());
                         da = 'Angle: ' + AdPointer.ang;
                         console.log(AdPointer.ang);
-                    }
+            
                     updateLiveRegion(da)
-
                     // if(speak){
                     //     speak=false
                     //     speechSynthesis.speak(da);
@@ -83,13 +77,12 @@ L.AdPointer = L.Layer.extend({
                     //       }, 3000)
                     // }
                     break;
-                case 'o':
+                case 'KeyF':
                     // det = 'Place: ' + document.getElementById('placeDisplay').textContent + ', Angle: '+AdPointer.angle+',  Distance: ' + AdPointer.diskm +
                     //     ', Flat distace: ' + AdPointer.fdiskm + ', Angle: ' + AdPointer.ang + ', ' + AdPointer.lat1 + ', ' + AdPointer.lng1;
                     // updateLiveRegion(det)
                     updateLiveRegion(document.getElementById('infoBox').textContent)
                     break;
-                case 'Enter':
 
                 default: return;
             }

@@ -5,7 +5,7 @@ var height
 // disclaimer part
 let staringPoint
 
-const geocodingAPI = 'https://nominatim.geocoding.ai';
+const geocodingAPI = 'https://nominatim.openstreetmap.com';
 const disclaimer = document.createElement('div');
 disclaimer.id = 'disclaimer';
 disclaimer.setAttribute('role', 'alert');

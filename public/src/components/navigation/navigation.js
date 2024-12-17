@@ -50,6 +50,19 @@ function addmarker(coord) {
         old = marker.getLatLng(); //previos marker location
         marker.setLatLng(coord).addTo(map);
         borderCheck(map.project(old).distanceTo(map.project(marker.getLatLng()))); // for checking border cross
+        if (isGeoPresent()) {
+            place = geoLayer.toGeoJSON();
+        } else if (poly ? map.hasLayer(poly) : false) {
+            place = poly.toGeoJSON();
+        }
+        if (place) {
+            borderpoints = findborderpoints();
+            northDistance = L.latLng(borderpoints.north).distanceTo(marker.getLatLng());
+            southDistance = L.latLng(borderpoints.south).distanceTo(marker.getLatLng());
+            eastDistance = L.latLng(borderpoints.east).distanceTo(marker.getLatLng());
+            westDistance = L.latLng(borderpoints.west).distanceTo(marker.getLatLng());
+        }
+        fetchElevation();
     } else if (!marker) {
         marker = L.circleMarker(coord, {
             radius: 4,
@@ -69,24 +82,26 @@ function addmarker(coord) {
             if (!isGeoPresent()) {
                 place = poly.toGeoJSON();
             }
+            if (isGeoPresent()) {
+                place = geoLayer.toGeoJSON();
+            } else if (poly ? map.hasLayer(poly) : false) {
+                place = poly.toGeoJSON();
+            }
+            if (place) {
+                borderpoints = findborderpoints();
+                northDistance = L.latLng(borderpoints.north).distanceTo(marker.getLatLng());
+                southDistance = L.latLng(borderpoints.south).distanceTo(marker.getLatLng());
+                eastDistance = L.latLng(borderpoints.east).distanceTo(marker.getLatLng());
+                westDistance = L.latLng(borderpoints.west).distanceTo(marker.getLatLng());
+            }
+            fetchElevation();
         });
     }
-    if (isGeoPresent()) {
-        place = geoLayer.toGeoJSON();
-    } else if (poly ? map.hasLayer(poly) : false) {
-        place = poly.toGeoJSON();
-    }
-    if (place) {
-        borderpoints = findborderpoints();
-        northDistance = L.latLng(borderpoints.north).distanceTo(marker.getLatLng());
-        southDistance = L.latLng(borderpoints.south).distanceTo(marker.getLatLng());
-        eastDistance = L.latLng(borderpoints.east).distanceTo(marker.getLatLng());
-        westDistance = L.latLng(borderpoints.west).distanceTo(marker.getLatLng());
-    }
-    fetchElevation();
+    
 }
 function findborderpoints() {
     try {
+        console.log(place,"from findborderpoints");
         var longitude = marker.getLatLng().lng;
         var lineSN = turf.lineString([
             [longitude, 90], // Start point at the North Pole
@@ -237,7 +252,8 @@ const throttledFunction = _.throttle((event) => {
 const markerMove = _.throttle((event) => {
     if (event.code == "KeyD") {
         let d;
-        d =
+        if(poly ? map.hasLayer(poly) : false){
+            d =
             northDistance < 1000
                 ? parseInt(northDistance) + " meters"
                 : parseInt(northDistance / 1000) + " Kilo meters";
@@ -258,9 +274,12 @@ const markerMove = _.throttle((event) => {
                 ? parseInt(westDistance) + " meters"
                 : parseInt(westDistance / 1000) + " Kilo meters";
         d += " to west. ";
+        }else{
+            d = "No border found, Please try again";
+        }
 
         console.log(d);
-        updateLiveRegion(d);
+        updateLiveRegion(d,true);
     }
     if ("KeyJ" == event.code) {
         event.preventDefault();

@@ -83,6 +83,10 @@ L.AdPointer = L.Layer.extend({
                     // updateLiveRegion(det)
                     updateLiveRegion(document.getElementById('infoBox').textContent)
                     break;
+                case 'Enter':
+                    addmarker(AdPointer.secondaryMarker.getLatLng());
+                            updateLiveRegion("Marker placed");
+                            break;
 
                 default: return;
             }
@@ -139,7 +143,6 @@ L.AdPointer = L.Layer.extend({
             svg.setAttribute('transform', 'rotate(' + (AdPointer.angle - 90) + ')');
             AdPointer.distanceO = distanceOnMap(marker1.getLatLng(), marker2.getLatLng())
             AdPointer.realangle = AdPointer._getAngle(marker1, marker2,true)
-            AdPointer.distance = L.point(map.latLngToContainerPoint(marker1.getLatLng())).distanceTo(L.point(map.latLngToContainerPoint(marker2.getLatLng())))
             AdPointer.flatdist = Math.sqrt(Math.pow(AdPointer.secondaryMarker.getLatLng().lat - AdPointer.primaryMarker.getLatLng().lat, 2) + Math.pow(AdPointer.secondaryMarker.getLatLng().lng - AdPointer.primaryMarker.getLatLng().lng, 2)) * 40075016.7 / 360
             AdPointer.line.setLatLngs([marker1.getLatLng(), marker2.getLatLng()]);
             AdPointer._updateInfoBox();
@@ -148,6 +151,7 @@ L.AdPointer = L.Layer.extend({
             AdPointer.distance = L.point(map.latLngToContainerPoint(marker1.getLatLng())).distanceTo(L.point(map.latLngToContainerPoint(marker2.getLatLng())))
         })
         this._handleSecondaryMoveEnd = function () {
+            AdPointer.distance = L.point(map.latLngToContainerPoint(marker1.getLatLng())).distanceTo(L.point(map.latLngToContainerPoint(marker2.getLatLng())))
             setTimeout(() => {
                 findplacename(this).then(nm => {
                     document.getElementById('placeDisplay').textContent = nm;
@@ -222,7 +226,10 @@ L.AdPointer = L.Layer.extend({
         const x = d * Math.cos(theta) + point1.x
         const y = d * Math.sin(theta) + point1.y
         const final = map.layerPointToLatLng([x, y])
-        this.distanceO = distanceOnMap(start, final)
+       // this.distanceO = distanceOnMap(start, final)
+    //    L.circleMarker(final,{
+    //     radius: 1
+    //    }).addTo(map)
         return final
     },
 

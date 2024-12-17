@@ -42,6 +42,22 @@ function borderCheck(within50) {
                     }
                 }
                 // Code to execute after addpoly finishes (success)
+                if (!isGeoPresent()) {
+                    place = poly.toGeoJSON();
+                }
+                if (isGeoPresent()) {
+                    place = geoLayer.toGeoJSON();
+                } else if (poly ? map.hasLayer(poly) : false) {
+                    place = poly.toGeoJSON();
+                }
+                if (place) {
+                    borderpoints = findborderpoints();
+                    northDistance = L.latLng(borderpoints.north).distanceTo(marker.getLatLng());
+                    southDistance = L.latLng(borderpoints.south).distanceTo(marker.getLatLng());
+                    eastDistance = L.latLng(borderpoints.east).distanceTo(marker.getLatLng());
+                    westDistance = L.latLng(borderpoints.west).distanceTo(marker.getLatLng());
+                }
+                fetchElevation();
             }).catch(error => {
                 console.error("Error in addpoly:", error);
             });

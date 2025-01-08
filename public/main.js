@@ -4,7 +4,7 @@ import { Marker } from "../src/components/Marker/mobile-marker.js";
 import { handleKeyDownOnDocument } from "../src/components/Util/keyShortcuts.js";
 let marker
 
-fetch('https://ipinfo.io/json')
+fetch('https://ipinfo.io/json') //fetching the location of the user and setting the map to that location, if failed then setting it to the default location
   .then(response => response.json())
   .then(data => {
       const [lat, lon] = data.loc.split(',');
@@ -16,5 +16,5 @@ map.setView([10.16,76.64],7)
   }).finally(()=>{
     window.marker = new Marker(map.getCenter()).addTo(map)
   })
-document.addEventListener('keydown',handleKeyDownOnDocument)
+document.addEventListener('keydown',handleKeyDownOnDocument) // Initialize event listeners for key shortcuts on the document, general any time shortcuts
  initialize_DistanceFinder_EventListeners(); // Initialize event listeners for the distance finder

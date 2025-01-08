@@ -1,0 +1,171 @@
+import { map } from '../map.js';
+import { notifySreenReader } from '../Util/accessibility.js';
+import { bordercrossSound } from '../Util/sounds.js';
+import { isInindiaKashmir } from "../Util/nominatim.js";
+import { osmIds } from '../Search/placefetch.js';
+import { fetchindia, fetchKashmir } from '../Util/fetchindia.js';
+import { findborderpoints } from './border-distance.js';
+import { geocodingAPI } from '../Util/misc.js';
+
+let controller = null; //for aborting fetch request
+let errorCount = 0;
+let oldName, presentName; // old name, present name for stating border crossing
+let isMarkerStable = true; // for avoid repeated fetch
+let wentFar = 0; //for counting how far went when fetching border
+let Kashmir = await fetchKashmir(); //for fetching kashmir border
+
+export function checkBorderCrossed(distance) {
+  if (this?._placeBorderofCurrentLocation) {
+    console.log('border found');
+    if (
+      leafletPip.pointInLayer(
+        this.getLatLng(),
+        this._placeBorderofCurrentLocation
+      ).length <= 0 &&
+      isMarkerStable
+    ) {
+      isMarkerStable = false;
+      bordercrossSound.play();
+      oldName = presentName;
+
+      getBorder
+        .bind(this)()
+        .then((data) => {
+          if (data.name != 'sea(mostly)') {
+            checkBorderCrossed.bind(this)(0);
+          }
+          if (distance <= 60 && data.name != oldName.name) {
+            if (crossedhigherlevel(oldName, presentName)) {
+              //if crossed to higher level
+              notifySreenReader(
+                `${oldName.display_name} crossed. ${data.display_name} entered`,
+                true
+              );
+            } else {
+              notifySreenReader(
+                `${oldName.name} crossed. ${data.name} entered`,
+                true
+              );
+            }
+            if (wentFar >= 7) {
+              notifySreenReader('May be went too far');
+              wentFar = 0;
+            }
+          }
+          // Code to execute after getBorder finishes (success)
+        })
+        .catch((error) => {
+          console.error('Error in getBorder:', error);
+        });
+    } else {
+      if (!isMarkerStable) {
+        wentFar++;
+      }
+    }
+  } else {
+    getBorder.bind(this)();
+  }
+}
+
+//function for fetching and adding polygon to map
+export async function getBorder() {
+  return new Promise(async (resolve, reject) => {
+    if (controller) {
+      controller.abort();
+    }
+    controller = new AbortController();
+    const signal = controller.signal;
+
+    try {
+      isMarkerStable = false;
+      this._placeBorderofCurrentLocation &&
+        this._placeBorderofCurrentLocation.remove();
+      const response = await fetch(
+        `${geocodingAPI}/reverse.php?lat=${this.getLatLng().lat}&lon=${this.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1 / Math.pow(map.getZoom(), 3)}`,
+        {
+          signal: signal, // The signal object for cancellation
+          referrerPolicy: 'strict-origin-when-cross-origin', // The referrer policy
+        }
+      );
+      let data = await response.json();
+
+      // Extract presentName from the data
+      presentName = data.features[0].properties;
+
+      // Check if the name is "India" and fetch additional data if true to correct border
+      if (data.features[0].properties.name === 'India') {
+        data = await fetchindia();
+      }
+      if (await isInindiaKashmir(this,presentName)) {
+        presentName = { name: 'India', display_name: 'India' };
+        data = await fetchindia();
+      }
+
+      osmIds.forEach((value) => {
+        if (value == presentName.osm_id) {
+          data = turf.difference(data.features[0], Kashmir.features[0]);
+        }
+      });
+
+      if(this._placeBorderofSelectedLocation){ //because of multiple async calls this may be run even after selecting a place, so checking if there any selection present
+        return resolve(presentName);
+      }
+      this._geoJson = data;
+      this._borderPoints = findborderpoints.bind(this)(data);
+
+      this._placeBorderofCurrentLocation = L.geoJson(data, {
+        fillOpacity: 0,
+      });
+      this._placeBorderofCurrentLocation.addTo(map);
+      isMarkerStable = true;
+      resolve(presentName);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        console.error(error);
+        errorCount++;
+        if (errorCount > 5) {
+          notifySreenReader("You're going too fast");
+          errorCount = 0;
+        }
+      } else if (error instanceof TypeError) {
+        console.error(error);
+
+        presentName = { name: 'sea(mostly)', display_name: 'sea(mostly)' };
+      } else {
+        console.error(error);
+      }
+      presentName = { name: 'sea(mostly)', display_name: 'sea(mostly)' };
+      isMarkerStable = true;
+      resolve(presentName);
+    }
+  });
+}
+
+function crossedhigherlevel(cro, ent) { //for checking if crossed to higher level or not, like palakkad to coimbatore
+  if (ent.place_rank >= 10) {
+    if (
+      ent.address?.state !== cro.address?.state ||
+      ent.address?.province !== cro.address?.province ||
+      ent.address?.country !== cro.address?.country
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (ent.place_rank >= 8) {
+    if (ent.address?.country !== cro.address?.country) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+// for fixing district minimum view
+function getZooom() {
+  if (map.getZoom() >= 8) {
+    return 7;
+  } else {
+    return map.getZoom() - 2;
+  }
+}

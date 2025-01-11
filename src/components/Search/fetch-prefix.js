@@ -1,5 +1,5 @@
 
-const response = await fetch("../src/assets/prefix.json");
+const response = await fetch("../src/assets/json/prefix.json");
     const data = await response.json();
 
 export  async function fetchPrefix(result) {

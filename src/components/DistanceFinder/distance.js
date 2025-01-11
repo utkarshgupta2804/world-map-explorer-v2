@@ -5,11 +5,11 @@ import {
   destinationLocationElement, 
   handleDestinationSearch, 
   handleStartingLocationSearch 
-} from "./distanceFinder.js";
+} from "./calculate-distance.js";
 
-import { detailsCloseButton, distanceBox, distanceIcon } from "../Util/DOM.js";
-import { successSound } from "../Util/sounds.js";
-import { adjustablePointer } from "../AdjPointer/adjustablePointer.js";
+import { detailsCloseButton, distanceBox, distanceIcon } from "../../Util/dom-elements.js";
+import { successSound } from "../../Util/sounds.js";
+import { adjustablePointer } from "../adjustable-pointer.js";
 
 // Tracks the currently focused input element (starting or destination location)
 let activeInputElement = null;

@@ -1,8 +1,8 @@
 
 import { successSound } from "./sounds.js";
-import { distanceBox, distanceIcon, input } from "./DOM.js";
-import { map } from "../map.js";
-import { keys, keysText } from "../shortcutDisplay.js";
+import { distanceBox, distanceIcon, input } from "./dom-elements.js";
+import { map } from "../components/map.js";
+import { keys, keysText } from "./display-shortcuts.js";
 import { notifySreenReader } from "./accessibility.js";
 
 let active = -1
@@ -31,7 +31,7 @@ export function handleKeyDownOnDocument(event) { //for key shortcuts related to 
     }
     if (event.altKey && event.code == "KeyM") {
         //for stating altitude
-        map.focus();
+        map.getContainer().focus();
     }
     if (event.ctrlKey && event.altKey && event.code == "KeyG") {
         //

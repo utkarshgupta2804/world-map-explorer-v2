@@ -1,8 +1,6 @@
 // Code for the disclaimer
+import { closeSound } from "../Util/sounds.js";
 
-
-import { closeSound } from '../components/sounds.js';
-//here import the sound file
 const disclaimer = document.createElement('div');
 disclaimer.id = 'disclaimer';
 disclaimer.setAttribute('role', 'alert');
@@ -31,46 +29,46 @@ message.innerHTML = `<p>
     Thank you for using World Map Explorer!
 </p>`;
 
-
 const closeButton = document.createElement('button');
 closeButton.id = 'close-button';
 closeButton.setAttribute('aria-label', 'Close Disclaimer');
 closeButton.textContent = 'X';
 
-closeButton.addEventListener('click', () => {
-  document.removeEventListener('keydown', handleKeyDown);
-  disclaimer.remove();
-  closeSound.play()
-});
-
-message.appendChild(closeButton);
-
-messageContainer.appendChild(message);
-disclaimer.appendChild(messageContainer);
-document.body.prepend(disclaimer);
-function handleKeyDown(event) {
-  if (event.keyCode === 9) {
-
-      if(document.activeElement.id === 'messagec'){
-        closeButton.focus();
-        console.log('close button focused')
-    event.preventDefault();
-
-      }
-      else if(document.activeElement.id === 'close-button'){
-        message.focus();
-        console.log('message focused')
-    event.preventDefault();
-
-      }
+export function addDisclaimer(){
+  closeButton.addEventListener('click', () => {
+    document.removeEventListener('keydown', handleKeyDown);
+    disclaimer.remove();
+    closeSound.play()
+  });
+  
+  message.appendChild(closeButton);
+  
+  messageContainer.appendChild(message);
+  disclaimer.appendChild(messageContainer);
+  document.body.prepend(disclaimer);
+  function handleKeyDown(event) {
+    if (event.keyCode === 9) {
+  
+        if(document.activeElement.id === 'messagec'){
+          closeButton.focus();
+          console.log('close button focused')
+      event.preventDefault();
+  
+        }
+        else if(document.activeElement.id === 'close-button'){
+          message.focus();
+          console.log('message focused')
+      event.preventDefault();
+  
+        }
+    }
   }
-}
-document.addEventListener('keydown', handleKeyDown);
-// disclaimer part ends
-window.onload = function () { 
-  message.focus();
-}
-
+  document.addEventListener('keydown', handleKeyDown);
+  // disclaimer part ends
+  window.onload = function () { 
+    message.focus();
+  }
+}  
 
 
 

@@ -1,8 +1,8 @@
-import { distanceBox } from "../Util/DOM.js";
-import { geoLayer } from "../Search/placefetch.js";
-import { performSearch } from "../Util/doSearch.js";
-import { toKMorMeter } from "../Util/misc.js";
-import { closeSound } from "../Util/sounds.js";
+import { distanceBox } from "../../Util/dom-elements.js";
+import { geoLayer } from "../../services/fetch-place.js";
+import { performSearch } from "../../services/do-search.js";
+import { toKMorMeter } from "../../Util/misc.js";
+import { closeSound } from "../../Util/sounds.js";
 import { FOSSGISValhallaEngine } from "./FOSSGISValhallaEngine.js";
 
 // Element for user input of the starting location

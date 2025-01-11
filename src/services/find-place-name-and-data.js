@@ -1,7 +1,7 @@
-import { map } from "../map.js";
-import { isInindiaKashmir } from "../Util/nominatim.js";
-import { notifySreenReader } from "./accessibility.js";
-import { geocodingAPI } from "./misc.js";
+import { map } from "../components/map.js";
+import { isInindiaKashmir } from "../services/nominatim.js";
+import { notifySreenReader } from "../Util/accessibility.js";
+import { geocodingAPI } from "../Util/misc.js";
 
 export async function findplaceNamAandData(point) {
     if (point) {

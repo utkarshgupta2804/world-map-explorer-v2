@@ -1,11 +1,11 @@
 import { map } from '../map.js';
-import { notifySreenReader } from '../Util/accessibility.js';
-import { bordercrossSound } from '../Util/sounds.js';
-import { isInindiaKashmir } from "../Util/nominatim.js";
-import { osmIds } from '../Search/placefetch.js';
-import { fetchindia, fetchKashmir } from '../Util/fetchindia.js';
+import { notifySreenReader } from '../../Util/accessibility.js';
+import { bordercrossSound } from '../../Util/sounds.js';
+import { isInindiaKashmir } from "../../services/nominatim.js";
+import { osmIds } from '../../services/fetch-place.js';
+import { fetchIndia, fetchKashmir } from '../../services/fetch-india.js';
 import { findborderpoints } from './border-distance.js';
-import { geocodingAPI } from '../Util/misc.js';
+import { geocodingAPI } from '../../Util/misc.js';
 
 let controller = null; //for aborting fetch request
 let errorCount = 0;
@@ -94,11 +94,11 @@ export async function getBorder() {
 
       // Check if the name is "India" and fetch additional data if true to correct border
       if (data.features[0].properties.name === 'India') {
-        data = await fetchindia();
+        data = await fetchIndia();
       }
       if (await isInindiaKashmir(this,presentName)) {
         presentName = { name: 'India', display_name: 'India' };
-        data = await fetchindia();
+        data = await fetchIndia();
       }
 
       osmIds.forEach((value) => {

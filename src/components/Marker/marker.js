@@ -5,9 +5,9 @@ import {
 } from './key-down-events.js';
 import { map } from '../map.js';
 import { findborderpoints } from './border-distance.js';
-import { getBorder, checkBorderCrossed } from './borderCross.js';
-import { notifySreenReader } from '../Util/accessibility.js';
-import { findplaceNamAandData } from '../Util/find-place-name-and-data.js';
+import { getBorder, checkBorderCrossed } from './border-cross.js';
+import { notifySreenReader } from '../../Util/accessibility.js';
+import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 
 export const Marker = L.CircleMarker.extend({
   options: {

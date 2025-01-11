@@ -1,4 +1,4 @@
-import { removeResults } from './doSearch.js';
+import { removeResults } from '../services/do-search.js';
 
 export function generalEvents(event) { //for general events, always bind this to document, this function closes the search results when clicked outside the search results
   if (

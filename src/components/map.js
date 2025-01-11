@@ -1,18 +1,21 @@
-import { tileLayer } from "./Layers/tileLayer.js";
-import { toKMorMeter } from "./Util/misc.js";
-import { notifySreenReader } from "./Util/accessibility.js";
+import { tileLayerPolitical } from "./tile-layer.js";
+import { toKMorMeter } from "../Util/misc.js";
+import { notifySreenReader } from "../Util/accessibility.js";
+import { addIndiaBoundaries } from "../services/fetch-india.js";
+
+
 
 export var map = L.map("map", {
   keyboardPanDelta: 0,
 }); //creates a map object and sets the view to the given coordinates and zoom level
-
-tileLayer.addTo(map); //adds the tile layer to the map
+tileLayerPolitical.addTo(map); //adds the tile layer to the map
 window.map = map; //exports the map object
 map.on(
   'zoomend',
   function () {
     notifySreenReader(`Zoom level ${map.getZoom()}`, true);
     calculateHeight();
+    addIndiaBoundaries(); //adds the boundary lines of correct India to the map
   }.bind(this)
 );
 
@@ -49,3 +52,4 @@ function calculateHeight() {
     notifySreenReader(document.getElementById("camera-height").innerText = "View Height :" + toKMorMeter(num))
 }
 
+L.control.scale().addTo(map); // this adds the visible scale to the map

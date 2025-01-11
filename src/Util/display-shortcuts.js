@@ -1,4 +1,4 @@
-import { handleKeyDownK } from "../components/Util/keyShortcuts.js";
+import { handleKeyDownK } from "./key-shortcuts.js";
 
 export const keys = document.createElement('div');
 keys.id = 'keys';
@@ -48,13 +48,13 @@ closeButtonK.id = 'close-button-k';
 closeButtonK.setAttribute('aria-label', 'Close keys');
 closeButtonK.textContent = 'X';
 
-closeButtonK.addEventListener('click', () => {
-  document.removeEventListener('keydown', handleKeyDownK);
-  keys.remove();
-  closeSound.play()
-});
-
-keysText.appendChild(closeButtonK);
-
-keysTextContainer.appendChild(keysText);
-keys.appendChild(keysTextContainer);
+  closeButtonK.addEventListener('click', () => {
+    document.removeEventListener('keydown', handleKeyDownK);
+    keys.remove();
+    closeSound.play()
+  });
+  
+  keysText.appendChild(closeButtonK);
+  
+  keysTextContainer.appendChild(keysText);
+  keys.appendChild(keysTextContainer);

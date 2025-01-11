@@ -173,29 +173,6 @@ export async function fetchDetails(result) { //fetch details of the place based 
     
     return value; // Return the value directly if it's not an object
   }
-  
-  
-  // function formatOutput(displayName, details) {
-  //   // Start with the name of the place
-  //   let output = `<h2>${displayName}</h2><ul>`;
-  //   output += `<h3>Main Details</h3>`;
-  
-  //   // Iterate through the details object and add each key-value pair to the output
-  //   for (const [key, value] of Object.entries(details)) {
-  //     // Skip null or undefined values
-  //     if (!value) continue;
-  
-  //     // Format the key to be more human-readable
-  //     const formattedKey = key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-  
-  //     // Add the key-value pair to the output
-  //     output += `<li>${formattedKey}: ${Array.isArray(value) ? value.join(", ") : value}</li>`;
-  //   }
-  
-  //   // Close the list and return the output
-  //   output += "</ul>";
-  //   return output;
-  // }
 
   function formatOutput(displayName, details, template) {
     // Start with the display name header

@@ -1,12 +1,12 @@
-import { det } from '../Util/DOM.js';
+import { det } from '../Util/dom-elements.js';
 import { notifyLoading, notifySreenReader } from '../Util/accessibility.js';
-import { isInindiaKashmir } from "../Util/nominatim.js";
-import { fetchDetails } from './searchDetails.js';
-import { removeResults } from '../Util/doSearch.js';
+import { isInindiaKashmir } from "../services/nominatim.js";
+import { fetchDetails } from '../components/Search/place-details.js';
+import { removeResults } from '../services/do-search.js';
 import { successSound } from '../Util/sounds.js';
 import { geocodingAPI } from '../Util/misc.js';
-import { fetchindia } from '../Util/fetchindia.js';
-import { map } from '../map.js';
+import { fetchIndia } from '../services/fetch-india.js';
+import { map } from '../components/map.js';
 
 export var geoLayer;//for storing geojson layer other than boundary(like points and lines)
 const Options = {
@@ -59,7 +59,7 @@ async function geoJSON(type, id) {
 
   result = osmtogeojson(result); //converting JSON to geoJSON
   if (result.features[0].properties.name === 'India') {
-    result = await fetchindia();
+    result = await fetchIndia();
   }
   osmIds.forEach((value) => {
     // deduct kashmir parts from china and pak

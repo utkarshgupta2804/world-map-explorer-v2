@@ -1,4 +1,4 @@
-import { map } from "../map.js";
+import { map } from "../components/map.js";
 
 
 export function fetchCurrentLocation() {

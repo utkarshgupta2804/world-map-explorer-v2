@@ -1,4 +1,4 @@
-import { fetchKashmir } from "./fetchindia.js";
+import { fetchKashmir } from "./fetch-india.js";
 const bbox = L.latLngBounds(
     L.latLng(31.579199916145, 71.366088444458),  // Southwest corner (minLat, minLon)
     L.latLng(37.596155337118,80.442480694206)   // Northeast corner (maxLat, maxLon)

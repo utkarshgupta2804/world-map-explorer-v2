@@ -1,10 +1,10 @@
-import { clickSound } from '../Util/sounds.js';
-import { findplaceNamAandData } from '../Util/find-place-name-and-data.js';
+import { clickSound } from '../../Util/sounds.js';
+import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 import { map } from '../map.js';
-import { notifySreenReader } from '../Util/accessibility.js';
-import { toKMorMeter } from '../Util/misc.js';
-import { placeappear } from '../Search/placefetch.js';
-import { initializeAdPointer } from '../AdjPointer/adjustablePointer.js';
+import { notifySreenReader } from '../../Util/accessibility.js';
+import { toKMorMeter } from '../../Util/misc.js';
+import { placeappear } from '../../services/fetch-place.js';
+import { initializeAdPointer } from '../adjustable-pointer.js';
 
 let timeout;//for clearing timeout, for avoiding multiple unnecessary calls
 let pressCount = 0; //for counting key press for 'D' key

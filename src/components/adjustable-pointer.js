@@ -1,8 +1,8 @@
 import { notifySreenReader } from '../Util/accessibility.js';
-import { map } from '../map.js';
+import { map } from './map.js';
 import { toKMorMeter } from '../Util/misc.js';
-import { findplaceNamAandData } from '../Util/find-place-name-and-data.js';
-import Marker from '../Marker/mobile-marker.js';
+import { findplaceNamAandData } from '../services/find-place-name-and-data.js';
+import Marker from './Marker/marker.js';
 
 let isPointerStable = true; //flag to check if arrow is moving to reduce multiple api calls until first one is completed
 export var adjustablePointer;// initiaizing object of adjustable pointer

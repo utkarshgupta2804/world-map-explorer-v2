@@ -1,5 +1,5 @@
-import { performSearch, removeResults } from "../Util/doSearch.js";
-import { placeappear } from "./placefetch.js";
+import { performSearch, removeResults } from "../../services/do-search.js";
+import { placeappear } from "../../services/fetch-place.js";
  
 
 export function mainsearchbar(){ //for search bar in main page, run this function when enter key is pressed

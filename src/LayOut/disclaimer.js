@@ -49,13 +49,13 @@ export function addDisclaimer(){
   function handleKeyDown(event) {
     if (event.keyCode === 9) {
   
-        if(document.activeElement.id === 'messagec'){
+        if(document.activeElement=== message){
           closeButton.focus();
           console.log('close button focused')
       event.preventDefault();
   
         }
-        else if(document.activeElement.id === 'close-button'){
+        else if(document.activeElement=== closeButton){
           message.focus();
           console.log('message focused')
       event.preventDefault();

@@ -15,10 +15,10 @@ let wentFar = 0; //for counting how far went when fetching border
 let Kashmir = await fetchKashmir(); //for fetching kashmir border
 
 export function checkBorderCrossed(distance) {
-  if (this?._placeBorderofCurrentLocation) {
+  if (this?._placeBorderofCurrentLocation) { //checking if border is present already
     console.log('border found');
     if (
-      leafletPip.pointInLayer(
+      leafletPip.pointInLayer(  //checking if the marker is inside the border
         this.getLatLng(),
         this._placeBorderofCurrentLocation
       ).length <= 0 &&
@@ -28,15 +28,15 @@ export function checkBorderCrossed(distance) {
       bordercrossSound.play();
       oldName = presentName;
 
-      getBorder
+      getBorder //fetching border of the new location
         .bind(this)()
         .then((data) => {
           if (data.name != 'sea(mostly)') {
-            checkBorderCrossed.bind(this)(0);
+            checkBorderCrossed.bind(this)(0); // recalling the function to ensure the border is shown appropriately for the new location
           }
-          if (distance <= 60 && data.name != oldName.name) {
+          if (distance <= 60 && data.name != oldName.name) { // checking the distance between the old and new location is less than 60 pixels, only then it is considered as border crossed
             if (crossedhigherlevel(oldName, presentName)) {
-              //if crossed to higher level
+              //if crossed to higher level border(like district to another state district)
               notifySreenReader(
                 `${oldName.display_name} crossed. ${data.display_name} entered`,
                 true
@@ -70,8 +70,8 @@ export function checkBorderCrossed(distance) {
 //function for fetching and adding polygon to map
 export async function getBorder() {
   return new Promise(async (resolve, reject) => {
-    if (controller) {
-      controller.abort();
+    if (controller) { //aborting previous fetch request
+      controller.abort(); 
     }
     controller = new AbortController();
     const signal = controller.signal;
@@ -81,7 +81,7 @@ export async function getBorder() {
       this._placeBorderofCurrentLocation &&
         this._placeBorderofCurrentLocation.remove();
       const response = await fetch(
-        `${geocodingAPI}/reverse.php?lat=${this.getLatLng().lat}&lon=${this.getLatLng().lng}&zoom=${getZooom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1 / Math.pow(map.getZoom(), 3)}`,
+        `${geocodingAPI}/reverse.php?lat=${this.getLatLng().lat}&lon=${this.getLatLng().lng}&zoom=${getFixedZoom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1 / Math.pow(map.getZoom(), 3)}`,
         {
           signal: signal, // The signal object for cancellation
           referrerPolicy: 'strict-origin-when-cross-origin', // The referrer policy
@@ -129,7 +129,6 @@ export async function getBorder() {
         }
       } else if (error instanceof TypeError) {
         console.error(error);
-
         presentName = { name: 'sea(mostly)', display_name: 'sea(mostly)' };
       } else {
         console.error(error);
@@ -162,7 +161,7 @@ function crossedhigherlevel(cro, ent) { //for checking if crossed to higher leve
 }
 
 // for fixing district minimum view
-function getZooom() {
+function getFixedZoom() {
   if (map.getZoom() >= 8) {
     return 7;
   } else {

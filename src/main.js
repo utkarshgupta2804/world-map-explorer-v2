@@ -19,6 +19,6 @@ map.setView([10.16,76.64],7)
     window.marker = new Marker(map.getCenter()).addTo(map)
   })
 document.addEventListener('keydown',handleKeyDownOnDocument) // Initialize event listeners for key shortcuts on the document, general any time shortcuts
-addListenerstoUI() // Initialize event listeners for the UI elements
+addListenerstoUI() // Initialize event listeners for the UI elements on the page
 initialize_DistanceFinder_EventListeners(); // Initialize event listeners for the distance finder
 addDisclaimer() // Add a disclaimer to the UI

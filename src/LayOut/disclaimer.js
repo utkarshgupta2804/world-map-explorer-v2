@@ -46,7 +46,7 @@ export function addDisclaimer(){
   messageContainer.appendChild(message);
   disclaimer.appendChild(messageContainer);
   document.body.prepend(disclaimer);
-  function handleKeyDown(event) {
+  function handleKeyDown(event, message, closeButton) {
     if (event.keyCode === 9) {
   
         if(document.activeElement=== message){
@@ -63,7 +63,7 @@ export function addDisclaimer(){
         }
     }
   }
-  document.addEventListener('keydown', handleKeyDown);
+  document.addEventListener('keydown', handleKeyDown.bind(null, event, message, closeButton));  
   // disclaimer part ends
   window.onload = function () { 
     message.focus();

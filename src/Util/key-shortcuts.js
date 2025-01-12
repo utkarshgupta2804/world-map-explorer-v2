@@ -8,7 +8,7 @@ import { notifySreenReader } from "./accessibility.js";
 let active = -1
 
 
-export function handleKeyDownOnDocument(event) { //for key shortcuts related to document
+export function handleKeyDownOnDocument(event) { //for key shortcuts for the whole application
     if (event.code == "Escape") {
         document.getElementById("closeBtnD").click(); // close search details box
         document.getElementById("closeBtn").click(); // close search details box
@@ -45,7 +45,7 @@ export function handleKeyDownOnDocument(event) { //for key shortcuts related to 
 
 
 
-export function keyboardselect(e){ 
+export function keyboardselect(e){  // for arrow key navigation in search results
     if (e.keyCode == 40) {
     e.preventDefault()
       if (active < this.querySelector("#search-results").children.length-1) {
@@ -73,7 +73,7 @@ export function keyboardselect(e){
 
 
 
-export function handleKeyDownK(event) {
+export function handleKeyDownK(event) { // for lock tab key in key shortcuts display pane 
     if (event.keyCode === 9) {
       event.preventDefault();
         if(document.activeElement.id === 'keysTextc'){

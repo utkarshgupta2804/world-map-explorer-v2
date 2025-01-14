@@ -1,8 +1,7 @@
 
-import { successSound } from "./sounds.js";
 import { distanceBox, distanceIcon, input } from "./dom-elements.js";
 import { map } from "../components/map.js";
-import { keys, keysText } from "./display-shortcuts.js";
+import { displayKeyShortcuts } from "./show-key-shortcuts.js";
 import { notifySreenReader } from "./accessibility.js";
 
 let active = -1
@@ -20,14 +19,9 @@ export function handleKeyDownOnDocument(event) { //for key shortcuts for the who
         input?.focus(); 
     }
     if (event.altKey && event.code == "KeyK") {
+      event.preventDefault()
         //for geting key shortcuts
-        document.body.prepend(keys);
-        successSound.play();
-        document.addEventListener("keydown", handleKeyDownK);
-
-        setTimeout(() => {
-            keysText.focus();
-        }, 0);
+       displayKeyShortcuts()
     }
     if (event.altKey && event.code == "KeyM") {
         //for stating altitude
@@ -45,7 +39,7 @@ export function handleKeyDownOnDocument(event) { //for key shortcuts for the who
 
 
 
-export function keyboardselect(e){  // for arrow key navigation in search results
+export function keyboardselect(e){  //function for arrow key navigation in search results
     if (e.keyCode == 40) {
     e.preventDefault()
       if (active < this.querySelector("#search-results").children.length-1) {
@@ -68,21 +62,20 @@ export function keyboardselect(e){  // for arrow key navigation in search result
   }
 
 
-
-
-
-
-
-export function handleKeyDownK(event) { // for lock tab key in key shortcuts display pane 
+export function lockTabKey(event, text, closeButton) {
     if (event.keyCode === 9) {
-      event.preventDefault();
-        if(document.activeElement.id === 'keysTextc'){
-          closeButtonK.focus();
+  
+        if(document.activeElement=== text){
+          closeButton.focus();
           console.log('close button focused')
+      event.preventDefault();
+  
         }
-        else{
-          keysText.focus();
-          console.log('keysText focused')
+        else if(document.activeElement=== closeButton){
+          text.focus();
+          console.log('message focused')
+      event.preventDefault();
+  
         }
     }
   }

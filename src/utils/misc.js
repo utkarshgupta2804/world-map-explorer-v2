@@ -14,4 +14,4 @@ export function calculateHeight() { //function to calculate the height of the vi
     document.getElementById("camera-height").innerText = "View Height :" + toKMorMeter(num);
 }
 
-export const geocodingAPI = 'https://nominatim.geocoding.ai';
+export const geocodingAPI = 'https://nominatim.openstreetmap.com';

@@ -1,5 +1,6 @@
 // Code for the disclaimer
-import { closeSound } from "../Util/sounds.js";
+import { lockTabKey } from "../utils/key-shortcuts.js";
+import { closeSound } from "../utils/sounds.js";
 
 const disclaimer = document.createElement('div');
 disclaimer.id = 'disclaimer';
@@ -34,36 +35,23 @@ closeButton.id = 'close-button';
 closeButton.setAttribute('aria-label', 'Close Disclaimer');
 closeButton.textContent = 'X';
 
+
+const lockTabKeyRefer = (event)=> lockTabKey(event, message, closeButton)
+
+closeButton.addEventListener('click', () => {
+  document.removeEventListener('keydown', lockTabKeyRefer);
+  disclaimer.remove();
+  closeSound.play()
+});
+message.appendChild(closeButton);
+  
+messageContainer.appendChild(message);
+disclaimer.appendChild(messageContainer);
+
 export function addDisclaimer(){
-  closeButton.addEventListener('click', () => {
-    document.removeEventListener('keydown', handleKeyDown);
-    disclaimer.remove();
-    closeSound.play()
-  });
-  
-  message.appendChild(closeButton);
-  
-  messageContainer.appendChild(message);
-  disclaimer.appendChild(messageContainer);
   document.body.prepend(disclaimer);
-  function handleKeyDown(event, message, closeButton) {
-    if (event.keyCode === 9) {
-  
-        if(document.activeElement=== message){
-          closeButton.focus();
-          console.log('close button focused')
-      event.preventDefault();
-  
-        }
-        else if(document.activeElement=== closeButton){
-          message.focus();
-          console.log('message focused')
-      event.preventDefault();
-  
-        }
-    }
-  }
-  document.addEventListener('keydown', handleKeyDown.bind(null, event, message, closeButton));  
+
+  document.addEventListener('keydown', lockTabKeyRefer);  
   // disclaimer part ends
   window.onload = function () { 
     message.focus();

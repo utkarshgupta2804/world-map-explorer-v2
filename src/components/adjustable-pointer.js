@@ -1,6 +1,6 @@
-import { notifySreenReader } from '../Util/accessibility.js';
+import { notifySreenReader } from '../utils/accessibility.js';
 import { map } from './map.js';
-import { toKMorMeter } from '../Util/misc.js';
+import { toKMorMeter } from '../utils/misc.js';
 import { findplaceNamAandData } from '../services/find-place-name-and-data.js';
 import Marker from './Marker/marker.js';
 

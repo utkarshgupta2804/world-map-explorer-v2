@@ -1,7 +1,7 @@
-import { notifyLoading, notifySreenReader } from "../Util/accessibility.js";
-import { keyboardselect } from "../Util/key-shortcuts.js";
-import { successSound } from "../Util/sounds.js";
-import { geocodingAPI } from "../Util/misc.js";
+import { notifyLoading, notifySreenReader } from "../utils/accessibility.js";
+import { keyboardselect } from "../utils/key-shortcuts.js";
+import { successSound } from "../utils/sounds.js";
+import { geocodingAPI } from "../utils/misc.js";
 
 var placeIds = [];
 

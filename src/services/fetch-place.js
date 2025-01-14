@@ -1,10 +1,10 @@
-import { det } from '../Util/dom-elements.js';
-import { notifyLoading, notifySreenReader } from '../Util/accessibility.js';
+import { det } from '../utils/dom-elements.js';
+import { notifyLoading, notifySreenReader } from '../utils/accessibility.js';
 import { isInindiaKashmir } from "../services/nominatim.js";
 import { fetchDetails } from '../components/Search/place-details.js';
 import { removeResults } from '../services/do-search.js';
-import { successSound } from '../Util/sounds.js';
-import { geocodingAPI } from '../Util/misc.js';
+import { successSound } from '../utils/sounds.js';
+import { geocodingAPI } from '../utils/misc.js';
 import { fetchIndia } from '../services/fetch-india.js';
 import { map } from '../components/map.js';
 

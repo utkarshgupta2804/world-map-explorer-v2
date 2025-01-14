@@ -1,8 +1,8 @@
-import { clickSound } from '../../Util/sounds.js';
+import { clickSound } from '../../utils/sounds.js';
 import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 import { map } from '../map.js';
-import { notifySreenReader } from '../../Util/accessibility.js';
-import { toKMorMeter } from '../../Util/misc.js';
+import { notifySreenReader } from '../../utils/accessibility.js';
+import { toKMorMeter } from '../../utils/misc.js';
 import { placeappear } from '../../services/fetch-place.js';
 import { initializeAdPointer } from '../adjustable-pointer.js';
 

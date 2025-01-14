@@ -1,6 +1,6 @@
 import { tileLayerPolitical } from "./tile-layer.js";
-import { toKMorMeter } from "../Util/misc.js";
-import { notifySreenReader } from "../Util/accessibility.js";
+import { toKMorMeter } from "../utils/misc.js";
+import { notifySreenReader } from "../utils/accessibility.js";
 import { addIndiaBoundaries } from "../services/fetch-india.js";
 
 

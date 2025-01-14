@@ -39,7 +39,6 @@ map.getPane("borderPane").style.zIndex = 200; //sets the z-index of the boundary
   //fetches the boundary data of correct India and adds it to the map
 export async function addIndiaBoundaries() { 
   const data = await getIndiaBoundary() //temporary storage of the boundary data
-  console.log("fetching boundary")
  indiaBoundaries = L.geoJSON(data, {
    style: boundaryStyle(data),
    pane: "borderPane",

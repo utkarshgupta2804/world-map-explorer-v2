@@ -1,11 +1,11 @@
 import { map } from '../map.js';
-import { notifySreenReader } from '../../Util/accessibility.js';
-import { bordercrossSound } from '../../Util/sounds.js';
+import { notifySreenReader } from '../../utils/accessibility.js';
+import { bordercrossSound } from '../../utils/sounds.js';
 import { isInindiaKashmir } from "../../services/nominatim.js";
 import { osmIds } from '../../services/fetch-place.js';
 import { fetchIndia, fetchKashmir } from '../../services/fetch-india.js';
 import { findborderpoints } from './border-distance.js';
-import { geocodingAPI } from '../../Util/misc.js';
+import { geocodingAPI } from '../../utils/misc.js';
 
 let controller = null; //for aborting fetch request
 let errorCount = 0;

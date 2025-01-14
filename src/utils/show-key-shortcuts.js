@@ -1,11 +1,12 @@
-import { handleKeyDownK } from "./key-shortcuts.js";
+import { lockTabKey } from "./key-shortcuts.js";
+import { successSound } from "./sounds.js";
 
-export const keys = document.createElement('div');
+const keys = document.createElement('div');
 keys.id = 'keys';
 keys.setAttribute('role', 'alert');
 keys.setAttribute('aria-label', 'keys');
 
-export const keysText = document.createElement('p');
+const keysText = document.createElement('p');
 keysText.setAttribute("tabindex", 1);
 keysText.setAttribute("aria-atom","true");
 keysText.id = 'keysTextc';
@@ -43,18 +44,26 @@ keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
 `;
 
 
-const closeButtonK = document.createElement('button');
-closeButtonK.id = 'close-button-k';
-closeButtonK.setAttribute('aria-label', 'Close keys');
-closeButtonK.textContent = 'X';
+const closeButtonforKeys = document.createElement('button');
+closeButtonforKeys.id = 'close-button-k';
+closeButtonforKeys.setAttribute('aria-label', 'Close keys');
+closeButtonforKeys.textContent = 'X';
+const lockTabKeyRefer = (event)=> lockTabKey(event, keysText, closeButtonforKeys)
 
-  closeButtonK.addEventListener('click', () => {
-    document.removeEventListener('keydown', handleKeyDownK);
+  closeButtonforKeys.addEventListener('click', () => {
+    document.removeEventListener('keydown', lockTabKeyRefer);
     keys.remove();
     closeSound.play()
   });
-  
-  keysText.appendChild(closeButtonK);
-  
+  keysText.appendChild(closeButtonforKeys);
   keysTextContainer.appendChild(keysText);
   keys.appendChild(keysTextContainer);
+export function displayKeyShortcuts(){
+   document.body.prepend(keys);
+          successSound.play();
+          document.addEventListener("keydown", lockTabKeyRefer);
+  
+          setTimeout(() => {
+              keysText.focus();
+          }, 0);
+}

@@ -6,7 +6,7 @@ import {
 import { map } from '../map.js';
 import { findborderpoints } from './border-distance.js';
 import { getBorder, checkBorderCrossed } from './border-cross.js';
-import { notifySreenReader } from '../../Util/accessibility.js';
+import { notifySreenReader } from '../../utils/accessibility.js';
 import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 
 export const Marker = L.CircleMarker.extend({

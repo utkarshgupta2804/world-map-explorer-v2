@@ -1,10 +1,10 @@
 import { tileLayerGeographical, tileLayerPolitical } from '../components/tile-layer.js';
 import { geoLayer } from '../services/fetch-place.js';
 import { mainsearchbar } from '../components/Search/search.js';
-import { detailsCloseButton } from '../Util/dom-elements.js';
+import { detailsCloseButton } from '../utils/dom-elements.js';
 import { fetchCurrentLocation } from '../services/current-location.js';
-import { generalEvents } from '../Util/general-events.js';
-import { closeSound } from '../Util/sounds.js';
+import { generalEvents } from '../utils/general-events.js';
+import { closeSound } from '../utils/sounds.js';
 import { map } from '../components/map.js';
 
 

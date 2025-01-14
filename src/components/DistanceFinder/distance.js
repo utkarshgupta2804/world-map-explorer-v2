@@ -7,8 +7,8 @@ import {
   handleStartingLocationSearch 
 } from "./calculate-distance.js";
 
-import { detailsCloseButton, distanceBox, distanceIcon } from "../../Util/dom-elements.js";
-import { successSound } from "../../Util/sounds.js";
+import { detailsCloseButton, distanceBox, distanceIcon } from "../../utils/dom-elements.js";
+import { successSound } from "../../utils/sounds.js";
 import { adjustablePointer } from "../adjustable-pointer.js";
 
 // Tracks the currently focused input element (starting or destination location)

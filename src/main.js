@@ -1,9 +1,9 @@
 import { initialize_DistanceFinder_EventListeners } from "./components/DistanceFinder/distance.js";
-import { addListenerstoUI } from "./layouts/add-listeners-to-ui.js";
+import { addListenerstoUI } from "./layout/add-listeners-to-ui.js";
 import { map } from "./components/map.js";
 import { Marker } from "./components/Marker/marker.js";
 import { handleKeyDownOnDocument } from "./utils/key-shortcuts.js";
-import { addDisclaimer } from "./layouts/disclaimer.js";
+import { addDisclaimer } from "./layout/disclaimer.js";
 let marker
 
 fetch('https://ipinfo.io/json') //fetching the location of the user and setting the map to that location, if failed then setting it to the default location

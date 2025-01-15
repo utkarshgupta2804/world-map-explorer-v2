@@ -1,23 +1,23 @@
-import { notifySreenReader } from '../utils/accessibility.js';
-import { map } from './map.js';
-import { toKMorMeter } from '../utils/misc.js';
-import { findplaceNamAandData } from '../services/find-place-name-and-data.js';
-import Marker from './Marker/marker.js';
+import { notifySreenReader } from '../../utils/accessibility.js';
+import { map } from '../map.js';
+import { toKMorMeter } from '../../utils/toKMorMeter.js';
+import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
+import Marker from './marker.js';
 
 let isPointerStable = true; //flag to check if arrow is moving to reduce multiple api calls until first one is completed
-export var adjustablePointer;// initiaizing object of adjustable pointer
-export function initializeAdPointer(coord) {
+export let adjustablePointer;// initiaizing object of adjustable pointer
+export function initializeAdjustablePointer(coord) {
   if (marker) {
     marker.remove();
   }
-  if (!adjustablePointer) {
+  
     adjustablePointer = new L.adjustablePointer(coord); // distance in meters, angle in degrees
     adjustablePointer.addTo(map);
     notifySreenReader(
       `Adjustable pointer on.use 'UP' and 'DOWN' arrow keys to change distance. 'LEFT' and 'RIGHT' arrow keys to change angle`,
       true
     );
-  }
+  
 }
 
 L.adjustablePointer = L.Layer.extend({

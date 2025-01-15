@@ -1,3 +1,11 @@
+/*
+
+source:
+
+https://github.com/tyrasd/osmtogeojson#usage
+
+*/
+
 !(function (e) {
   "object" == typeof exports && "undefined" != typeof module
     ? (module.exports = e())

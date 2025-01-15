@@ -5,7 +5,7 @@ import { isInindiaKashmir } from "../../services/nominatim.js";
 import { osmIds } from '../../services/fetch-place.js';
 import { fetchIndia, fetchKashmir } from '../../services/fetch-india.js';
 import { findborderpoints } from './border-distance.js';
-import { geocodingAPI } from '../../utils/misc.js';
+import { geocodingAPI } from '../../utils/toKMorMeter.js';
 
 let controller = null; //for aborting fetch request
 let errorCount = 0;

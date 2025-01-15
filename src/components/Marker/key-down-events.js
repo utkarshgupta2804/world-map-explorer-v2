@@ -2,9 +2,9 @@ import { clickSound } from '../../utils/sounds.js';
 import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 import { map } from '../map.js';
 import { notifySreenReader } from '../../utils/accessibility.js';
-import { toKMorMeter } from '../../utils/misc.js';
+import { toKMorMeter } from '../../utils/toKMorMeter.js';
 import { placeappear } from '../../services/fetch-place.js';
-import { initializeAdPointer } from '../adjustable-pointer.js';
+import { initializeAdjustablePointer } from './adjustable-pointer.js';
 
 let timeout;//for clearing timeout, for avoiding multiple unnecessary calls
 let pressCount = 0; //for counting key press for 'D' key
@@ -15,7 +15,7 @@ export function markerShortcuts(event) { //for key shortcuts related to marker, 
     handleKeyDPress.bind(this)(event);
   }
   if ('KeyJ' == event.code) {
-    initializeAdPointer(this.getLatLng());
+    initializeAdjustablePointer(this.getLatLng());
     event.preventDefault();
   }
   if (event.code == 'KeyF') {

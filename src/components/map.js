@@ -1,5 +1,5 @@
 import { tileLayerPolitical } from "./tile-layer.js";
-import { toKMorMeter } from "../utils/misc.js";
+import { toKMorMeter } from "../utils/toKMorMeter.js";
 import { notifySreenReader } from "../utils/accessibility.js";
 import { addIndiaBoundaries } from "../services/fetch-india.js";
 
@@ -53,3 +53,5 @@ function calculateHeight() {
 }
 
 L.control.scale().addTo(map); // this adds the visible scale to the map
+
+

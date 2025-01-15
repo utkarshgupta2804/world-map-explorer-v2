@@ -3,6 +3,7 @@ import { map } from '../map.js';
 import { toKMorMeter } from '../../utils/to-km-or-meter.js';
 import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 import Marker from './marker.js';
+import { clickSound } from '../../utils/sounds.js';
 
 let isPointerStable = true; //flag to check if arrow is moving to reduce multiple api calls until first one is completed
 export let adjustablePointer;// initiaizing object of adjustable pointer
@@ -147,7 +148,7 @@ L.adjustablePointer = L.Layer.extend({
 
   _handleKeydown: function (event) {
     event = event.originalEvent;
-    console.log(event.code);
+    clickSound.play();
     switch (event.code) {
       case 'KeyJ':
         adjustablePointer.remove();
@@ -161,29 +162,23 @@ L.adjustablePointer = L.Layer.extend({
       case 'ArrowUp':
         adjustablePointer.distance = adjustablePointer.distance + 10; 
         adjustablePointer._secondoryupdate(adjustablePointer.primaryMarker.getLatLng());
-        notifySreenReader(
-          'Flat Distance: ' + adjustablePointer.fdiskm + 'Real: ' + adjustablePointer.diskm
-        );
+        
 
         break;
       case 'ArrowDown':
         adjustablePointer.distance = adjustablePointer.distance - 10;
         adjustablePointer._secondoryupdate(adjustablePointer.primaryMarker.getLatLng());
-        notifySreenReader(
-          'Flat Distance: ' + adjustablePointer.fdiskm + 'Real: ' + adjustablePointer.diskm
-        );
+       
         break;
       case 'ArrowRight':
         adjustablePointer.angle = adjustablePointer.angle + 1;
         adjustablePointer._secondoryupdate(adjustablePointer.primaryMarker.getLatLng());
 
-        notifySreenReader('Angle: ' + adjustablePointer.ang);
         break;
       case 'ArrowLeft':
         adjustablePointer.angle = adjustablePointer.angle - 1;
         adjustablePointer._secondoryupdate(adjustablePointer.primaryMarker.getLatLng());
 
-        notifySreenReader('Angle: ' + adjustablePointer.ang);
         break;
       case 'KeyF':
         notifySreenReader(document.getElementById('infoBox').textContent);
@@ -205,13 +200,21 @@ L.adjustablePointer = L.Layer.extend({
     if (isPointerStable && event.code.startsWith('Arrow')) {
       isPointerStable = false;
       setTimeout(() => {
+        if(event.code == 'ArrowUp' || event.code == 'ArrowDown'){
+          notifySreenReader(
+            'Flat Distance: ' + toKMorMeter(adjustablePointer.flatdist) + 'Real: ' + toKMorMeter(adjustablePointer.distanceOriginal)
+          );
+        }
+        if(event.code == 'ArrowRight' || event.code == 'ArrowLeft'){
+          notifySreenReader('Angle: ' + Math.round(adjustablePointer.angle) + ' degrees. ' + getDirection(adjustablePointer.angle));
+        }
         findplaceNamAandData
           .bind(adjustablePointer.secondaryMarker)(adjustablePointer.secondaryMarker)
           .then((nm) => {
             document.getElementById('placeDisplay').textContent = nm.name;
             isPointerStable = true;
           });
-      }, 650);
+      }, 1000);
     }
   },
 
@@ -327,21 +330,7 @@ L.adjustablePointer = L.Layer.extend({
 
       // Update the display:
 
-      function getDirection(angle) {
-        angle = (angle + 360) % 360; // Normalize angle to [0, 360)
-        const directions = [
-          'North.',
-          'North-East.',
-          'East.',
-          'South-East.',
-          'South.',
-          'South-West.',
-          'West.',
-          'North-West.',
-        ];
-        const index = Math.round(angle / 45) % 8;
-        return directions[index];
-      }
+      
 
       document.getElementById('distanceDisplay').textContent = toKMorMeter(
         this.distanceOriginal
@@ -385,4 +374,21 @@ function distanceOnMap(point1, point2) {
   let r = 6371;
 
   return c * r * 1000;
+}
+
+
+function getDirection(angle) {
+  angle = (angle + 360) % 360; // Normalize angle to [0, 360)
+  const directions = [
+    'North.',
+    'North-East.',
+    'East.',
+    'South-East.',
+    'South.',
+    'South-West.',
+    'West.',
+    'North-West.',
+  ];
+  const index = Math.round(angle / 45) % 8;
+  return directions[index];
 }

@@ -4,7 +4,7 @@ import { isInindiaKashmir } from "../services/nominatim.js";
 import { fetchDetails } from '../components/Search/place-details.js';
 import { removeResults } from '../services/do-search.js';
 import { successSound } from '../utils/sounds.js';
-import { geocodingAPI } from '../utils/toKMorMeter.js';
+import { geocodingAPI } from '../utils/to-km-or-meter.js';
 import { fetchIndia } from '../services/fetch-india.js';
 import { map } from '../components/map.js';
 

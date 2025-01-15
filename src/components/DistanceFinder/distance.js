@@ -1,7 +1,7 @@
 
 import { geoLayer } from "../../services/fetch-place.js";
 import { performSearch } from "../../services/do-search.js";
-import { toKMorMeter } from "../../utils/toKMorMeter.js";
+import { toKMorMeter } from "../../utils/to-km-or-meter.js";
 import { closeSound } from "../../utils/sounds.js";
 import { FOSSGISValhallaEngine } from "./FOSSGISValhallaEngine.js";
 

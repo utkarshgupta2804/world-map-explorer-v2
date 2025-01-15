@@ -20,12 +20,12 @@ export const osmIds = [ //osm ids of kasmir included parts of china and pak
 ];
 
 export async function showPlaceDetails(result) {
-  let area= await geoJSON(result.osm_type, result.osm_id); //fetching geoJSON data (vector boundary data) and adding to map, then returning the area
   removeResults();
   detalisElement.parentElement.style.display = 'block';
   detalisElement.innerHTML =
     '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></h2>';
   let Loadinginterval = setInterval(notifyLoading, 2000); //loading animation
+  let area= await geoJSON(result.osm_type, result.osm_id); //fetching geoJSON data (vector boundary data) and adding to map, then returning the area
   fetchDetails(result, area)
     .then(async (data) => {
       successSound.play();

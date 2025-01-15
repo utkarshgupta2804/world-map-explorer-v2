@@ -1,54 +1,43 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const PORT = process.env.PORT || 3000;
-const publicDir = path.join(__dirname, 'public');
+// Get the directory name from import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const PORT = process.env.PORT || 3007;
 
 const mimeTypes = {
   '.html': 'text/html',
-  '.js': 'application/javascript',
   '.css': 'text/css',
+  '.js': 'application/javascript',
+  '.ico': 'image/x-icon',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
-  '.wav': 'audio/wav',
-  '.json': 'application/json'
+  '.jpeg': 'image/jpeg',
+  '.svg': 'image/svg+xml',
 };
 
-// Function to serve static files
-const serveFile = (filePath, res) => {
-  const ext = path.extname(filePath);
-  const contentType = mimeTypes[ext] || 'application/octet-stream';
+const server = http.createServer((req, res) => {
+  let filePath = '.' + req.url;
+  if (filePath == './') filePath = './public/index.html';  // Default to index.html
 
-  fs.readFile(filePath, (err, data) => {
+  const extname = String(path.extname(filePath)).toLowerCase();
+  const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+  fs.readFile(path.join(__dirname, filePath), (err, content) => {
     if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.write('404 Not Found');
-      res.end();
+      res.writeHead(404);
+      res.end('Sorry, we couldn\'t find that!');
     } else {
       res.writeHead(200, { 'Content-Type': contentType });
-      res.end(data, 'utf-8');
+      res.end(content);
     }
   });
-};
+});
 
-// Create server
-http.createServer((req, res) => {
-  let filePath = path.join(publicDir, req.url === '/' ? 'index.html' : req.url);
-
-  // Automatically load index.html when navigating to /userguide/
-  
-
-  // Ensure the file exists
-  fs.exists(filePath, exists => {
-    if (exists) {
-      serveFile(filePath, res);
-    } else {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.write('404 Not Found');
-      res.end();
-    }
-  });
-}).listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

@@ -30,8 +30,6 @@ export function handleKeyDownOnDocument(event) { //for key shortcuts for the who
     if (event.ctrlKey && event.altKey && event.code == "KeyG") {
         //
         event.preventDefault();
-
-        console.log("gggg");
         distanceIcon.click();
         distanceBox.focus();
     }

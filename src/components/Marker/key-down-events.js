@@ -10,48 +10,54 @@ let timeout;//for clearing timeout, for avoiding multiple unnecessary calls
 let pressCount = 0; //for counting key press for 'D' key
 let lastPressTime = 0; //store last key press time
 
-export function markerShortcuts(event) { //for key shortcuts related to marker, always bind this to marker
-  if (event.code == 'KeyD') {
-    handleKeyDPress.bind(this)(event);
-  }
-  if ('KeyJ' == event.code) {
-    initializeAdjustablePointer(this.getLatLng());
-    event.preventDefault();
-  }
-  if (event.code == 'KeyF') {
-    event.preventDefault();
-    findplaceNamAandData.bind(this)(this);
-  }
-  if (event.code == 'KeyF' && event.shiftKey) {
-    event.preventDefault();
-    getCoordinates(this);
-  }
-  if (event.code == 'Enter') {
-    pressEnter.bind(this)();
-  }
-  if (event.shiftKey) {
-    if (event.key.startsWith('Arrow')) {
+export function markerShortcuts(event) {
+  const keyActions = {
+    KeyD: () => handleKeyDPress.bind(this)(event),
+    KeyJ: () => {
+      initializeAdjustablePointer(this.getLatLng());
+      event.preventDefault();
+    },
+    KeyF: () => {
+      if (event.shiftKey) {
+        getCoordinates(this);
+      } else {
+        event.preventDefault();
+        findplaceNamAandData.bind(this)(this);
+      }
+    },
+    Enter: () => pressEnter.bind(this)(),
+    KeyZ: () => {
+      event.preventDefault();
+      getScaledDistance.bind(this)();
+    },
+    KeyA: () => {
+      event.preventDefault();
+      notifySreenReader(document.getElementById('elevation').innerHTML);
+    },
+  };
+
+  const arrowActions = () => {
+    if (event.shiftKey) {
       getBorderDistance.bind(this)(event);
+    } else {
+      timeout && clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        findplaceNamAandData
+          .bind(this)(this)
+          .then((place) => {
+            notifySreenReader(place.name, true);
+          });
+      }, 650);
+      if (map) map.panTo(this.getLatLng());
     }
-  }
-  if (event.code == 'KeyZ') {
+  };
+
+  // Execute the action corresponding to the event code or handle arrow keys
+  if (keyActions[event.code]) {
     event.preventDefault();
-    getScaledDistance.bind(this)();
-  }
-  if (event.code == 'KeyA') {
-    event.preventDefault();
-    notifySreenReader(document.getElementById('elevation').innerHTML);
-  }
-  if (event.key.startsWith('Arrow') && !event.shiftKey) {
-    timeout && clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      findplaceNamAandData
-        .bind(this)(this)
-        .then((place) => {
-          notifySreenReader(place.name, true);
-        });
-    }, 650);
-    if (map) map.panTo(this.getLatLng());
+    keyActions[event.code]();
+  } else if (event.key.startsWith('Arrow')) {
+    arrowActions();
   }
 }
 
@@ -119,33 +125,31 @@ function getBorderDistance(event) { //for getting distance from border
   notifySreenReader(`${distance} ${direction.label}`, true);
 }
 
-function getNextLatLng(direction) { //for getting next latlng on any arrow key press
+function getNextLatLng(direction) {
   clickSound.play();
-  var center = this.getLatLng();
+  const center = this.getLatLng();
   console.log(map);
-  var point = map.latLngToLayerPoint(center);
-  var lat = point.x;
-  var lng = point.y;
-  let movement = 10; 
-  switch (direction) {
-    case 'ArrowUp':
-      lng -= movement; 
-      break;
-    case 'ArrowDown':
-      lng += movement; 
-      break;
-    case 'ArrowLeft':
-      lat -= movement; 
-      break;
-    case 'ArrowRight':
-      lat += movement; 
-      break;
+  const point = map.latLngToLayerPoint(center);
+  let { x: lat, y: lng } = point; // Destructure point coordinates
+  const movement = 10; // Define movement step size
+
+  // Define movement actions for each direction
+  const directionActions = {
+    ArrowUp: () => (lng -= movement),
+    ArrowDown: () => (lng += movement),
+    ArrowLeft: () => (lat -= movement),
+    ArrowRight: () => (lat += movement),
+  };
+
+  if (directionActions[direction]) {
+    directionActions[direction]();
   }
 
-  // Set the new center of the map
-  const mar = map.layerPointToLatLng(L.point(lat, lng));
-  return mar;
+  const newLatLng = map.layerPointToLatLng({ x: lat, y: lng });
+  return newLatLng;
 }
+
+
 
 function getScaledDistance() { //for getting distance per key press
   try {

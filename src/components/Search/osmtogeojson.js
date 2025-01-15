@@ -2,7 +2,7 @@
 
 source:
 
-https://github.com/tyrasd/osmtogeojson#usage
+https://github.com/tyrasd/osmtogeojson 
 
 */
 

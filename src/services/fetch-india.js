@@ -10,13 +10,13 @@ map.getPane("borderPane").style.zIndex = 200; //sets the z-index of the boundary
 
   
   export async function getIndiaBoundary() { //function to add the boundary lines to the map
-    fetch('/src/assets/geojson/boundary.geojson')
+    return fetch('/src/assets/geojson/boundary.geojson')
       .then(response => response.json())
       .then(data => {
         return data
       });
   } //function to add the boundary lines to the map
-
+window.getIndiaBoundary = getIndiaBoundary;
   export async function fetchIndia() {
     return fetch('/src/assets/geojson/india-osm.geojson')
       .then(response => response.json())
@@ -38,9 +38,10 @@ map.getPane("borderPane").style.zIndex = 200; //sets the z-index of the boundary
 
   //fetches the boundary data of correct India and adds it to the map
 export async function addIndiaBoundaries() { 
+  indiaBoundaries?.remove(); //removes the boundary lines if they are already present on the map
   const data = await getIndiaBoundary() //temporary storage of the boundary data
  indiaBoundaries = L.geoJSON(data, {
-   style: boundaryStyle(data),
+   style: boundaryStyle,
    pane: "borderPane",
  }).addTo(map);
 } //function to add the boundary lines to the map
@@ -48,16 +49,13 @@ export async function addIndiaBoundaries() {
 function boundaryStyle(feature) {  //function to style the boundary lines of disputed and claimed territories
   // the weight is a function of the current map scale
   var wt;
-  console.log(feature, "feature")
   wt = map.getZoom() / 4;
   switch (feature.properties.boundary) {
     case 'disputed':
-      console.log("disputed")
       return {
         color: "#f2efea", weight: wt * 2,
       };
     case 'claimed':
-      console.log("claimed")
       return {
         color: "#b9a8b9", weight: wt
       };

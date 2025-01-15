@@ -5,10 +5,11 @@ import { toKMorMeter } from "../../utils/to-km-or-meter.js";
 import { closeSound } from "../../utils/sounds.js";
 import { FOSSGISValhallaEngine } from "./FOSSGISValhallaEngine.js";
 
-import { detailsCloseButton, distanceBox, distanceIcon } from "../../utils/dom-elements.js";
+import { detailsCloseButton, detalisElement, distanceBox, distanceIcon } from "../../utils/dom-elements.js";
 import { successSound } from "../../utils/sounds.js";
 import { adjustablePointer } from "../Marker/adjustable-pointer.js";
 import Marker from "../Marker/marker.js";
+import { notifySreenReader } from "../../utils/accessibility.js";
 
 // Tracks the currently focused input element (starting or destination location)
 let activeInputElement = null;
@@ -42,7 +43,7 @@ export const initialize_DistanceFinder_EventListeners = () => {
   // Opens the distance box and cleans up previous actions
   distanceIcon.addEventListener("click", () => {
     distanceBox.style.display = "block";
-    detailsCloseButton?.click(); // Closes the details box if open
+    if(detalisElement.parentElement.style.display == 'block') detailsCloseButton.click(); // close search details box
     if (adjustablePointer) {
       marker = new Marker(adjustablePointer.primaryMarker.getLatLng()).addTo(map); // Creates a new marker on the map
       adjustablePointer.remove(); // Removes any active pointer on the map
@@ -226,4 +227,5 @@ export function closeDistanceFinder() {
     startingLocationElement.value = "";
     destinationLocationElement.value = "";
     distanceBox.style.display = "none";
+    notifySreenReader("Distance finder closed");
 }

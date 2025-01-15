@@ -2,7 +2,7 @@ import { performSearch, removeResults } from "../../services/do-search.js";
 import { showPlaceDetails } from "../../services/fetch-place.js";
  
 
-export function mainsearchbar(){ //for search bar in main page, run this function when enter key is pressed
+export function onSubmitonMainSearchBar(){ //for search bar in main page, run this function when enter key is pressed
     removeResults()
     performSearch(document.getElementById("search-input"), "") //search for the input value
         .then((result) => {//if search is successful, show the results

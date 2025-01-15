@@ -1,3 +1,5 @@
+import { notifySreenReader } from "../../utils/accessibility.js";
+
 export function findborderpoints(place){   //function to find the all four border points of the given location, N E W S
     try {
         console.log(place,"from findborderpoints");
@@ -14,6 +16,9 @@ export function findborderpoints(place){   //function to find the all four borde
         var LesserNumbers = val.filter((num) => num < this.getLatLng().lat);
         const north = Math.min(...greaterNumbers);
         const south = Math.max(...LesserNumbers);
+        if (!isFinite(north) || !isFinite(south)) {
+            throw new Error('One or both of the values are not valid numbers');
+          }
 
         const latitude = this.getLatLng().lat;
         const lineWE = turf.lineString([
@@ -28,6 +33,9 @@ export function findborderpoints(place){   //function to find the all four borde
         LesserNumbers = val.filter((num) => num < this.getLatLng().lng);
         const east = Math.min(...greaterNumbers);
         const west = Math.max(...LesserNumbers);
+        if (!isFinite(east) || !isFinite(west)) {
+            throw new Error('One or both of the values are not valid numbers');
+          }
         return {
             north: [north, longitude],
             south: [south, longitude],
@@ -35,6 +43,7 @@ export function findborderpoints(place){   //function to find the all four borde
             east: [latitude, east],
         };
     } catch (error) {
-        console.error("ippo enganirikkan" + error);
+        notifySreenReader("No border found, Please try again", true);
+        console.error("error" + error);
     }
 }

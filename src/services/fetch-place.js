@@ -29,8 +29,6 @@ export async function showPlaceDetails(result) {
   fetchDetails(result, area)
     .then(async (data) => {
       successSound.play();
-      notifySreenReader('details ready');
-
       if (await isInindiaKashmir(marker,result)) {
         detalisElement.innerHTML = 'No data found for this region';
       } else {

@@ -1,5 +1,5 @@
 import { notifyLoading, notifySreenReader } from "../utils/accessibility.js";
-import { keyboardselect } from "../utils/key-shortcuts.js";
+import { keyboardselect } from "../utils/keydown-helpers.js";
 import { successSound } from "../utils/sounds.js";
 import { geocodingAPI } from "../utils/to-km-or-meter.js";
 

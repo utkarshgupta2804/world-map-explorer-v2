@@ -1,39 +1,8 @@
 
-import { distanceBox, distanceIcon, input } from "./dom-elements.js";
 import { map } from "../components/map.js";
-import { displayKeyShortcuts } from "./show-key-shortcuts.js";
-import { notifySreenReader } from "./accessibility.js";
-
-let active = -1
 
 
-export function handleKeyDownOnDocument(event) { //for key shortcuts for the whole application
-    if (event.code == "Escape") {
-        document.getElementById("closeBtnD").click(); // close search details box
-        document.getElementById("closeBtn").click(); // close search details box
-        notifySreenReader(`closed`, false, "assertive");
-    }
-    if (event.altKey && event.code === "KeyS") {
-        event.preventDefault();
-        // Focus on the search bar element
-        input?.focus(); 
-    }
-    if (event.altKey && event.code == "KeyK") {
-      event.preventDefault()
-        //for geting key shortcuts
-       displayKeyShortcuts()
-    }
-    if (event.altKey && event.code == "KeyM") {
-        //for stating altitude
-        map.getContainer().focus();
-    }
-    if (event.ctrlKey && event.altKey && event.code == "KeyG") {
-        //
-        event.preventDefault();
-        distanceIcon.click();
-        distanceBox.focus();
-    }
-};
+let active = -1 //for arrow key navigation in search results
 
 
 

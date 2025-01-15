@@ -3,9 +3,6 @@ export function toKMorMeter(num) {
 }
 
 export function tosqKMorMeter(num) {
-  if (num < 1_000_000) {
-    return `${parseInt(num)} square meters`;
-  }
 
   const sqKm = num / 1_000_000;
   return sqKm > 10

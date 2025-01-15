@@ -1,9 +1,9 @@
 import { tileLayerGeographical, tileLayerPolitical } from '../components/tile-layer.js';
 import { geoLayer } from '../services/fetch-place.js';
-import { mainsearchbar } from '../components/Search/search.js';
+import { onSubmitonMainSearchBar } from '../components/Search/search.js';
 import { detailsCloseButton } from '../utils/dom-elements.js';
 import { fetchCurrentLocation } from '../services/current-location.js';
-import { generalEvents } from '../utils/general-events.js';
+import { closeSearchResultsOnClickOutside } from '../utils/general-events.js';
 import { closeSound } from '../utils/sounds.js';
 import { map } from '../components/map.js';
 
@@ -46,13 +46,13 @@ minusIcon.addEventListener('click', function () {
 
 document.getElementById('search-input').addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
-    mainsearchbar();
+    onSubmitonMainSearchBar();
   }
 });
 document.getElementById('searchbutton').addEventListener('click', function (e) {
-  mainsearchbar();
+  onSubmitonMainSearchBar();
 });
-document.addEventListener('click', generalEvents);
+document.addEventListener('click', closeSearchResultsOnClickOutside);
 
 
 detailsCloseButton.addEventListener('click', function () {
@@ -61,6 +61,7 @@ detailsCloseButton.addEventListener('click', function () {
   if (geoLayer != null) {
     geoLayer.remove();
   }
+  marker.clearGeoJson();
 })
 
 

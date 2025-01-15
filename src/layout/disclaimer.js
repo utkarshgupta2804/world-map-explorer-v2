@@ -1,5 +1,5 @@
 // Code for the disclaimer
-import { lockTabKey } from "../utils/key-shortcuts.js";
+import { lockTabKey } from "../utils/keydown-helpers.js";
 import { closeSound } from "../utils/sounds.js";
 
 const disclaimer = document.createElement('div');

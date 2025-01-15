@@ -4,6 +4,7 @@ export const countryTemplate = [
         { key: "capital", label: "Capital" },
         { key: "continent", label: "Continent" },
         { key: "coordinates", label: "Coordinates" }, // Assumes `roundedLat` and `roundedLon` are pre-calculated
+        { key: "area", label: "Area" }, 
       ]
     },
     { type: "header", level: 3, text: "Additional Details" },
@@ -38,6 +39,8 @@ export const districtTemplate = [
     { type: "paragraph", items: [
         { key: "state", label: "State" },
         { key: "coordinates", label: "Coordinates" }, // Assumes `roundedLat` and `roundedLon` are pre-calculated
+        { key: "area", label: "Area" }, 
+
       ]
     },
     { type: "header", level: 3, text: "Additional Details" },
@@ -53,6 +56,8 @@ export const stateTemplate = [
         { key: "country", label: "Country" },
         { key: "capital", label: "Capital" },
         { key: "coordinates", label: "Coordinates" }, // Assumes `roundedLat` and `roundedLon` are pre-calculated
+        { key: "area", label: "Area" }, 
+
       ]
     },
     { type: "header", level: 3, text: "Additional Details" },

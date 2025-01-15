@@ -3,7 +3,7 @@ import { findplaceNamAandData } from '../../services/find-place-name-and-data.js
 import { map } from '../map.js';
 import { notifySreenReader } from '../../utils/accessibility.js';
 import { toKMorMeter } from '../../utils/to-km-or-meter.js';
-import { placeAddtoMap } from '../../services/fetch-place.js';
+import { showPlaceDetails } from '../../services/fetch-place.js';
 import { initializeAdjustablePointer } from './adjustable-pointer.js';
 
 let timeout;//for clearing timeout, for avoiding multiple unnecessary calls
@@ -185,7 +185,7 @@ function pressEnter() { //for handling enter key press
       .bind(this)(this)
       .then((place) => {
         notifySreenReader(place.name, true);
-        placeAddtoMap(place.data);
+        showPlaceDetails(place.data);
       });
   }, 650);
 }

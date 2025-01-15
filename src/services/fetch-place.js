@@ -15,18 +15,18 @@ const Options = {
   fillOpacity: 0.5, // Adjust fill opacity as needed
 };
 
-export const osmIds = [
+export const osmIds = [ //osm ids of kasmir included parts of china and pak
   307573, 270056, 153310, 2748339, 2748436, 1997914, 153292,
 ];
 
-export async function placeAddtoMap(result) {
-  geoJSON(result.osm_type, result.osm_id); //fetching geoJSON data (vector boundary data)
+export async function showPlaceDetails(result) {
+  let area= await geoJSON(result.osm_type, result.osm_id); //fetching geoJSON data (vector boundary data) and adding to map, then returning the area
   removeResults();
   detalisElement.parentElement.style.display = 'block';
   detalisElement.innerHTML =
     '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></h2>';
   let Loadinginterval = setInterval(notifyLoading, 2000); //loading animation
-  fetchDetails(result)
+  fetchDetails(result, area)
     .then(async (data) => {
       successSound.play();
       notifySreenReader('details ready');
@@ -47,6 +47,7 @@ export async function placeAddtoMap(result) {
 }
 
 async function geoJSON(type, id) {
+  let area=null;
   geoLayer && geoLayer?.remove();
   marker.clearGeoJson() //removing if there any already
   var result = await fetch('https://overpass-api.de/api/interpreter', {
@@ -84,11 +85,13 @@ async function geoJSON(type, id) {
     console.log('not in layer');
     map.fitBounds(geoLayer.getBounds());
     geoLayer.addTo(map)
-    
+
   }else{
     notifySreenReader('The marker is inside the boundary, Inbound navigation is enabled');
     marker.setGeoJson(result);
+    area = turf.area(result);
   }
   marker.setLatLng(centre);
+  return area;
 
 }

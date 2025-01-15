@@ -4,6 +4,9 @@ source:
 
 https://github.com/tyrasd/osmtogeojson 
 
+
+this function is used for converting osm data to geojson data, only geojson data can be used for displaying on map
+
 */
 
 !(function (e) {

@@ -177,7 +177,7 @@ export async function fetchDetails(result) { //fetch details of the place based 
   function formatOutput(displayName, details, template) {
     // Start with the display name header
     let output = `<h2>${displayName}</h2>`;
-  
+    
     // Iterate through the template to construct sections
     for (const section of template) {
       if (section.type === "header") {

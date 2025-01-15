@@ -1,4 +1,4 @@
-import { det } from '../utils/dom-elements.js';
+import { detalisElement } from '../utils/dom-elements.js';
 import { notifyLoading, notifySreenReader } from '../utils/accessibility.js';
 import { isInindiaKashmir } from "../services/nominatim.js";
 import { fetchDetails } from '../components/Search/place-details.js';
@@ -19,24 +19,24 @@ export const osmIds = [
   307573, 270056, 153310, 2748339, 2748436, 1997914, 153292,
 ];
 
-export async function placeappear(result) {
-  geoJSON(result.osm_type, result.osm_id);
+export async function placeAddtoMap(result) {
+  geoJSON(result.osm_type, result.osm_id); //fetching geoJSON data (vector boundary data)
   removeResults();
-  det.parentElement.style.display = 'block';
-  det.innerHTML =
+  detalisElement.parentElement.style.display = 'block';
+  detalisElement.innerHTML =
     '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></h2>';
-  let Loadinginterval = setInterval(notifyLoading, 2000);
+  let Loadinginterval = setInterval(notifyLoading, 2000); //loading animation
   fetchDetails(result)
     .then(async (data) => {
       successSound.play();
       notifySreenReader('details ready');
 
       if (await isInindiaKashmir(marker,result)) {
-        det.innerHTML = 'No data found for this region';
+        detalisElement.innerHTML = 'No data found for this region';
       } else {
-        det.innerHTML = data;
+        detalisElement.innerHTML = data;
       }
-      det.focus();
+      detalisElement.focus();
     })
     .catch((error) => {
       console.error(error);
@@ -84,7 +84,9 @@ async function geoJSON(type, id) {
     console.log('not in layer');
     map.fitBounds(geoLayer.getBounds());
     geoLayer.addTo(map)
+    
   }else{
+    notifySreenReader('The marker is inside the boundary, Inbound navigation is enabled');
     marker.setGeoJson(result);
   }
   marker.setLatLng(centre);

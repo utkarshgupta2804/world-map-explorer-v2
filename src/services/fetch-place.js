@@ -4,7 +4,7 @@ import { isInindiaKashmir } from "../services/nominatim.js";
 import { fetchDetails } from '../components/Search/place-details.js';
 import { removeResults } from '../services/do-search.js';
 import { successSound } from '../utils/sounds.js';
-import { geocodingAPI } from '../utils/to-km-or-meter.js';
+import { geocodingAPI, headerofNominatim } from '../utils/to-km-or-meter.js';
 import { fetchIndia } from '../services/fetch-india.js';
 import { map } from '../components/map.js';
 
@@ -19,30 +19,59 @@ export const osmIds = [ //osm ids of kasmir included parts of china and pak
   307573, 270056, 153310, 2748339, 2748436, 1997914, 153292,
 ];
 
+let cancelFetch = false; // External flag to allow cancelling
+let Loadinginterval; // Loading interval for indication
 export async function showPlaceDetails(result) {
   removeResults();
   detalisElement.parentElement.style.display = 'block';
   detalisElement.innerHTML =
-    '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></h2>';
-  let Loadinginterval = setInterval(notifyLoading, 2000); //loading animation
-  let area= await geoJSON(result.osm_type, result.osm_id); //fetching geoJSON data (vector boundary data) and adding to map, then returning the area
-  fetchDetails(result, area)
-    .then(async (data) => {
-      successSound.play();
-      if (await isInindiaKashmir(marker,result)) {
-        detalisElement.innerHTML = 'No data found for this region';
-      } else {
-        detalisElement.innerHTML = data;
+    '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></i></h2>';
+
+  Loadinginterval = setInterval(notifyLoading, 2000); // Loading indication
+
+  // Create a timeout that will reject after 15 seconds
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => {
+      if (!cancelFetch) {
+        reject(new Error('Taking too long to load'));
       }
-      detalisElement.focus();
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-    .finally(() => {
-      clearInterval(Loadinginterval);
-    });
+    }, 15000)
+  );
+
+  try {
+    // Fetching geoJSON data (vector boundary data) and adding to map, then returning the area
+    const area = await geoJSON(result.osm_type, result.osm_id);
+
+    // Race between fetchDetails and the timeout
+    const fetchPromise = fetchDetails(result, area);
+    const data = await Promise.race([fetchPromise, timeoutPromise]); // Return as soon as either completes
+
+    clearInterval(Loadinginterval); // Clear the loading interval once finished
+
+    successSound.play();
+
+    if (await isInindiaKashmir(marker, result)) {
+      detalisElement.innerHTML = 'No data found for this region';
+    } else {
+      detalisElement.innerHTML = data;
+    }
+
+    detalisElement.focus();
+    return data; // Return the fetched data or result
+  } catch (error) {
+    clearInterval(Loadinginterval); // Ensure the loading interval is cleared
+    console.error(error);
+    detalisElement.innerHTML = 'Something went wrong';
+    return null; // You can return a default value or null if it fails
+  }
 }
+
+// Function to cancel the operation
+export function cancelShowPlaceDetails() {
+  cancelFetch = true; // Set flag to true to cancel the ongoing request
+  clearInterval(Loadinginterval); // Cancel the loading interval if needed
+}
+
 
 async function geoJSON(type, id) {
   let area=null;
@@ -69,10 +98,8 @@ async function geoJSON(type, id) {
   let centre; // = turf.centerOfMass(result);
   try {
     const addressData = await fetch(
-      `${geocodingAPI}/details.php?osmtype=${type.trim().charAt(0).toUpperCase()}&osmid=${id}&addressdetails=1&format=json`,
-      {
-        referrerPolicy: 'strict-origin-when-cross-origin',
-      }
+      `${geocodingAPI}/details?osmtype=${type.trim().charAt(0).toUpperCase()}&osmid=${id}&addressdetails=1&format=json`,
+      headerofNominatim
     ).then((response) => response.json());
     centre = addressData.geometry.coordinates.reverse();
   } catch (error) {

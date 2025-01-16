@@ -14,7 +14,7 @@ let isMarkerStable = true; // for avoid repeated fetch
 let wentFar = 0; //for counting how far went when fetching border
 let Kashmir = await fetchKashmir(); //for fetching kashmir border
 
-export function checkBorderCrossed(distance) {
+export async function checkBorderCrossed(distance) {
   if (this?._placeBorderofCurrentLocation) { //checking if border is present already
     console.log('border found');
     if (
@@ -28,7 +28,7 @@ export function checkBorderCrossed(distance) {
       bordercrossSound.play();
       oldName = presentName;
 
-      getBorder //fetching border of the new location
+      await getBorder //fetching border of the new location
         .bind(this)()
         .then((data) => {
           if (data.name != 'sea(mostly)') {
@@ -81,7 +81,7 @@ export async function getBorder() {
       this._placeBorderofCurrentLocation &&
         this._placeBorderofCurrentLocation.remove();
       const response = await fetch(
-        `${geocodingAPI}/reverse.php?lat=${this.getLatLng().lat}&lon=${this.getLatLng().lng}&zoom=${getFixedZoom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1 / Math.pow(map.getZoom(), 3)}`,
+        `${geocodingAPI}/reverse?lat=${this.getLatLng().lat}&lon=${this.getLatLng().lng}&zoom=${getFixedZoom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1 / Math.pow(map.getZoom(), 3)}`,
         {
           signal: signal, // The signal object for cancellation
           referrerPolicy: 'strict-origin-when-cross-origin', // The referrer policy

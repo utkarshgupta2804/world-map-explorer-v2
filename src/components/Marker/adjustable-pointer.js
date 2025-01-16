@@ -197,25 +197,7 @@ L.adjustablePointer = L.Layer.extend({
       default:
         return;
     }
-    if (isPointerStable && event.code.startsWith('Arrow')) {
-      isPointerStable = false;
-      setTimeout(() => {
-        if(event.code == 'ArrowUp' || event.code == 'ArrowDown'){
-          notifySreenReader(
-            'Flat Distance: ' + toKMorMeter(adjustablePointer.flatdist) + 'Real: ' + toKMorMeter(adjustablePointer.distanceOriginal)
-          );
-        }
-        if(event.code == 'ArrowRight' || event.code == 'ArrowLeft'){
-          notifySreenReader('Angle: ' + Math.round(adjustablePointer.angle) + ' degrees. ' + getDirection(adjustablePointer.angle));
-        }
-        findplaceNamAandData
-          .bind(adjustablePointer.secondaryMarker)(adjustablePointer.secondaryMarker)
-          .then((nm) => {
-            document.getElementById('placeDisplay').textContent = nm.name;
-            isPointerStable = true;
-          });
-      }, 1000);
-    }
+    whenPointerStable(event);
   },
 
   _calculateDestination: function (start, d, angle) {
@@ -392,3 +374,21 @@ function getDirection(angle) {
   const index = Math.round(angle / 45) % 8;
   return directions[index];
 }
+
+
+const whenPointerStable=_.debounce((event) => {
+  if (event.code.startsWith('Arrow')) {
+      if(event.code == 'ArrowUp' || event.code == 'ArrowDown'){
+        notifySreenReader(
+          'Flat Distance: ' + toKMorMeter(adjustablePointer.flatdist) + 'Real: ' + toKMorMeter(adjustablePointer.distanceOriginal)
+        );
+      }
+      if(event.code == 'ArrowRight' || event.code == 'ArrowLeft'){
+        notifySreenReader('Angle: ' + Math.round(adjustablePointer.angle) + ' degrees. ' + getDirection(adjustablePointer.angle));
+      }
+      findplaceNamAandData
+        .bind(adjustablePointer.secondaryMarker)(adjustablePointer.secondaryMarker)
+        .then((nm) => {
+          document.getElementById('placeDisplay').textContent = nm.name;        });
+  }
+}, 700);

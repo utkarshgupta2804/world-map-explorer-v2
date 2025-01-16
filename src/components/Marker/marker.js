@@ -128,13 +128,12 @@ export const Marker = L.CircleMarker.extend({
   },
 
   // Custom method to handle position changes
-  _onPositionChange(latlng) {
+  async _onPositionChange(latlng) {
     if (!this._placeBorderofSelectedLocation) {
-      checkBorderCrossed.bind(this)(
+      await checkBorderCrossed.bind(this)(
         map.project(this._oldPosition).distanceTo(map.project(latlng))
       );
     }
-    this._borderPoints = findborderpoints.bind(this)(this._geoJson);
     fetchElevation(this);
   },
 });

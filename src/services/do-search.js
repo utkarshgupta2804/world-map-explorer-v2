@@ -1,51 +1,75 @@
 import { notifyLoading, notifySreenReader } from "../utils/accessibility.js";
 import { keyboardselect } from "../utils/keydown-helpers.js";
 import { successSound } from "../utils/sounds.js";
-import { geocodingAPI } from "../utils/to-km-or-meter.js";
+import { geocodingAPI, headerofNominatim } from "../utils/to-km-or-meter.js";
 
 var placeIds = [];
 
-export function performSearch(inputField, excludedPlaceIds = []) {  //function to search places and show the suggestions
-    return new Promise((resolve, reject) => {
-      const query = inputField.value.trim();
-      const loadingMessage = `<li style="justify-content: center;"><i class="fas fa-circle-notch fa-spin"></i></li>`;
-  
-      // Clear results if query length is insufficient
-      if (query.length <= 2) {
-        removeResults();
-        return;
-      }
-  
-      // Initialize the search results container
-      let resultsContainer = initializeResultsContainer(inputField);
-  
-      // Display loading indicator
-      resultsContainer.innerHTML = loadingMessage;
-  
-      const loadingInterval = setInterval(() => {
-        notifyLoading();
-      }, 2000);
-  
-      fetchSearchResults(query, excludedPlaceIds)
-        .then((data) => {
-          clearInterval(loadingInterval);
-          renderSearchResults(data, resultsContainer, inputField, resolve);
-        })
-        .catch((error) => {
-          clearInterval(loadingInterval);
-          console.error("Error fetching search results:", error);
-          reject(error);
-        });
-    });
-  }
-  
-  // Clears the search results and associated event listeners
-  function clearSearchResults(searchResults) {
-    if (searchResults) {
-      searchResults.parentElement?.removeEventListener("keydown", keyboardselect);
-      searchResults.remove();
+let cancelSearch = false; // Flag to cancel the operation from outside
+let searchLoadingInterval; // To store the interval globally for cancellation
+
+export function performSearch(inputField, excludedPlaceIds = []) {
+  return new Promise((resolve, reject) => {
+    const query = inputField.value.trim();
+    const loadingMessage = `<li style="justify-content: center;"><i class="fas fa-circle-notch fa-spin"></i></li>`;
+
+    // Clear results if query length is insufficient
+    if (query.length <= 2) {
+      removeResults();
+      return;
     }
+
+    // Initialize the search results container
+    let resultsContainer = initializeResultsContainer(inputField);
+
+    // Display loading indicator
+    resultsContainer.innerHTML = loadingMessage;
+
+    // Start loading indication
+    searchLoadingInterval = setInterval(() => {
+      notifyLoading();
+    }, 2000);
+
+    // Create a timeout that will reject after 15 seconds
+    const timeoutPromise = new Promise((_, rejectTimeout) => {
+      setTimeout(() => {
+        if (!cancelSearch) {
+          removeResults();
+          rejectTimeout(new Error("Search timed out after 15 seconds"));
+        }
+      }, 15000);
+    });
+
+    // Fetch search results with timeout and cancellation handling
+    const fetchPromise = fetchSearchResults(query, excludedPlaceIds)
+      .then((data) => {
+        if (cancelSearch) return; // If cancelled, exit early
+        clearInterval(searchLoadingInterval); // Clear the loading interval
+        renderSearchResults(data, resultsContainer, inputField, resolve); // Process and display results
+      })
+      .catch((error) => {
+        if (cancelSearch) return; // If cancelled, exit early
+        clearInterval(searchLoadingInterval); // Clear the loading interval
+        console.error("Error fetching search results:", error);
+        reject(error);
+      });
+
+    // Use Promise.race to ensure the function exits after 15 seconds
+    Promise.race([fetchPromise, timeoutPromise])
+      .finally(() => {
+        clearInterval(searchLoadingInterval); // Ensure the interval is cleared in all cases
+      });
+  });
+}
+
+// Function to cancel the search
+function cancelPerformSearch() {
+  cancelSearch = true; // Set flag to true to cancel the operation
+  if (searchLoadingInterval) {
+    clearInterval(searchLoadingInterval); // Clear the loading interval
   }
+}
+
   
   // Initializes the search results container
   function initializeResultsContainer(inputField) {
@@ -66,11 +90,11 @@ export function performSearch(inputField, excludedPlaceIds = []) {  //function t
   
   // Fetches search results from the API
   function fetchSearchResults(query, excludedPlaceIds) {
-    const url = `${geocodingAPI}/search.php?q=${encodeURIComponent(
+    const url = `${geocodingAPI}/search?q=${encodeURIComponent(
       query
     )}&format=jsonv2&exclude_place_ids=${encodeURIComponent(excludedPlaceIds)}`;
   
-    return fetch(url).then((response) => {
+    return fetch(url,headerofNominatim).then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -136,5 +160,6 @@ export function performSearch(inputField, excludedPlaceIds = []) {  //function t
     if(document.getElementById("search-results")){
       document.getElementById("search-results")?.parentElement?.removeEventListener('keydown', keyboardselect)
       document.getElementById("search-results")?.remove();
+      cancelPerformSearch();
     }
   }

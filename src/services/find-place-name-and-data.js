@@ -1,18 +1,16 @@
 import { map } from "../components/map.js";
 import { isInindiaKashmir } from "../services/nominatim.js";
 import { notifySreenReader } from "../utils/accessibility.js";
-import { geocodingAPI } from "../utils/to-km-or-meter.js";
+import { geocodingAPI, headerofNominatim } from "../utils/to-km-or-meter.js";
 
 export async function findplaceNamAandData(point) {
     if (point) {
         let name; //for storing place name
         let d //for storing data of place
             await fetch(
-                `${geocodingAPI}/reverse.php?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng
+                `${geocodingAPI}/reverse?lat=${point.getLatLng().lat}&lon=${point.getLatLng().lng
                 }&zoom=${map.getZoom()}&format=jsonv2`,
-                {
-                    referrerPolicy: "strict-origin-when-cross-origin",
-                }
+                headerofNominatim
             )
                 .then((response) => response.json())
                 .then(async (data) => {

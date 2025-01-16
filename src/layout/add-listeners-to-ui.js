@@ -1,5 +1,5 @@
 import { tileLayerGeographical, tileLayerPolitical } from '../components/tile-layer.js';
-import { geoLayer } from '../services/fetch-place.js';
+import { cancelShowPlaceDetails, geoLayer } from '../services/fetch-place.js';
 import { onSubmitonMainSearchBar } from '../components/Search/search.js';
 import { detailsCloseButton } from '../utils/dom-elements.js';
 import { fetchCurrentLocation } from '../services/current-location.js';
@@ -62,6 +62,7 @@ detailsCloseButton.addEventListener('click', function () {
     geoLayer.remove();
   }
   marker.clearGeoJson();
+  cancelShowPlaceDetails()
 })
 
 

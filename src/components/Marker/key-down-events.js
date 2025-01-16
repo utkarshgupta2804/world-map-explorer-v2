@@ -96,7 +96,7 @@ function InboundMarkerMovement(key) { //detect the border, and blocks movement i
 
   if (limits[key]()) {
     // Call the function to evaluate the condition
-    console.log(limits[key]);
+    notifySreenReader('Border touched', true);
     const move = moves[key];
     this.setLatLng([
       this.getLatLng().lat - move[0],
@@ -168,7 +168,7 @@ function getCoordinates(marker) { //for getting coordinates of the marker
       ' Latitude, ' +
       marker.getLatLng().lng.toFixed(5) +
       ' Longitude'
-  );
+  ,true);
 }
 
 export function perKeyDist() {  //for getting distance per key press for mathematical calculations
@@ -184,12 +184,12 @@ function pressEnter() { //for handling enter key press
     findplaceNamAandData
       .bind(this)(this)
       .then((place) => {
+        console.log(place,'ss');
         notifySreenReader(place.name, true);
         showPlaceDetails(place.data);
       });
   }, 650);
 }
-
 function handleKeyDPress(event) {
   if (event.code !== 'KeyD') return;
 
@@ -206,14 +206,16 @@ function handleKeyDPress(event) {
 
   const getDistance = (point) =>
     toKMorMeter(this.getLatLng().distanceTo(borderpoints[point]));
-
   const distances =
-    pressCount === 1
-      ? `${getDistance('east')} to east, ${getDistance('west')} to west`
-      : `${getDistance('north')} to north, ${getDistance('south')} to south`;
-
-  console.log(distances);
-  notifySreenReader(distances, true);
+  pressCount === 1
+    ? `${getDistance('east')} to east, ${getDistance('west')} to west`
+    : `${getDistance('north')} to north, ${getDistance('south')} to south`;
+    notifyDistance(distances)
 
   if (pressCount === 2) pressCount = 0; // Reset after second press
 }
+const notifyDistance = _.debounce((distances) => {
+console.log(distances);
+notifySreenReader(distances, true,);
+}, 500);
+

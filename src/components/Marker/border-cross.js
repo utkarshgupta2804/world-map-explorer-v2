@@ -14,7 +14,7 @@ let isMarkerStable = true; // for avoid repeated fetch
 let wentFar = 0; //for counting how far went when fetching border
 let Kashmir = await fetchKashmir(); //for fetching kashmir border
 
-export async function checkBorderCrossed(distance) {
+export function checkBorderCrossed(distance) {
   if (this?._placeBorderofCurrentLocation) { //checking if border is present already
     console.log('border found');
     if (
@@ -28,20 +28,25 @@ export async function checkBorderCrossed(distance) {
       bordercrossSound.play();
       oldName = presentName;
 
-      await getBorder //fetching border of the new location
+      getBorder //fetching border of the new location
         .bind(this)()
         .then((data) => {
           if (data.name != 'sea(mostly)') {
+            console.log('border fetched');
             checkBorderCrossed.bind(this)(0); // recalling the function to ensure the border is shown appropriately for the new location
           }
+          console.log(oldName,presentName,distance);
           if (distance <= 60 && data.name != oldName.name) { // checking the distance between the old and new location is less than 60 pixels, only then it is considered as border crossed
             if (crossedhigherlevel(oldName, presentName)) {
+              console.log(`${oldName.name} crossed. ${data.name} entered`);
+
               //if crossed to higher level border(like district to another state district)
               notifySreenReader(
                 `${oldName.display_name} crossed. ${data.display_name} entered`,
                 true
               );
             } else {
+              console.log(`${oldName.name} crossed. ${data.name} entered`);
               notifySreenReader(
                 `${oldName.name} crossed. ${data.name} entered`,
                 true
@@ -69,6 +74,7 @@ export async function checkBorderCrossed(distance) {
 
 //function for fetching and adding polygon to map
 export async function getBorder() {
+  this._borderPoints=null; //clearing previous border points
   return new Promise(async (resolve, reject) => {
     if (controller) { //aborting previous fetch request
       controller.abort(); 

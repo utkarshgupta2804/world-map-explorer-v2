@@ -2,7 +2,6 @@ import { notifySreenReader } from "../../utils/accessibility.js";
 
 export function findborderpoints(place){   //function to find the all four border points of the given location, N E W S
     try {
-        console.log(place,"from findborderpoints");
         var longitude = this.getLatLng().lng;
         var lineSN = turf.lineString([
             [longitude, 90], // Start point at the North Pole
@@ -43,7 +42,6 @@ export function findborderpoints(place){   //function to find the all four borde
             east: [latitude, east],
         };
     } catch (error) {
-        notifySreenReader("No border found, Please try again", true);
         console.error("error" + error);
     }
 }

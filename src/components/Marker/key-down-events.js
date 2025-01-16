@@ -128,7 +128,6 @@ function getBorderDistance(event) { //for getting distance from border
 function getNextLatLng(direction) {
   clickSound.play();
   const center = this.getLatLng();
-  console.log(map);
   const point = map.latLngToLayerPoint(center);
   let { x: lat, y: lng } = point; // Destructure point coordinates
   const movement = 10; // Define movement step size
@@ -191,6 +190,7 @@ function pressEnter() { //for handling enter key press
   }, 650);
 }
 function handleKeyDPress(event) {
+ try {
   if (event.code !== 'KeyD') return;
 
   const now = Date.now();
@@ -213,7 +213,13 @@ function handleKeyDPress(event) {
     notifyDistance(distances)
 
   if (pressCount === 2) pressCount = 0; // Reset after second press
+ } catch (error) {
+  console.error(error);
+  notifySreenReader('No border found, Please try again', true);
+ }
 }
+
+
 const notifyDistance = _.debounce((distances) => {
 console.log(distances);
 notifySreenReader(distances, true,);

@@ -8,7 +8,6 @@ const bbox = L.latLngBounds(
 
 
 export async function isInindiaKashmir(marker,result){ //function to check if the marker is in disputed kashmir
-  console.log(marker,'isinindia');
     if(bbox.contains(marker.getLatLng())){
       const addressData = await fetch(`${geocodingAPI}/details?osmtype=${result.osm_type.trim().charAt(0).toUpperCase()}&osmid=${result.osm_id}&addressdetails=1&format=json`,headerofNominatim)
   .then(response => response.json());

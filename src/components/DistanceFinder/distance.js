@@ -13,14 +13,18 @@ import { notifySreenReader } from "../../utils/accessibility.js";
 
 // Tracks the currently focused input element (starting or destination location)
 let activeInputElement = null;
-// Coordinates for the starting and destination locations
-let beginningLocation, destinationLocation;
 // Button to trigger distance calculation
 const findDistanceButton = document.getElementById("find");
 // Element for user input of the starting location
 let startingLocationElement = document.getElementById("beginning");  
 // Element for user input of the destination location
 let destinationLocationElement = document.getElementById("destination");
+// Coordinates for the destination
+let destinationCoordinates;
+// Coordinates for the starting location
+let startingCoordinates;
+// Layer group to represent the road path on the map
+let roadPathLayerGroup;
 
 /**
  * Sets up event listeners for a search action triggered by an input element and a button.
@@ -69,14 +73,14 @@ export const initialize_DistanceFinder_EventListeners = () => {
 
     try {
       const { lat, lng } = marker.getLatLng();
-      activeInputElement.value = `${lat},${lng}`; // Updates the active input with the selected coordinates
-      const selectedLocation = { lat, lon: lng };
+      activeInputElement.value = `${(lat.toFixed(5))},${lng.toFixed(5)}`; // Updates the active input with the selected coordinates
+      const selectedLocation = { lat:lat, lon: lng };
 
       // Updates the appropriate variable based on the focused input
       if (activeInputElement.id === "beginning") {
-        beginningLocation = selectedLocation;
+        startingCoordinates = selectedLocation;
       } else {
-        destinationLocation = selectedLocation;
+        destinationCoordinates = selectedLocation;
       }
 
       successSound.play(); // Plays a sound to confirm selection
@@ -101,17 +105,6 @@ export const initialize_DistanceFinder_EventListeners = () => {
   findDistanceButton.addEventListener("click", calculateDistance.bind(findDistanceButton));
 };
 
-// Initialize all event listeners
-
-
-
-
-// Coordinates for the destination
-let destinationCoordinates;
-// Coordinates for the starting location
-let startingCoordinates;
-// Layer group to represent the road path on the map
-let roadPathLayerGroup;
 
 // Function to handle search and selection of the starting location
 export function handleStartingLocationSearch() {
@@ -137,7 +130,6 @@ export function handleDestinationSearch() {
                 lat: parseFloat(result.lat),
                 lon: parseFloat(result.lon),
             };
-            console.log(destinationCoordinates);
             destinationLocationElement.value = result.name;
             document.getElementById("search-results")?.remove();
         })

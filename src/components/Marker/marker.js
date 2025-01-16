@@ -121,6 +121,7 @@ export const Marker = L.CircleMarker.extend({
 
   _movementWhenGeojson: InboundMarkerMove, 
   setLatLng(latlng) {
+    this._oldPosition = this.getLatLng();
     correctIfOutOfMap(latlng);
     L.CircleMarker.prototype.setLatLng.call(this, latlng);
     this._onPositionChange(latlng);
@@ -130,10 +131,12 @@ export const Marker = L.CircleMarker.extend({
   // Custom method to handle position changes
   async _onPositionChange(latlng) {
     if (!this._placeBorderofSelectedLocation) {
-      await checkBorderCrossed.bind(this)(
+       checkBorderCrossed.bind(this)(
         map.project(this._oldPosition).distanceTo(map.project(latlng))
+
       );
     }
+    this._borderPoints = findborderpoints.bind(this)(this._geoJson);// Update border points on every position change
     fetchElevation(this);
   },
 });

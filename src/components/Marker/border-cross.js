@@ -84,8 +84,12 @@ export async function getBorder() {
 
     try {
       isMarkerStable = false;
-      this._placeBorderofCurrentLocation &&
-        this._placeBorderofCurrentLocation.remove();
+      map.eachLayer((layer) => {
+        if (layer instanceof L.GeoJSON && layer.getPane().classList.contains('leaflet-overlay-pane')) {
+            console.log(layer,"a")
+          map.removeLayer(layer); // Remove the marker
+        }
+      });
       const response = await fetch(
         `${geocodingAPI}/reverse?lat=${this.getLatLng().lat}&lon=${this.getLatLng().lng}&zoom=${getFixedZoom()}&format=geojson&polygon_geojson=1&polygon_threshold=${1 / Math.pow(map.getZoom(), 3)}`,
         {

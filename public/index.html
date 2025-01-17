@@ -27,10 +27,10 @@
   <div class="header-content">
     <div class="logo">
       <img src="/public/map-logo.png" alt="Map Logo" class="map-logo" tabindex="-1" />
-      <p id="map-explorer-text" tabindex="1"><b>WorldMapExplorer</b></p>
+      <p id="map-explorer-text" tabindex="0"><b>WorldMapExplorer</b></p>
     </div>
     <div class="header-icons">
-      <button class="fa fa-question-circle" title="Help" id="help-btn" tabindex="1"
+      <button class="fa fa-question-circle" title="Help" id="help-btn" tabindex="0"
         aria-label="select for read user manual" onclick="window.open('/src/pages/user-guide/index.html', '_blank');"
         style="cursor: pointer;"></button>
     </div>
@@ -40,10 +40,10 @@
 <body>
   <div id="left-container">
     <div class="box-input" id="search-container" aria-label="search places">
-      <div id="c-search-input"> <input type="text" tabindex="1" id="search-input" placeholder="Search Places" />
-        <button tabindex="1" id="searchbutton" aria-label="click to search"><i class="fa fa-search"></i></button>
+      <div id="c-search-input"> <input type="text" tabindex="0" id="search-input" placeholder="Search Places" />
+        <button tabindex="0" id="searchbutton" aria-label="click to search"><i class="fa fa-search"></i></button>
       </div>
-      <div id="searchdetails" tabindex="1" class="searchdetails" style="display: none" aria-label="Search results">
+      <div id="searchdetails" tabindex="0" class="searchdetails" style="display: none" aria-label="Search results">
         <button class="fas fa-times-circle" id="closeBtnD" aria-label="Close details tab"
           onclick="notifySreenReader(`details tab closed`)"></button>
         <span aria-live="polite" aria-atomic="true" id="detalisElement"></span>
@@ -51,10 +51,10 @@
 
     </div>
 
-    <button class="fas fa-directions" tabindex="1" id="trigger-icon" aria-label="find distance between places"></button>
+    <button class="fas fa-directions" tabindex="0" id="trigger-icon" aria-label="find distance between places"></button>
   </div>
 
-  <div tabindex="1" id="controls-box">
+  <div tabindex="0" id="controls-box">
 
     <button title="Click to Zoom-In" aria-label="Click to Zoom-In" class="fa fa-plus" title="Zoom In"></button>
     <button title="Click to Zoom-Out" aria-label="Click to Zoom-Out" class="fa fa-minus" title="Zoom Out"></button>
@@ -83,16 +83,16 @@
   </div>
 
   <!-- Box that appears on icon click -->
-  <div class="box" id="box" tabindex="1" aria-label="distance finder opened">
+  <div class="box" id="box" tabindex="0" aria-label="distance finder opened">
     <button class="fas fa-times-circle" id="closeBtn" aria-label="close distance finder" tabindex="0"
       onclick="notifySreenReader(`distance finder closed`)"></button>
     <h1>Find Distance</h1>
 
     <div class="box-input">
       <span><i class="fas fa-circle"></i></span>
-      <div class="dist-input" id="c-beginning"><input type="text" tabindex="1" id="beginning"
+      <div class="dist-input" id="c-beginning"><input type="text" tabindex="0" id="beginning"
           placeholder="Enter Starting point" aria-label="type place and press enter" />
-        <button tabindex="1" aria-label="click to see suggessions" id="b-searchbutton"><i
+        <button tabindex="0" aria-label="click to see suggessions" id="b-searchbutton"><i
             class="fa fa-search"></i></button>
       </div>
     </div>
@@ -100,18 +100,18 @@
 
     <div class="box-input">
       <span><i class="fas fa-map-marker-alt"></i></span>
-      <div class="dist-input" id="c-destination"><input tabindex="1" type="text" id="destination"
+      <div class="dist-input" id="c-destination"><input tabindex="0" type="text" id="destination"
           placeholder="Enter Destination" aria-label="type place and press enter" />
-        <button id="d-searchbutton" tabindex="1" aria-label="click to see suggessions"><i
+        <button id="d-searchbutton" tabindex="0" aria-label="click to see suggessions"><i
             class="fa fa-search"></i></button>
       </div>
     </div>
 
     <button class="fas fa-map-marked-alt" aria-hidden="true" title="Choose from map" id="fromMap"
       tabindex="-1"></button>
-    <button class="fas fa-arrow-circle-right" tabindex="1" id="find" title="Find Distance"
+    <button class="fas fa-arrow-circle-right" tabindex="0" id="find" title="Find Distance"
       aria-label=" click to Find distance"></button>
-    <div tabindex="1" id="distanceResult" aria-live="polite">
+    <div tabindex="0" id="distanceResult" aria-live="polite">
       Distance : <span id="dist"></span><br />
       Time : <span id="time"></span>
     </div>
@@ -119,7 +119,7 @@
         href="https://gis-ops.com/global-open-valhalla-server-online/" target="_blank">Valhalla (FOSSGIS)</a></p>
   </div>
 
-  <div tabindex="1" aria-label="focused on map. use arrow keys to navigate" id="map"></div>
+  <div tabindex="0" aria-label="focused on map. use arrow keys to navigate" id="map"></div>
 
 </body>
 <footer>

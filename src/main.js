@@ -45,7 +45,7 @@ function handleKeyDownOnDocument(event) { //for key shortcuts for the whole appl
         //for stating altitude
         map.getContainer().focus();
     }
-    if (event.ctrlKey && event.altKey && event.code == "KeyG") {
+    if (event.ctrlKey && event.shiftKey && event.code == "KeyD") {
         //
         event.preventDefault();
         distanceIcon.click();

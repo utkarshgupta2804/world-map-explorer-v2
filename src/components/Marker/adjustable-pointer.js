@@ -24,6 +24,7 @@ export function initializeAdjustablePointer(coord) {
 L.adjustablePointer = L.Layer.extend({
   initialize: function (pointer) {
     this.pointer = pointer;
+    marker.clearGeoJson();
   },
 
   onAdd: function (map) {

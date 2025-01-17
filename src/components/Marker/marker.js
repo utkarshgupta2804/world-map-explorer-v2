@@ -65,6 +65,8 @@ export const Marker = L.CircleMarker.extend({
         map.off('click', this._onClickOnMap);
 
         this._placeBorderofCurrentLocation?.remove();
+    this._placeBorderofCurrentLocation = null; //clearing the previous border to avoid unwanted detection by leafletPip
+
       }
     });
   },

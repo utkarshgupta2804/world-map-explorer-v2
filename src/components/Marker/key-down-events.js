@@ -68,7 +68,6 @@ export function markerMove(event) { //for key shortcuts related to marker only i
   }
 }
 export function InboundMarkerMove(event) { //for key shortcuts related to marker only in inbound
-  event.preventDefault();
   if (event.key.startsWith('Arrow') && !event.shiftKey) {
     InboundMarkerMovement.bind(this)(event.code);
   }

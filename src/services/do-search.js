@@ -7,9 +7,13 @@ var placeIds = [];
 
 let cancelSearch = false; // Flag to cancel the operation from outside
 let searchLoadingInterval; // To store the interval globally for cancellation
+let controller
 
 export function performSearch(inputField, excludedPlaceIds = []) {
+  controller = new AbortController()
   return new Promise((resolve, reject) => {
+
+    const { signal } = controller;
     const query = inputField.value.trim();
     const loadingMessage = `<li style="justify-content: center;"><i class="fas fa-circle-notch fa-spin"></i></li>`;
 
@@ -30,44 +34,35 @@ export function performSearch(inputField, excludedPlaceIds = []) {
       notifyLoading();
     }, 2000);
 
-    // Create a timeout that will reject after 15 seconds
-    const timeoutPromise = new Promise((_, rejectTimeout) => {
-      setTimeout(() => {
-        if (!cancelSearch) {
-          removeResults();
-          rejectTimeout(new Error("Search timed out after 15 seconds"));
-        }
-      }, 15000);
+    // Set timeout for automatic cancellation (15 seconds)
+    const timeoutId = setTimeout(() => {
+      removeResults();
+      reject(new Error("Search timed out after 15 seconds"));
+    }, 15000);
+
+    // Abort handler for cleanup
+    signal.addEventListener("abort", () => {
+      clearInterval(searchLoadingInterval);
+      clearTimeout(timeoutId);
+      reject(new Error("Search aborted"));
     });
 
-    // Fetch search results with timeout and cancellation handling
-    const fetchPromise = fetchSearchResults(query, excludedPlaceIds)
+    // Fetch search results
+    fetchSearchResults(query, excludedPlaceIds, signal)
       .then((data) => {
-        if (cancelSearch) return; // If cancelled, exit early
-        clearInterval(searchLoadingInterval); // Clear the loading interval
-        renderSearchResults(data, resultsContainer, inputField, resolve); // Process and display results
+        if (signal.aborted) return; // Exit if aborted
+        clearInterval(searchLoadingInterval);
+        clearTimeout(timeoutId); // Clear timeout when function succeeds
+        renderSearchResults(data, resultsContainer, inputField, resolve);
       })
       .catch((error) => {
-        if (cancelSearch) return; // If cancelled, exit early
-        clearInterval(searchLoadingInterval); // Clear the loading interval
+        if (signal.aborted) return; // Exit if aborted
+        clearInterval(searchLoadingInterval);
+        clearTimeout(timeoutId);
         console.error("Error fetching search results:", error);
         reject(error);
       });
-
-    // Use Promise.race to ensure the function exits after 15 seconds
-    Promise.race([fetchPromise, timeoutPromise])
-      .finally(() => {
-        clearInterval(searchLoadingInterval); // Ensure the interval is cleared in all cases
-      });
   });
-}
-
-// Function to cancel the search
-function cancelPerformSearch() {
-  cancelSearch = true; // Set flag to true to cancel the operation
-  if (searchLoadingInterval) {
-    clearInterval(searchLoadingInterval); // Clear the loading interval
-  }
 }
 
   
@@ -160,6 +155,6 @@ function cancelPerformSearch() {
     if(document.getElementById("search-results")){
       document.getElementById("search-results")?.parentElement?.removeEventListener('keydown', keyboardselect)
       document.getElementById("search-results")?.remove();
-      cancelPerformSearch();
+      controller.abort();
     }
   }

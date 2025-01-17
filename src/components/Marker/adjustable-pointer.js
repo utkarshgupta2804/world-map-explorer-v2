@@ -166,8 +166,12 @@ L.adjustablePointer = L.Layer.extend({
 
         break;
       case 'ArrowDown':
-        adjustablePointer.distance = adjustablePointer.distance - 10;
+        if(adjustablePointer.distance < 50){
+          notifySreenReader('Minimum distance reached, please zoom in to reduce distance more.', true);
+        }else{
+          adjustablePointer.distance = adjustablePointer.distance - 10;
         adjustablePointer._secondoryupdate(adjustablePointer.primaryMarker.getLatLng());
+        }
        
         break;
       case 'ArrowRight':

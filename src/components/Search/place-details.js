@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { tosqKMorMeter } from "../../utils/to-km-or-meter.js";
 import { fetchPrefix } from "./fetch-prefix.js";
 import { countryTemplate, districtTemplate, riverTemplate, stateTemplate } from "./templates.js";
@@ -216,3 +221,4 @@ function getValue(details, key) {
   const value = details[key];
   return Array.isArray(value) ? value.join(", ") : value;
 }
+

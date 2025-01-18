@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { geocodingAPI, headerofNominatim } from "../utils/to-km-or-meter.js";
 import { kasmir } from "./fetch-india.js";
 export const bbox = L.latLngBounds(
@@ -21,3 +26,4 @@ export async function isInindiaKashmir(marker,result){ //function to check if th
       return false
     }
   }
+

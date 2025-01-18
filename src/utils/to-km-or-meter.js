@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 export function toKMorMeter(num) {
   return num < 1000 ? parseInt(num) + " meters" : parseInt(num / 1000) + " Kilo meters";
 }
@@ -14,3 +19,4 @@ export const headerofNominatim = {
     "User-Agent": "WorldMapExplorer/1.0",
   },
 };
+

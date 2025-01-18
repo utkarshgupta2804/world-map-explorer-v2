@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { notifySreenReader } from '../../utils/accessibility.js';
 import { map } from '../map.js';
 import { toKMorMeter } from '../../utils/to-km-or-meter.js';
@@ -156,7 +161,7 @@ L.adjustablePointer = L.Layer.extend({
         marker = new Marker(adjustablePointer.primaryMarker.getLatLng()).addTo(
           map
         );
-        notifySreenReader('Swithced to Marker', true);
+        notifySreenReader('Swithced to Curser', true);
         adjustablePointer = null;
 
         break;
@@ -194,7 +199,7 @@ L.adjustablePointer = L.Layer.extend({
         marker = new Marker(adjustablePointer.secondaryMarker.getLatLng()).addTo(
           map
         );
-        notifySreenReader('Marker placed');
+        notifySreenReader('Curser placed');
         adjustablePointer = null;
 
         break;

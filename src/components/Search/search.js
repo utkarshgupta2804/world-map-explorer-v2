@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { performSearch, removeResults } from "../../services/do-search.js";
 import { showPlaceDetails } from "../../services/fetch-place.js";
  
@@ -14,3 +19,4 @@ export function onSubmitonMainSearchBar(){ //for search bar in main page, run th
   }
   
   
+

@@ -1,4 +1,10 @@
 
+/*
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+ */
+
 import { geoLayer } from "../../services/fetch-place.js";
 import { performSearch } from "../../services/do-search.js";
 import { toKMorMeter } from "../../utils/to-km-or-meter.js";

@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 
 import { map } from '/src/components/map.js';
 
@@ -63,3 +68,4 @@ function boundaryStyle(feature) {  //function to style the boundary lines of dis
       };
   }
 }
+

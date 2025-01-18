@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+ */
+
 import { tileLayerGeographical, tileLayerPolitical } from '../components/tile-layer.js';
 import { cancelShowPlaceDetails, geoLayer } from '../services/fetch-place.js';
 import { onSubmitonMainSearchBar } from '../components/Search/search.js';

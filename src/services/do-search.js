@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { notifyLoading, notifySreenReader } from "../utils/accessibility.js";
 import { keyboardselect } from "../utils/keydown-helpers.js";
 import { successSound } from "../utils/sounds.js";

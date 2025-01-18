@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { detalisElement } from '../utils/dom-elements.js';
 import { notifyLoading, notifySreenReader } from '../utils/accessibility.js';
 import { isInindiaKashmir } from "../services/nominatim.js";
@@ -127,7 +132,7 @@ async function geoJSON(type, id) {
     geoLayer.addTo(map)
 
   }else{
-    notifySreenReader('The marker is inside the boundary, Inbound navigation is enabled');
+    notifySreenReader('The curser is inside the boundary, Inbound navigation is enabled');
     marker.setGeoJson(result);
     area = turf.area(result);
   }
@@ -135,3 +140,4 @@ async function geoJSON(type, id) {
   return area;
 
 }
+

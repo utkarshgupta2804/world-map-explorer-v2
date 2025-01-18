@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import {
   InboundMarkerMove,
   markerMove,
@@ -28,7 +33,7 @@ export const Marker = L.CircleMarker.extend({
     this._oldPosition = this.getLatLng();
     findplaceNamAandData.bind(this)(this).then((place) => {
                 notifySreenReader(
-                    `Marker is active on ${place.name}. Use arrow keys to navigate`,
+                    `Curser is active on ${place.name}. Use arrow keys to navigate`,
                     true
                 );
     });
@@ -172,17 +177,18 @@ function correctIfOutOfMap(coord) { //function to correct the marker position if
 
   coord[0] = wrap(coord[0]);
   if (coord[0] !== wrap(coord[0])) {
-      notifySreenReader(`Marker moved to other side of the map`, true);
+      notifySreenReader(`Curser moved to other side of the map`, true);
   }
 
   if (coord?.lng !== undefined) {
       const newLng = wrap(coord.lng);
       if (coord.lng !== newLng) {
           coord.lng = newLng;
-          notifySreenReader(`Marker moved to other side of the map`, true);
+          notifySreenReader(`Curser moved to other side of the map`, true);
       }
   }
 
   return coord;
 }
+
 

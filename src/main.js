@@ -1,3 +1,9 @@
+
+/*
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+ */
 import { closeDistanceFinder, initialize_DistanceFinder_EventListeners } from "./components/DistanceFinder/distance.js";
 import { addListenerstoUI } from "./layout/add-listeners-to-ui.js";
 import { map } from "./components/map.js";
@@ -72,9 +78,9 @@ keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
     <li><strong>Alt + M</strong>: Focus on the map</li>
     <li><strong>ORCA Modifier + A</strong>: Switch between browse mode and focus mode in Ubuntu</li>
     <li><strong>NVDA Modifier + Space</strong>: Turn on/off scan mode in Windows</li>
-    <li>Use <strong>Arrow Keys</strong> to navigate using marker</li>
+    <li>Use <strong>Arrow Keys</strong> to navigate using curser</li>
     <li><strong>Alt + S</strong>: Toggle search bar</li>
-    <li><strong>F</strong>: Announce the name of the current location of marker</li>
+    <li><strong>F</strong>: Announce the name of the current location of curser</li>
     <li><strong>Shift + F</strong>: Announce the coordinates of the current location</li>
     <li><strong>Enter</strong>: Select the current location of the pointer</li>
     <li><strong>+ or =</strong>: Zoom in</li>
@@ -82,18 +88,20 @@ keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
     <li><strong>Z</strong>: Know the distance traveled by the cursor in one key press</li>
     <li><strong>A</strong>: Announce the altitude of the current place</li>
     <li><strong>L</strong>: Reset the cursor to the user's location (if location permission is enabled)</li>
+    <li><strong>D</strong>: Know the distance to the northern and southern border</li>
+    <li><strong>D twice</strong>: Know the distance to the wester and eastern border</li>
     <li><strong>Shift + Up</strong>: Know the distance to the northern border</li>
     <li><strong>Shift + Down</strong>: Know the distance to the southern border</li>
     <li><strong>Shift + Right</strong>: Know the distance to the eastern border</li>
     <li><strong>Shift + Left</strong>: Know the distance to the western border</li>
-    <li><strong>J</strong>: Activate adjustable pointer or marker</li>
+    <li><strong>J</strong>: Activate adjustable pointer or curser</li>
     <li><strong>UpArrow and DownArrow</strong> (when adjustable pointer is active): Increase or decrease distance</li>
     <li><strong>LeftArrow and RightArrow</strong> (when adjustable pointer is active): Increase or decrease angle</li>
     <li><strong>F</strong>: Announce details of the place indicated by the adjustable pointer</li>
     <li><strong>Alt + L</strong>: Select the current location as the initial or final location in distance finder</li>
-    <li><strong>Enter</strong> (when adjustable pointer is active): Move the marker to the location pointed by the adjustable pointer</li>
+    <li><strong>Enter</strong> (when adjustable pointer is active): Move the curser to the location pointed by the adjustable pointer</li>
     <li><strong>Alt + K</strong> To check keyboard shortcuts anytime</li>
-    <li><strong>Ctrl + Alt + G</strong> To turn on distance finder</li>
+    <li><strong>Ctrl + Shift + D</strong> To turn on distance finder</li>
 </ol>
 `;
 

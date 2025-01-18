@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+ */
+
 import { tileLayerPolitical } from "./tile-layer.js";
 import { toKMorMeter } from "../utils/to-km-or-meter.js";
 import { notifySreenReader } from "../utils/accessibility.js";

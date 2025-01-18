@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { clickSound } from '../../utils/sounds.js';
 import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 import { map } from '../map.js';
@@ -156,7 +161,7 @@ function getScaledDistance() { //for getting distance per key press
       true
     );
   } catch (error) {
-    alert('Add marker first');
+    alert('Add curser first');
   }
 }
 
@@ -183,7 +188,7 @@ function pressEnter() { //for handling enter key press
       .bind(this)(this)
       .then((place) => {
 
-        
+
         notifySreenReader(place.name, true);
         showPlaceDetails(place.data);
       });
@@ -224,4 +229,5 @@ const notifyDistance = _.debounce((distances) => {
 console.log(distances);
 notifySreenReader(distances, true,);
 }, 500);
+
 

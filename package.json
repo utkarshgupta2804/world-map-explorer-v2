@@ -12,7 +12,7 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.17.0",

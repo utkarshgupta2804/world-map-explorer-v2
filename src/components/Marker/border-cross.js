@@ -1,3 +1,8 @@
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 import { map } from '../map.js';
 import { notifySreenReader } from '../../utils/accessibility.js';
 import { bordercrossSound } from '../../utils/sounds.js';
@@ -178,3 +183,4 @@ function getFixedZoom() {
     return map.getZoom() - 2;
   }
 }
+

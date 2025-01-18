@@ -1,4 +1,8 @@
-import { notifySreenReader } from "../../utils/accessibility.js";
+﻿/* 
+ * Copyright (c) 2023-25 Zendalona
+ * This software is licensed under the GPL-3.0 License.
+ * See the LICENSE file in the root directory for more information.
+  */
 
 export function findborderpoints(place){   //function to find the all four border points of the given location, N E W S
     try {

@@ -15,7 +15,7 @@ export function keyboardselect(e){  //function for arrow key navigation in searc
       }
     }else if(e.keyCode == 38){
     e.preventDefault()
-  
+  console.log('up')
       if (active > 0) {
         active--
         this.querySelector("#search-results").children[active].focus()

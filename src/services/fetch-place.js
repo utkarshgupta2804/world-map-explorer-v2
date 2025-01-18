@@ -19,23 +19,30 @@ export const osmIds = [ //osm ids of kasmir included parts of china and pak
   307573, 270056, 153310, 2748339, 2748436, 1997914, 153292,
 ];
 
-let cancelFetch = false; // External flag to allow cancelling
 let Loadinginterval; // Loading interval for indication
+let cancelFetch = false; // External flag to allow cancelling
+let SearchID = 0; // Search ID to track the current search
+
+
 export async function showPlaceDetails(result) {
+  SearchID++; // Increment the search ID
+  let currentSearch = SearchID; // Store the current search ID
   removeResults();
   detalisElement.parentElement.style.display = 'block';
   detalisElement.innerHTML =
     '<h2 style="padding:50px; text-align: center; justify-content: center; align-items: center;"><i class="fas fa-circle-notch fa-spin"></i></h2>';
-
+  Loadinginterval && clearInterval(Loadinginterval); // Clear the loading interval if needed
   Loadinginterval = setInterval(notifyLoading, 2000); // Loading indication
 
   // Create a timeout that will reject after 15 seconds
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => {
-      if (!cancelFetch) {
+      if (!cancelFetch && currentSearch === SearchID) { // Check if the last called function is the current one
         reject(new Error('Taking too long to load'));
+      }else{
+        cancelFetch = false;
       }
-    }, 15000)
+    }, 25000)
   );
 
   try {
@@ -50,19 +57,27 @@ export async function showPlaceDetails(result) {
 
     successSound.play();
 
-    if (await isInindiaKashmir(marker, result)) {
-      detalisElement.innerHTML = 'No data found for this region';
-    } else {
-      detalisElement.innerHTML = data;
+    if(!cancelFetch && currentSearch === SearchID){
+      if (await isInindiaKashmir(marker, result)) {
+        detalisElement.innerHTML = 'No data found for this region';
+      } else {
+        detalisElement.innerHTML = data;
+      }
+  
+      detalisElement.focus();
+    }else{
+      cancelFetch = false;
     }
-
-    detalisElement.focus();
     return data; // Return the fetched data or result
   } catch (error) {
     clearInterval(Loadinginterval); // Ensure the loading interval is cleared
     console.error(error);
-    detalisElement.innerHTML = 'Something went wrong';
-    return null; // You can return a default value or null if it fails
+    if(!cancelFetch && currentSearch === SearchID){
+      detalisElement.innerHTML = 'Something went wrong';
+      detalisElement.focus();
+    }else{
+      cancelFetch = false;
+    }
   }
 }
 

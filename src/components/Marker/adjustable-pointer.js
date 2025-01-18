@@ -9,6 +9,7 @@ let isPointerStable = true; //flag to check if arrow is moving to reduce multipl
 export let adjustablePointer;// initiaizing object of adjustable pointer
 export function initializeAdjustablePointer(coord) {
   if (marker) {
+    marker.clearGeoJson();
     marker.remove();
   }
   
@@ -24,7 +25,6 @@ export function initializeAdjustablePointer(coord) {
 L.adjustablePointer = L.Layer.extend({
   initialize: function (pointer) {
     this.pointer = pointer;
-    marker.clearGeoJson();
   },
 
   onAdd: function (map) {

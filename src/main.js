@@ -88,8 +88,8 @@ keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
     <li><strong>Z</strong>: Know the distance traveled by the cursor in one key press</li>
     <li><strong>A</strong>: Announce the altitude of the current place</li>
     <li><strong>L</strong>: Reset the cursor to the user's location (if location permission is enabled)</li>
-    <li><strong>D</strong>: Know the distance to the northern and southern border</li>
-    <li><strong>D twice</strong>: Know the distance to the wester and eastern border</li>
+    <li><strong>D</strong>: Know the distance to the western and eastern border</li>
+    <li><strong>D twice</strong>: Know the distance to the northern and southern border</li>
     <li><strong>Shift + Up</strong>: Know the distance to the northern border</li>
     <li><strong>Shift + Down</strong>: Know the distance to the southern border</li>
     <li><strong>Shift + Right</strong>: Know the distance to the eastern border</li>

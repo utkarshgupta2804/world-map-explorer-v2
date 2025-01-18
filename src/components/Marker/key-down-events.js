@@ -182,7 +182,8 @@ function pressEnter() { //for handling enter key press
     findplaceNamAandData
       .bind(this)(this)
       .then((place) => {
-        console.log(place,'ss');
+
+        
         notifySreenReader(place.name, true);
         showPlaceDetails(place.data);
       });

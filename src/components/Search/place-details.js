@@ -73,7 +73,7 @@ async function fetchRiverDetails(tags, result, area = null) {
   const wikidataEntity = tags.wikidata ? await fetchWikidataEntity(tags.wikidata) : null;
 
   const details = {
-    length: wikidataEntity ? getClaimValue(wikidataEntity.claims?.P2043?.[0]) : "Unknown",
+    length: wikidataEntity ? getClaimValue(wikidataEntity.claims?.P2043?.[0]) + " K M" : "Unknown",
     origin: wikidataEntity ? await fetchClaimValue(wikidataEntity, "P885") : "Unknown",
     mouth: wikidataEntity ? await fetchClaimValue(wikidataEntity, "P403") : "Unknown",
     tributaries: wikidataEntity ? await fetchMultipleClaims(wikidataEntity, "P974") : "Unknown",

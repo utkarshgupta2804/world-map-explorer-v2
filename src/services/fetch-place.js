@@ -5,7 +5,7 @@ import { fetchDetails } from '../components/Search/place-details.js';
 import { removeResults } from '../services/do-search.js';
 import { successSound } from '../utils/sounds.js';
 import { geocodingAPI, headerofNominatim } from '../utils/to-km-or-meter.js';
-import { fetchIndia } from '../services/fetch-india.js';
+import { IndiaFull, kasmir } from '../services/fetch-india.js';
 import { map } from '../components/map.js';
 
 export var geoLayer;//for storing geojson layer other than boundary(like points and lines)
@@ -102,12 +102,12 @@ async function geoJSON(type, id) {
 
   result = osmtogeojson(result); //converting JSON to geoJSON
   if (result.features[0].properties.name === 'India') {
-    result = await fetchIndia();
+    result = IndiaFull;
   }
   osmIds.forEach((value) => {
     // deduct kashmir parts from china and pak
     if (value == id) {
-      result = turf.difference(result.features[0], Kashmir.features[0]);
+      result = turf.difference(result.features[0], kasmir.features[0]);
     }
   });
   let centre; // = turf.centerOfMass(result);

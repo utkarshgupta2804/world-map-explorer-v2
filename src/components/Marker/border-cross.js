@@ -3,7 +3,7 @@ import { notifySreenReader } from '../../utils/accessibility.js';
 import { bordercrossSound } from '../../utils/sounds.js';
 import { isInindiaKashmir } from "../../services/nominatim.js";
 import { osmIds } from '../../services/fetch-place.js';
-import { fetchIndia, fetchKashmir } from '../../services/fetch-india.js';
+import { IndiaFull, kasmir } from '../../services/fetch-india.js';
 import { findborderpoints } from './border-distance.js';
 import { geocodingAPI } from '../../utils/to-km-or-meter.js';
 
@@ -12,7 +12,7 @@ let errorCount = 0;
 let oldName, presentName; // old name, present name for stating border crossing
 let isMarkerStable = true; // for avoid repeated fetch
 let wentFar = 0; //for counting how far went when fetching border
-let Kashmir = await fetchKashmir(); //for fetching kashmir border
+let Kashmir = kasmir; //for fetching kashmir border
 
 export function checkBorderCrossed(distance) {
   if (this?._placeBorderofCurrentLocation) { //checking if border is present already
@@ -104,11 +104,11 @@ export async function getBorder() {
 
       // Check if the name is "India" and fetch additional data if true to correct border
       if (data.features[0].properties.name === 'India') {
-        data = await fetchIndia();
+        data = IndiaFull;
       }
       if (await isInindiaKashmir(this,presentName)) {
         presentName = { name: 'India', display_name: 'India' };
-        data = await fetchIndia();
+        data = IndiaFull;
       }
 
       osmIds.forEach((value) => {

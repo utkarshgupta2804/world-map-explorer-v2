@@ -8,6 +8,9 @@ var indiaBoundaries; //variable to store the boundary lines that is leaflet geoj
 var borderpane = map.createPane("borderPane"); //creates a pane for the boundary lines to make them appear below the other map drawings
 map.getPane("borderPane").style.zIndex = 200; //sets the z-index of the boundary lines to 200 to make them appear below the other map drawings
 
+let IndiaNorthBoundary = await getIndiaBoundary() //fetches the boundary data of correct India and adds it to the map
+export let IndiaFull = await fetchIndia()
+export let kasmir = await fetchKashmir()
   
   export async function getIndiaBoundary() { //function to add the boundary lines to the map
     return fetch('/src/assets/geojson/boundary.geojson')
@@ -17,7 +20,7 @@ map.getPane("borderPane").style.zIndex = 200; //sets the z-index of the boundary
       });
   } //function to add the boundary lines to the map
 window.getIndiaBoundary = getIndiaBoundary;
-  export async function fetchIndia() {
+  async function fetchIndia() {
     return fetch('/src/assets/geojson/india-osm.geojson')
       .then(response => response.json())
       .then(data => {
@@ -39,8 +42,7 @@ window.getIndiaBoundary = getIndiaBoundary;
   //fetches the boundary data of correct India and adds it to the map
 export async function addIndiaBoundaries() { 
   indiaBoundaries?.remove(); //removes the boundary lines if they are already present on the map
-  const data = await getIndiaBoundary() //temporary storage of the boundary data
- indiaBoundaries = L.geoJSON(data, {
+ indiaBoundaries = L.geoJSON(IndiaNorthBoundary, {
    style: boundaryStyle,
    pane: "borderPane",
  }).addTo(map);

@@ -27,7 +27,8 @@ message.innerHTML = `<p>
             &nbsp;&nbsp;&nbsp;&nbsp;- For ORCA users, press <strong>ORCA Modifier+A</strong> to toggle Focus Mode.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;- For VoiceOver users, press <strong>Control+Option+Shift+U</strong> to interact with markers.</li>
     </ol>
-    Thank you for using World Map Explorer!
+    You can find more details in the <a href="https://map.zendalona.com/src/pages/user-guide/index.html" >User Guide</a>.<br><br>
+    Thank you for using World Map Explorer! 
 </p>`;
 
 const closeButton = document.createElement('button');

@@ -87,6 +87,26 @@
             align-items: center;
             height: 50%;
         }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            max-height: 80px;
+            object-fit: contain;
+        }
     </style>
 </head>
 
@@ -305,7 +325,7 @@
 
     <p>Note: Press <code>Escape</code> to quickly close and return to exploring.</p>
     <a style="color: inherit; text-decoration: none;" href="#top"><button style="width:100%;" >Go to top</button></a>
-<p>To know more <a href="http://www.zendalona.com/map">www.zendalona.com/map</a></p>
+<p>To know more <a href="http://www.zendalona.com/map" style="text-decoration: none; " >www.zendalona.com/map</a></p>
 <p>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</p>
 
 
@@ -389,11 +409,43 @@
     <img src="darshana.png" alt="zendalona Logo, Vision Beyond Sight" style="max-width: 20%; height: auto; margin-left: auto; margin-right: auto; display: flex; margin-top: 7%; margin-bottom: 0%;">
     <img src="KFB.png" alt="zendalona Logo, Vision Beyond Sight" style="max-width: 20%; height: auto; margin-left: auto; margin-right: auto; display: flex; margin-top: 7%; margin-bottom: 0%;">
 </div>
-<h4 style="text-align: center; margin-top: 20px;">
-    <a href="www.zendalona.com" style="text-decoration: none; color: rgb(7, 7, 211);">
-        www.zendalona.com
-    </a>
-</h4>
+<div class="grid">
+        <!-- First row of logos -->
+        <div class="logo-container">
+            <img src="OpenStreetMap.jpg" alt="Logo of OpenStreetMap">
+        </div>
+        <div class="logo-container">
+            <img src="gec.jpg" alt="Logo of GEC Palakkad">
+        </div>
+        <div class="logo-container">
+            <a href="https://www.zendalona.com" target="_blank" rel="noopener noreferrer">
+                <img src="zendalona.jpg" alt="Logo of zendalona">
+            </a>
+        </div>
+        <div class="logo-container">
+            <img src="darsana.jpg" alt="Logo Darsana">
+        </div>
+        <div class="logo-container">
+            <img src="KFB.jpg" alt="Logo of Kerala Federation of the Blind">
+        </div>
+
+        <!-- Second row of logos -->
+        <div class="logo-container">
+            <img src="osm_kerala.jpg" alt="Logo of OSM Kerala">
+        </div>
+        <div class="logo-container">
+            <img src="wikkidata.jpg" alt="Logo of Wikidata">
+        </div>
+        <div class="logo-container">
+            <img src="Leaflet.jpg" alt="Logo of Leaflet">
+        </div>
+        <div class="logo-container">
+            <img src="OverpassAPI.jpg" alt="Logo of Overpass API">
+        </div>
+        <div class="logo-container">
+            <img src="valhalla.jpg" alt="Logo of Valhalla Routing API">
+        </div>
+    </div>
 
 </footer>
 

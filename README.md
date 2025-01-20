@@ -1,6 +1,6 @@
 # World Map Explorer
 
-World Map Explorer is an intuitive, accessible, and user-friendly tool designed to explore and learn about the world map inclusively. This project was developed by [Azhar Abdulla C K](https://github.com/azru007), [Jyothir Adithya P](https://github.com/Jyothiradithyap), [Athuldas S](https://github.com/Athul9753), and [Saju Suresh](https://github.com/Saju14), and tested by [Shadil A M](https://github.com/shadil-rayyan) under the mentorship of [Nalin Sathyan](https://github.com/nalin-x-linux) and Mukundhan Annamalai. The goal of the project is to ensure that everyone can access the world map in a playful and educational manner.
+World Map Explorer is an intuitive, accessible, and user-friendly tool designed to explore and learn about the world map inclusively. This project is developed by Zendalona. The goal of the project is to ensure that everyone can access the world map in a playful and educational manner.
 
 # Table of Contents
 
@@ -15,16 +15,31 @@ World Map Explorer is an inclusive and educational mapping tool designed for ind
 
 ## Features
 
-- **Map Controls:** User-friendly controls that allow users to zoom in and out, pan across the map, and toggle different layers for a comprehensive exploration experience.
+- **Capturing User Location:** Automatically center the map on your location using your IP address for a personalized experience.
 
-- **Interactive Marker:** An innovative marker that allows users to navigate the globe effortlessly using arrow keys. Explore different places and countries, all designed to make learning about the world an interactive adventure!
+- **Keyboard-Assisted Navigation:** Navigate the map effortlessly using arrow keys to move the cursor in any direction.
 
-- **Adjustable Pointer (Adpointer):** A customizable pointer tool that helps users interact with the map more effectively, offering features for comparing the distance and direction of places.
+- **Navigation Using Search:** Discover any location with ease using the search feature to explore countries, states, rivers, and historical monuments.
 
-- **Search Around the World:** A powerful search feature enabling users to find locations globally by name, coordinates, or other attributes, making navigation intuitive and efficient.
+- **Boundary Setting for Search and navigation:** Select a place to learn more about it, enhancing your exploration experience.
 
-- **Inbound Navigation:** This feature keeps the marker locked within specific place boundaries, allowing for focused exploration that enhances understanding of the area.
+- **Adjustable Pointer:** Customize the distance and angle of a pointer to explore nearby locations with precision.
 
+- **Real-Time Voice Over:** Receive real-time coordinates of your current location for an interactive experience.
+
+- **Reset to User Location:** Quickly reset the cursor position to your starting location with a single click..
+
+- **Distance to Borders:** Instantly know the distance to borders in the north, south, east, and west at district, state, or country levels.
+
+- **Real-Time Voice Over:** Receive real-time coordinates of your current location for an interactive experience.
+
+- **Zoom Capabilities with Voice:** Zoom in and out with voice assist, making navigation more accessible..
+
+- **Border Crossing Alert:** Get real-time alerts when crossing borders, adding an interactive element to your journey..
+
+- **Distance Finder:** Find the shortest distance between any two places with ease.
+
+- **Map Layout Options:** Switch between political and geographical views to please your viewing experience.
 
 
 ---
@@ -78,4 +93,4 @@ After that, follow these steps to run the application.
 3. Open this URL in your web browser to view and interact with the application.
 
 
-You’re done! You can now see the [detailed user manual](./public/user-guide/user-guide.md) for more information
+You’re done! You can see the [detailed user manual](https://map.zendalona.com/src/pages/user-guide/index.html) for more information.

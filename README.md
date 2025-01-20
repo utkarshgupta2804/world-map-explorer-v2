@@ -1,6 +1,6 @@
-# World Map Explorer
+# World-Map-Explorer
 
-World Map Explorer is an intuitive, accessible, and user-friendly tool designed to explore and learn about the world map inclusively. This project is developed by Zendalona. The goal of the project is to ensure that everyone can access the world map in a playful and educational manner.
+World-Map-Explorer is an intuitive, accessible, and user-friendly tool designed to explore and learn about the world map inclusively. This project is developed by Zendalona. The goal of the project is to ensure that everyone can access the world map in a playful and educational manner.
 
 # Table of Contents
 
@@ -11,7 +11,7 @@ World Map Explorer is an intuitive, accessible, and user-friendly tool designed 
 
 ## Introduction
 
-World Map Explorer is an inclusive and educational mapping tool designed for individuals with visual impairments as well as sighted users. The purpose is to detail the requirements for creating an accessible, user-friendly application that serves educational purposes and enhances the mapping experience for all users.
+World-Map-Explorer is an inclusive and educational mapping tool designed for individuals with visual impairments as well as sighted users. The purpose is to detail the requirements for creating an accessible, user-friendly application that serves educational purposes and enhances the mapping experience for all users.
 
 ## Features
 

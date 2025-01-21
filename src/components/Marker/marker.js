@@ -80,12 +80,10 @@ export const Marker = L.CircleMarker.extend({
   },
 
   _handleZoomEnd() {
-    console.log('Zoom ended');
     getBorder.bind(this)(); // Call your getBorder function here
   },
 
   setGeoJson: function (geoJson) { //function to set the geojson data, or select a place
-    console.log('GeoJSON data set:', geoJson);
     this._placeBorderofCurrentLocation.remove();
     this._placeBorderofCurrentLocation = null; //clearing the previous border to avoid unwanted detection by leafletPip
 
@@ -96,7 +94,6 @@ export const Marker = L.CircleMarker.extend({
     }).addTo(map); // Store GeoJSON
     this._geoJson = geoJson;
     this._borderPoints = findborderpoints.bind(this)(geoJson);
-    console.log(this._borderPoints);
     this._map
       .getContainer()
       .addEventListener('keydown', this._onArrowKeyDownWhenGeoPresent);
@@ -117,7 +114,6 @@ export const Marker = L.CircleMarker.extend({
     this._placeBorderofSelectedLocation?.remove(); // Clear GeoJSON storage
     this._placeBorderofSelectedLocation = null; // to avoid unwanted detection by leafletPip
     getBorder.bind(this)();
-    console.log('GeoJSON data cleared.');
   },
 
   _handleKeydown: markerShortcuts,

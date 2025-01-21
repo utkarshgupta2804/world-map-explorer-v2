@@ -127,7 +127,6 @@ async function geoJSON(type, id) {
     centre = centre.geometry.coordinates.reverse();
   }
   if(leafletPip.pointInLayer(L.latLng(centre), geoLayer=L.geoJson(result,Options)).length<=0){
-    console.log('not in layer');
     map.fitBounds(geoLayer.getBounds());
     geoLayer.addTo(map)
 

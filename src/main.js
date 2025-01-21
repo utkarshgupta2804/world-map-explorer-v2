@@ -18,7 +18,6 @@ fetch('https://ipinfo.io/json') //fetching the location of the user and setting 
   .then(response => response.json())
   .then(data => {
       const [lat, lon] = data.loc.split(',');
-      console.log(data)
       map.setView([lat, lon], 7)
   })
   .catch(error => {

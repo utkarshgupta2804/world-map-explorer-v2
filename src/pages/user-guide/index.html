@@ -80,6 +80,7 @@
         footer{
             font-size: medium;
             width: 140%;
+            background: url('zendelona_cropped.png') no-repeat center center / cover, rgba(255, 255, 255, 0.); /* background-image, repeat, position, size, and opacity */
             margin-left: -20%;
         }
         .logos{
@@ -88,9 +89,12 @@
             height: 50%;
         }
         .grid {
+            padding-top: 10%;
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 10px;
+            justify-content: center;
+            align-items: center;
         }
 
         .logo-container {
@@ -100,12 +104,15 @@
             background-color: #ffffff;
             padding: 10px;
             border-radius: 10px;
+
         }
 
         .logo-container img {
             max-width: 100%;
             max-height: 80px;
             object-fit: contain;
+            
+
         }
         #credits{
             font-size: xx-large;
@@ -333,9 +340,8 @@
 <p>To know more <a href="http://www.zendalona.com/map" style="text-decoration: none; " >www.zendalona.com/map</a></p>
 <p>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</p>
 
-
    <footer>
-    <h1 style=" text-align: center; border-collapse: collapse;"id="credits">Credits</h1>
+    <h1 style=" text-align: center; border-collapse: collapse;"id="credits">Credits*</h1>
     <table style="width: 100%; text-align: center; border-collapse: collapse;">
         <thead>
             <tr>
@@ -352,6 +358,7 @@
                     <ul style="list-style: none; margin: 0; padding: 0;">
                         <li>Leaflet</li>
                         <li>Nominatim</li>
+                        <li>OpenDataKerala</li>
                         <li>OpenStreetMap (OSM)</li>
                         <li>Overpass API</li>
                         <li>Valhalla Routing API</li>
@@ -382,6 +389,7 @@
                     <ul style="list-style: none; margin: 0; padding: 0;">
                         <li>Abhiram P S</li>
 <li>Ajayakumar A</li>
+<li>Akshay S Dinesh</li>
 <li>Balaraman P</li>
 <li>Jinu John</li>
 <li>K H Musthafal Mukthar</li>
@@ -394,10 +402,11 @@
               
                 <td style="vertical-align: top; padding: 10px; text-align: center;">
                     <ul style="list-style: none; margin: 0; padding: 0;">
-                        <li>Darsana Alumni Association, NSS College of Engineering, Palakkad.</li>
+                        <li>Darsana Society, NSS College of Engineering, Palakkad.</li>
                         <li>Goverment Engineering College Sreekrishnapuram</li>
                         <li>Kerala Federation of the Blind (KFB) Teachers Forum</li>
                         <li>OpenStreetMap (OSM) Kerala Community</li>
+                        <li>Sahya Digital Conservation Foundation</li>
                         
                     </ul>
                 </td>
@@ -409,42 +418,46 @@
 <div class="grid">
         <!-- First row of logos -->
         <div class="logo-container">
-            <img src="osm_kerala.jpg" alt="Logo of OSM Kerala">
+            <img src="darsana.jpg" alt="Logo of Darsana Society, NSS College of Engineering, Palakkad ">
         </div>
         <div class="logo-container">
             <img src="gec.jpg" alt="Logo of GEC Palakkad">
         </div>
         <div class="logo-container">
-            <a href="https://www.zendalona.com" target="_blank" rel="noopener noreferrer">
-                <img src="zendalona.jpg" alt="Logo of zendalona">
-            </a>
-        </div>
-        <div class="logo-container">
-            <img src="darsana.jpg" alt="Logo Darsana">
-        </div>
-        <div class="logo-container">
             <img src="KFB.jpg" alt="Logo of Kerala Federation of the Blind">
-        </div>
-
-        <!-- Second row of logos -->
-        <div class="logo-container">
-            <img src="OpenStreetMap.jpg" alt="Logo of OpenStreetMap">
-        </div>
-        
-        <div class="logo-container">
-            <img src="wikkidata.jpg" alt="Logo of Wikidata">
         </div>
         <div class="logo-container">
             <img src="Leaflet.jpg" alt="Logo of Leaflet">
         </div>
         <div class="logo-container">
+            <img src="opendatakerala.png" alt="Logo of Open Data Kerala">
+        </div>
+        <div class="logo-container">
+            <img src="OpenStreetMap.jpg" alt="Logo of OpenStreetMap">
+        </div>
+        <div class="logo-container">
             <img src="OverpassAPI.jpg" alt="Logo of Overpass API">
+        </div>
+        <div class="logo-container">
+            <img src="osm_kerala.png" alt="Logo of OSM Kerala">
+        </div>
+        <div class="logo-container">
+            <img src="sahya.png" alt="Logo of Sahya Digital Conservation Foundation">
         </div>
         <div class="logo-container">
             <img src="valhalla.jpg" alt="Logo of Valhalla Routing API">
         </div>
+        <div class="logo-container">
+            <img src="wikidata.png" alt="Logo of Wikidata">
+        </div>
+        <div class="logo-container">
+            <a href="https://www.zendalona.com" target="_blank" rel="noopener noreferrer">
+                <img src="zendalona.png" alt="Logo of zendalona">
+            </a>
+        </div>
+        
     </div>
-
+<p>* All are listed in alphabetic order</p>
 </footer>
 
 

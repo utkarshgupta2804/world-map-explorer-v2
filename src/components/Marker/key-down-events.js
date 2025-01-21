@@ -79,7 +79,6 @@ export function InboundMarkerMove(event) { //for key shortcuts related to marker
 }
 
 function InboundMarkerMovement(key) { //detect the border, and blocks movement if it crosses the border
-  console.log(key);
   let borderpoints = this._borderPoints;
   const moves = {
     ArrowUp: [0.000001, 0],
@@ -125,7 +124,6 @@ function getBorderDistance(event) { //for getting distance from border
   const distance = toKMorMeter(
     this.getLatLng().distanceTo(this._borderPoints[direction.point])
   );
-  console.log(distance);
   notifySreenReader(`${distance} ${direction.label}`, true);
 }
 
@@ -205,7 +203,6 @@ function handleKeyDPress(event) {
 
   const borderpoints = this._borderPoints;
   if (!this._geoJson) {
-    console.log('No border found, Please try again');
     return notifySreenReader('No border found, Please try again', true);
   }
 
@@ -226,7 +223,6 @@ function handleKeyDPress(event) {
 
 
 const notifyDistance = _.debounce((distances) => {
-console.log(distances);
 notifySreenReader(distances, true,);
 }, 500);
 

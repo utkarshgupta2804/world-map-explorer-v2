@@ -25,7 +25,6 @@ export async function findplaceNamAandData(point) {
                         name = "Sea";
                     }
                     if (await isInindiaKashmir(this,data)) {
-                        console.log(data);
                         name = "India";
                     }
                 })

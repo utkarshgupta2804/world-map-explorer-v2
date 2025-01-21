@@ -76,7 +76,6 @@ detailsCloseButton.addEventListener('click', function () {
 
   geographicalLayerBtn.addEventListener("click", function () {
     // Add your logic to switch to the geographical layer
-    console.log("Switching to Geographical Layer");
     layersDropdown.style.display = "none"; // Hide dropdown
     tileLayerPolitical.remove();
     tileLayerGeographical.addTo(map);
@@ -85,7 +84,6 @@ detailsCloseButton.addEventListener('click', function () {
   // Event listener for political layer
   politicalLayerBtn.addEventListener("click", function () {
     // Add your logic to switch to the political layer
-    console.log("Switching to Political Layer");
     layersDropdown.style.display = "none"; // Hide dropdown
     tileLayerGeographical.remove();
     tileLayerPolitical.addTo(map);

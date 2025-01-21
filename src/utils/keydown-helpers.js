@@ -20,7 +20,6 @@ export function keyboardselect(e){  //function for arrow key navigation in searc
       }
     }else if(e.keyCode == 38){
     e.preventDefault()
-  console.log('up')
       if (active > 0) {
         active--
         this.querySelector("#search-results").children[active].focus()
@@ -39,13 +38,11 @@ export function lockTabKey(event, text, closeButton) {
   
         if(document.activeElement=== text){
           closeButton.focus();
-          console.log('close button focused')
       event.preventDefault();
   
         }
         else if(document.activeElement=== closeButton){
           text.focus();
-          console.log('message focused')
       event.preventDefault();
   
         }

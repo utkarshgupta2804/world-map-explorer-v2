@@ -17,7 +17,6 @@ export async function fetchDetails(result, area) {
   if ([3, 4].includes(adminLevel)) return fetchStateDetails(display_name, osm_type, osm_id, area);
   if (adminLevel === 5) return fetchDistrictDetails(display_name, osm_type, osm_id, area);
   if (tags["type"] === "waterway" || tags["waterway"] === "river") return fetchRiverDetails(tags, result);
-  // console.log(tags)
   return fetchOtherDetails(tags, result, area);
 }
 

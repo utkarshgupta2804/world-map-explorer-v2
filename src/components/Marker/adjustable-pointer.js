@@ -250,7 +250,6 @@ L.adjustablePointer = L.Layer.extend({
       realangle = angleDeg;
     }
 
-    console.log(realangle);
     if (isReal) {
       return realangle;
     } else {
@@ -288,13 +287,11 @@ L.adjustablePointer = L.Layer.extend({
       this.secondaryMarker.getLatLng().lat > 85 ||
       this.secondaryMarker.getLatLng().lat < -85
     ) {
-      console.log('you are getting to pole');
     }
     if (
       this.secondaryMarker.getLatLng().lng > 180 ||
       this.secondaryMarker.getLatLng().lnt < -180
     ) {
-      console.log('you are crossing map');
     }
     this._updateInfoBox();
     this.flatdist =

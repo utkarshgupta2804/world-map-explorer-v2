@@ -21,7 +21,6 @@ let Kashmir = kasmir; //for fetching kashmir border
 
 export function checkBorderCrossed(distance) {
   if (this?._placeBorderofCurrentLocation) { //checking if border is present already
-    console.log('border found');
     if (
       leafletPip.pointInLayer(  //checking if the marker is inside the border
         this.getLatLng(),
@@ -37,13 +36,10 @@ export function checkBorderCrossed(distance) {
         .bind(this)()
         .then((data) => {
           if (data.name != 'sea(mostly)') {
-            console.log('border fetched');
             checkBorderCrossed.bind(this)(0); // recalling the function to ensure the border is shown appropriately for the new location
           }
-          console.log(oldName,presentName,distance);
           if (distance <= 60 && data.name != oldName.name) { // checking the distance between the old and new location is less than 60 pixels, only then it is considered as border crossed
             if (crossedhigherlevel(oldName, presentName)) {
-              console.log(`${oldName.name} crossed. ${data.name} entered`);
 
               //if crossed to higher level border(like district to another state district)
               notifySreenReader(
@@ -51,7 +47,6 @@ export function checkBorderCrossed(distance) {
                 true
               );
             } else {
-              console.log(`${oldName.name} crossed. ${data.name} entered`);
               notifySreenReader(
                 `${oldName.name} crossed. ${data.name} entered`,
                 true
@@ -91,7 +86,6 @@ export async function getBorder() {
       isMarkerStable = false;
       map.eachLayer((layer) => {
         if (layer instanceof L.GeoJSON && layer.getPane().classList.contains('leaflet-overlay-pane')) {
-            console.log(layer,"a")
           map.removeLayer(layer); // Remove the marker
         }
       });

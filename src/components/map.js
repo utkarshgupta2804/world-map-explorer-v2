@@ -27,7 +27,6 @@ map.on(
 
 map.on('keydown', (event) => {
   if (event.originalEvent.code == "KeyL") {
-    console.log("key pressed");
     document.getElementById("locateme").click();
   }
 });

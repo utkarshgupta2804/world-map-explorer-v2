@@ -1,6 +1,7 @@
 # World-Map-Explorer
 
-World-Map-Explorer is an intuitive, accessible, and user-friendly tool designed to explore and learn about the world map inclusively. This project is developed by Zendalona. The goal of the project is to ensure that everyone can access the world map in a playful and educational manner.
+World-Map-Explorer is an intuitive, accessible, and user-friendly tool designed to explore and learn about the 
+ map inclusively. This project is developed by Zendalona. The goal of the project is to ensure that everyone can access the world map in a playful and educational manner.
 
 # Table of Contents
 

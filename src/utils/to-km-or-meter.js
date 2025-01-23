@@ -16,7 +16,7 @@ export const geocodingAPI = "https://nominatim.geocoding.ai";
 export const headerofNominatim = {
   referrerPolicy: "strict-origin-when-cross-origin",
   headers: {
-    "User-Agent": "WorldMapExplorer/1.0",
+    "User-Agent": "World-Map-Explorer/1.0",
   },
 };
 

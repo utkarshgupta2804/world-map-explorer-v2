@@ -18,7 +18,7 @@ message.id = 'messagec';
 const messageContainer = document.createElement('div');
 messageContainer.id='message';
 message.innerHTML = `<p>
-    <strong>Welcome to World Map Explorer</strong><br><br>
+    <strong>Welcome to World-Map-Explorer</strong><br><br>
     Please note the following:<br>
     <ol>
         <li>This application uses OpenStreetMap (OSM) data for map information. OSM is responsible for the maintenance and accuracy of the map</li>
@@ -32,7 +32,7 @@ message.innerHTML = `<p>
             &nbsp;&nbsp;&nbsp;&nbsp;- For VoiceOver users, press <strong>Control+Option+Shift+U</strong> to interact with curser.</li>
     </ol>
     You can find more details in the <a href="https://map.zendalona.com/src/pages/user-guide/index.html" >User Guide</a>.<br><br>
-    Thank you for using World Map Explorer! 
+    Thank you for using World-Map-Explorer! 
 </p>`;
 
 const closeButton = document.createElement('button');

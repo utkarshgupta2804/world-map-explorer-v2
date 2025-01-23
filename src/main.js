@@ -13,6 +13,7 @@ import { detailsCloseButton, distanceBox, distanceIcon, input } from "./utils/do
 import { lockTabKey } from "./utils/keydown-helpers.js";
 import { closeSound, successSound } from "./utils/sounds.js";
 let marker
+addDisclaimer() // Add a disclaimer to the UI
 
 fetch('https://ipinfo.io/json') //fetching the location of the user and setting the map to that location, if failed then setting it to the default location
   .then(response => response.json())
@@ -28,7 +29,6 @@ map.setView([10.16,76.64],7)
 document.addEventListener('keydown',handleKeyDownOnDocument) // Initialize event listeners for key shortcuts on the document, general any time shortcuts
 addListenerstoUI() // Initialize event listeners for the UI elements on the page
 initialize_DistanceFinder_EventListeners(); // Initialize event listeners for the distance finder
-addDisclaimer() // Add a disclaimer to the UI
 
 
 function handleKeyDownOnDocument(event) { //for key shortcuts for the whole application
@@ -71,7 +71,7 @@ keysText.setAttribute("aria-atom","true");
 keysText.id = 'keysTextc';
 const keysTextContainer = document.createElement('div');
 keysTextContainer.id='keysText';
-keysText.innerHTML = `<h2>Keyboard Shortcuts for World Map Explorer</h2>
+keysText.innerHTML = `<h2>Keyboard Shortcuts for World-Map-Explorer</h2>
 <p>Use browse mode to navigate throgh each list item following using arrow keys</p>
 <ol>
     <li><strong>Alt + M</strong>: Focus on the map</li>

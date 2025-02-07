@@ -14,6 +14,9 @@ import { getBorder, checkBorderCrossed } from './border-cross.js';
 import { notifySreenReader } from '../../utils/accessibility.js';
 import { findplaceNamAandData } from '../../services/find-place-name-and-data.js';
 
+var selectedPane = map.createPane('selectedPane');
+selectedPane.style.zIndex = 999;
+
 export const Marker = L.CircleMarker.extend({
   options: {
     customProperty: 'defaultValue',
@@ -91,6 +94,7 @@ export const Marker = L.CircleMarker.extend({
             color: 'red', // Border color
             fillColor: 'yellow',
             fillOpacity: 0.5, // Adjust fill opacity as needed
+            pane: 'selectedPane'
     }).addTo(map); // Store GeoJSON
     this._geoJson = geoJson;
     this._borderPoints = findborderpoints.bind(this)(geoJson);
@@ -100,17 +104,18 @@ export const Marker = L.CircleMarker.extend({
     this._map
       .getContainer()
       .removeEventListener('keydown', this._onArrowKeyDown);
-    map.off('zoomend', this._onZoomEnd);
+    // map.off('zoomend', this._onZoomEnd);
     map.fitBounds(this._placeBorderofSelectedLocation.getBounds()); //aligning the added layer to centre of the map
 
   },
 
   clearGeoJson: function () { //function to clear the geojson data, or deselect a place
+    console.log('clearing geojson');
     this._map
       .getContainer()
       .removeEventListener('keydown', this._onArrowKeyDownWhenGeoPresent);
     this._map.getContainer().addEventListener('keydown', this._onArrowKeyDown);
-    map.on('zoomend', this._onZoomEnd);
+    // map.on('zoomend', this._onZoomEnd); 
     this._placeBorderofSelectedLocation?.remove(); // Clear GeoJSON storage
     this._placeBorderofSelectedLocation = null; // to avoid unwanted detection by leafletPip
     getBorder.bind(this)();
@@ -133,12 +138,12 @@ export const Marker = L.CircleMarker.extend({
 
   // Custom method to handle position changes
   async _onPositionChange(latlng) {
-    if (!this._placeBorderofSelectedLocation) {
+    // if (!this._placeBorderofSelectedLocation) {
        checkBorderCrossed.bind(this)(
         map.project(this._oldPosition).distanceTo(map.project(latlng))
 
       );
-    }
+    // }
     this._borderPoints = findborderpoints.bind(this)(this._geoJson);// Update border points on every position change
     fetchElevation(this);
   },

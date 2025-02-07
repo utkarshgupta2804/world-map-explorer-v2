@@ -18,6 +18,7 @@ const Options = {
   color: 'red', // Border color
   fillColor: 'yellow',
   fillOpacity: 0.5, // Adjust fill opacity as needed
+  pane: 'selectedPane', // Add to the selected pane
 };
 
 export const osmIds = [ //osm ids of kasmir included parts of china and pak
@@ -47,7 +48,7 @@ export async function showPlaceDetails(result) {
       }else{
         cancelFetch = false;
       }
-    }, 25000)
+    }, 90000)
   );
 
   try {

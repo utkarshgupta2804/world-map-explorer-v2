@@ -207,11 +207,11 @@ function handleKeyDPress(event) {
   }
 
   const getDistance = (point) =>
-    toKMorMeter(this.getLatLng().distanceTo(borderpoints[point]));
+    this.getLatLng().distanceTo(borderpoints[point]);
   const distances =
   pressCount === 1
-    ? `${getDistance('east')} to east, ${getDistance('west')} to west`
-    : `${getDistance('north')} to north, ${getDistance('south')} to south`;
+    ? `${toKMorMeter(getDistance('east')+getDistance('west'))} to east from west`
+    : `${toKMorMeter(getDistance('north')+getDistance('south'))} to north from south`;
     notifyDistance(distances)
 
   if (pressCount === 2) pressCount = 0; // Reset after second press

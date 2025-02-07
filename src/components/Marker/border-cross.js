@@ -74,7 +74,7 @@ export function checkBorderCrossed(distance) {
 
 //function for fetching and adding polygon to map
 export async function getBorder() {
-  this._borderPoints=null; //clearing previous border points
+  if (!this._placeBorderofSelectedLocation) this._borderPoints=null; //clearing previous border points
   return new Promise(async (resolve, reject) => {
     if (controller) { //aborting previous fetch request
       controller.abort(); 
@@ -116,11 +116,11 @@ export async function getBorder() {
         }
       });
 
-      if(this._placeBorderofSelectedLocation){ //because of multiple async calls this may be run even after selecting a place, so checking if there any selection present
-        return resolve(presentName);
-      }
-      this._geoJson = data;
-      this._borderPoints = findborderpoints.bind(this)(data);
+      // if(this._placeBorderofSelectedLocation){ //because of multiple async calls this may be run even after selecting a place, so checking if there any selection present
+      //   return resolve(presentName);
+      // }
+      if (!this._placeBorderofSelectedLocation) this._geoJson = data;
+      if (!this._placeBorderofSelectedLocation) this._borderPoints = findborderpoints.bind(this)(data);
 
       this._placeBorderofCurrentLocation = L.geoJson(data, {
         fillOpacity: 0,
@@ -172,9 +172,11 @@ function crossedhigherlevel(cro, ent) { //for checking if crossed to higher leve
 // for fixing district minimum view
 function getFixedZoom() {
   if (map.getZoom() >= 8) {
-    return 7;
-  } else {
-    return map.getZoom() - 2;
+      return 6
+  } else if (map.getZoom() >= 5 && map.getZoom() <= 7) {
+      return 5
+  } else if (map.getZoom() <= 4) {
+      return 2
   }
 }
 

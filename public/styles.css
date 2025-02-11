@@ -1,0 +1,464 @@
+body {
+    margin: 0;
+}
+button{
+  background: none;
+  border: none;
+}
+header {
+    background:#ffffffdc;
+    color: #6F0E0E;
+    padding: 5px;
+    height: 30px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 2px solid #A04242;
+    margin-left: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: large;
+}
+header button{
+  font-size: large;
+  padding: 5px;
+  font-weight: bold;  
+  border: 2px solid #A04242;
+  border-radius: 10px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.map-logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 0;
+}
+
+#map-explorer-text {
+    margin: 0;
+    margin-left: 0;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#settings-btn,
+#bookmark-btn,
+#help-btn {
+    margin-right: 20px;
+    cursor: pointer;
+    color: #A04242;
+}
+
+#login-btn {
+    cursor: pointer;
+    color: white;
+    padding: 2.5px 5px;
+    border: 1px solid #A04242;
+    border-radius: 8px;
+    background-color: #A04242;
+    margin-right: 10px;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+    display: none;
+}
+
+.box-input input {
+    padding: 5px;
+    flex: 1;
+    border: none;
+    
+  background-color: none !important;
+  outline: none;
+  }
+
+#c-search-input {
+    border-width: 2px ;
+    border-style: solid;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    border-color: rgb(0, 0, 0);
+    position: relative;
+    width: 100%;
+    min-width: 200px;
+
+    height: 30px;
+}
+#c-search-input input {
+    padding: 7px;
+    border-radius: 8px;
+    margin: 5px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+#searchbutton{
+  z-index: 1540;
+  position: absolute;
+  float:right;
+  margin-left: calc(100% - 30px);
+  opacity: .5;
+  cursor: pointer;
+  top: 0;
+  bottom: 0;
+  
+}
+
+
+#map {
+    height: calc(100vh - 22px);
+}
+#infoBox {
+  position: absolute; /* Position it in the corner */
+  bottom: 50px;
+  left: 15px;
+  color: white;
+  background-color: #6f0e0edb;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it's on top of the map */
+  display: none;
+  line-height: 22px;
+}
+#search-container {
+    position: relative;
+    top: 50px;
+    z-index: 1002;
+    display:flexbox;
+    flex-direction: column;
+    align-items: baseline;
+    max-width: 300px;
+    border-radius: 8px;
+    height: fit-content;
+}
+ 
+#search-results {
+  list-style:none;
+  display: flex;
+  border-color: rgb(0, 0, 0);
+  border-style: solid;
+  border-width: 2px;
+  flex-direction: column;
+  position: relative;
+  width: 300px;
+  padding: 0;
+  margin-top: 2px;
+  z-index: 1005;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 8px;
+  font-size: 16px;
+}
+#searchdetails{
+  font-size: 15px;
+  display: none;
+  position: relative;
+  color: #323232;
+  margin-top: 2px;
+  margin-left: 0px;
+  padding: 10px;
+  width: 200px;
+  max-height: 500px;
+  overflow-y: auto;
+  border: 2px solid black;
+  border-radius: 8px;
+  z-index: 1000;
+  background-color: #ffffffd7;
+}
+#searchdetails li{
+  margin-left: -30px;
+  background-color: #FFFFFF;
+  cursor: text;
+  list-style-type: none;
+}
+
+
+#left-container{
+    display: flex;
+    position: fixed;
+    z-index: 1078;
+}
+#trigger-icon{
+    font-size: 20px;
+    float: right;
+    padding: 5px;
+    z-index: 1005;
+    margin-top: 50px; /* Adjust as needed */
+    margin-left: 5px;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 8px;
+    height: fit-content;
+    
+}
+#box{
+    display: none;
+    position: fixed;
+    margin-top: 120px;
+    margin-left: 10px; /* Adjust as needed */
+    z-index: 1003;
+    background-color: hsl(0, 18%, 93%);
+    border-radius: 8px;
+    padding: 20px;
+  border: 1px solid black;
+
+}
+#closeBtn,#closeBtnD {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    float:  right;
+  }
+  .box-input {
+    position: relative;
+    display: block;
+    align-items: center;
+    margin-left: 10px;
+
+    margin-bottom: 20px;
+  }
+  .box #search-results {
+    position: absolute;
+    margin-left: 22px;
+    top: 0;
+    margin-top: 40px;
+  }
+
+  
+  #fromMap{
+    float: lfet;
+    padding: 10px;
+    cursor: pointer;
+  }
+  #find{
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    float:  right;
+    border-radius: 7px;
+  }
+  #distanceResult{
+    display: none;
+    background-color: #6F0E0E;
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    line-height: 25px;
+    color: white;
+  }
+  #search-results li{
+    cursor: pointer;
+    margin: 3.5px;
+    background-color: #efeaea;
+    border-radius: 3px;
+    padding: 2px;
+    font-size: 13px;
+    display: flex;
+    
+  }
+  #search-results li:hover{
+    background-color: rgb(223, 242, 236);
+  }
+  
+  body{
+    font-family: 'Kumbh Sans';
+  }
+  .leaflet-control-scale-line {
+    pointer-events: none;
+   
+}
+
+#controls-box {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  background-color: rgba(0, 0, 0, 0.695);
+  padding: 1px;
+  border-radius: 10px 0 0 10px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(34, 33, 33, 0);
+}
+
+#controls-box .fa {
+  color: white;
+  font-size: 20px;
+  margin: 13px;
+  cursor: pointer;
+}
+#layers-dropdown {
+  display: none;
+    position: absolute;
+    margin-right: 378px;
+    margin-top: 60px;
+
+    
+}
+#layers-dropdown button {
+  background-color: #000000b7;
+  color: white;
+  width: 100px;
+  height: 50px;
+  text-shadow: #000000;
+  padding-bottom: 0px;
+  padding-top: 30px;
+  border: 2px;
+  border-color: #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 10px;
+}
+#geographical-layer{
+ position: absolute; 
+ margin-left: 105px;
+ color: black;
+ box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+ padding-left: 15px;
+
+}
+#political-layer{
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  padding-left: 50px;
+}
+
+.dist-input{
+  margin-left: 7px;
+  padding: 3px;
+  flex: 1;
+  border: none;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 8px;
+  float: right;
+}
+.box .box-input{
+  margin-left: -6px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+}
+#b-searchbutton{
+  z-index: 1540;
+  opacity: .5;
+  cursor: pointer;
+  
+}
+#d-searchbutton{
+  z-index: 1540;
+  opacity: .5;
+  cursor: pointer;
+  
+}
+#disclaimer,#keys{
+  position:fixed;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f9edbe92;
+  padding: 15px;
+  justify-content: center;
+  z-index: 2000;
+}
+#disclaimer li{
+  background: none;
+}
+#keys li{
+  background: none;
+}
+#message,#keysText {
+ position: relative;
+  color: #f2eeee;
+ 
+  background-color: #6F0E0E;
+  justify-content: center;
+  padding: 30px;
+  margin: 0;
+  max-width: 60%;
+}
+#messagec,#keysTextc{
+  overflow-y: auto;
+  height: 350px;;
+}
+#message button { 
+  position: absolute;
+  top:0;
+  right: 0;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+}
+#keys button { 
+  position: absolute;
+  top:0;
+  right: 0;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+footer {
+  border: #000000 1px solid;
+  padding: 4px;
+  width: calc(100% - 10px);
+  height: 12px;
+  font-size: 11px;
+  font-style: bold;
+  background-color: #683333;
+  color: #ffffff;
+  position: relative;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#elevation{
+  align-items: right;
+  float: right;
+  margin-left: 10px;
+
+}
+#camera-height{
+  align-items: right;
+  float: right;
+  margin-left: 10px;
+}

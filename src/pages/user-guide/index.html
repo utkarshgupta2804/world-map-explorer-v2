@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World-Map-Explorer - User Manual</title>
     <style>
+        /* Light mode styles */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #2c3e50;
+        }
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -14,6 +19,13 @@
             max-width: 60%;
             align-items: center;
             font-size: larger;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            --bg-color: #2a333c;
+            --text-color: #ffffff;
             
         }
         html{
@@ -21,7 +33,7 @@
         }
         h1, h2 {
             margin: 50px;
-            color: #2c3e50;
+            color: #6786a5;
         }
 
         h1 {
@@ -44,6 +56,12 @@
             padding: 2px 4px;
             border-radius: 4px;
         }
+        body.dark-mode code{
+            background-color: #be6e6e;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
 
         .note {
             font-style: italic;
@@ -126,10 +144,69 @@
             height: 150px;
             padding-top: 10px;
         }
+         /* Button styles */
+        .dark-mode-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        body.dark-mode .dark-mode-btn{
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3378bd;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        body.dark-mode a button {
+            background-color: #3378bd;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+        
+        /* Hover Effect */
+        a button:hover {
+            background-color: #285a8d;
+            transform: scale(1.02);
+        }
+        a button {
+            background-color: #3378bd;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+        
+        /* Hover Effect */
+        body.dark-mode a button:hover {
+            background-color: #285a8d;
+            transform: scale(1.02);
+        }
+        
     </style>
 </head>
 
 <body>
+    <button class="dark-mode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
     <img id="logo" src="map-logo.png" alt="Logo of World-Map-Explorer">
     <h1>World-Map-Explorer – Explore the world with ease</h1>
 
@@ -413,7 +490,13 @@
 </footer>
 
 
-
+<script>
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+        }
+    </script>
 
 
 </body>

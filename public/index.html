@@ -64,10 +64,20 @@
     <button title="Click to Zoom-Out" aria-label="Click to Zoom-Out" class="fa fa-minus" title="Zoom Out"></button>
     <button title="Click to select Layers" aria-label="Click to select layers" class="fa fa-layer-group" title="Layers"
       id="layers-btn"></button>
-    <div id="layers-dropdown" class="dropdown-content">
-      <button title="geographical-layer" aria-label="geographical-layer" id="geographical-layer">Geographical</button>
-      <button title="political-layer" aria-label="political-layer" id="political-layer">Political</button>
-    </div>
+      <div id="layers-dropdown" class="dropdown-content" style="display: flex; gap: 12px;">
+        <button title="geographical-layer" aria-label="geographical-layer" id="geographical-layer"
+          style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; width: 80px; height: 80px; background: #333; color: white; border: none; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+          <img src="/public/geographical_thumbnail.png" style="width: 32px; height: 32px; object-fit: cover; margin-bottom: 4px;" />
+          <span style="font-size: 12px;">Geographical</span>
+        </button>
+      
+        <button title="political-layer" aria-label="political-layer" id="political-layer"
+          style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; width: 80px; height: 80px; background: #333; color: white; border: none; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+          <img src="/public/political_thumbnail.png"  style="width: 32px; height: 32px; object-fit: cover; margin-bottom: 4px;" />
+          <span style="font-size: 12px;">Political</span>
+        </button>
+      </div>
+      
     <button class="fa fa-location-arrow" id="locateme" title="Locate me"
       aria-label="Locate your location on map"></button>
   </div>
